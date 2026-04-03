@@ -1,0 +1,81 @@
+<view class="page-shell" wx:if="{{detail}}">
+  <view class="page-body">
+    <view class="hero-card hero-mint section">
+      <view class="row-between detail-hero-top">
+        <view class="detail-hero-main">
+          <view class="hero-title">{{detail.name}}</view>
+          <view class="hero-desc">{{detail.model}} · {{detail.type}} · {{detail.location}}</view>
+        </view>
+        <view class="badge {{statusMeta.className}}">{{statusMeta.text}}</view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="stat-grid">
+        <view class="stat-card">
+          <view class="stat-value">{{detail.runtime}}</view>
+          <view class="stat-label">{{texts.runtime}}</view>
+        </view>
+        <view class="stat-card">
+          <view class="stat-value device-heartbeat">{{detail.lastHeartbeat}}</view>
+          <view class="stat-label">{{texts.heartbeat}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="card">
+        <view class="group-title">{{texts.params}}</view>
+        <view class="menu-list">
+          <block wx:for="{{detail.params}}" wx:key="label">
+            <view class="menu-item">
+              <text class="label">{{item.label}}</text>
+              <text class="value">{{item.value}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">
+        <text>{{texts.alarms}}</text>
+      </view>
+      <view class="list" wx:if="{{detail.alarms.length}}">
+        <block wx:for="{{detail.alarms}}" wx:key="id">
+          <view class="list-card">
+            <view class="row-between">
+              <view class="value">{{item.title}}</view>
+              <view class="badge {{item.level === 'danger' ? 'badge-danger' : 'badge-warning'}}">{{item.level === 'danger' ? texts.alarmHigh : texts.alarmHint}}</view>
+            </view>
+            <view class="section-subtitle">{{item.time}}</view>
+          </view>
+        </block>
+      </view>
+      <view class="empty" wx:else>{{texts.alarmsEmpty}}</view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">
+        <text>{{texts.relatedOrders}}</text>
+      </view>
+      <view class="list" wx:if="{{relatedOrders.length}}">
+        <block wx:for="{{relatedOrders}}" wx:key="workOrderId">
+          <view class="card" data-id="{{item.workOrderId}}" bindtap="openOrder">
+            <view class="row-between">
+              <view class="value">{{item.title}}</view>
+              <view class="badge {{item.statusMeta.className}}">{{item.statusMeta.text}}</view>
+            </view>
+            <view class="section-subtitle">{{item.type}} · {{item.createdAt}}</view>
+          </view>
+        </block>
+      </view>
+      <view class="empty" wx:else>{{texts.relatedOrdersEmpty}}</view>
+    </view>
+
+    <view class="action-row">
+      <button class="secondary-btn action-secondary action-remote" wx:if="{{canSeeRemote}}" bindtap="onRemotePlaceholder">{{texts.remote}}</button>
+      <button class="primary-btn action-primary action-create" wx:if="{{canCreateOrder}}" bindtap="createOrder">{{texts.createOrder}}</button>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,40 @@
+page {
+  background: #f4f8fb;
+}
+
+.profile-ring-a {
+  width: 112rpx;
+  height: 112rpx;
+  right: 22rpx;
+  top: 20rpx;
+}
+
+.profile-ring-b {
+  width: 64rpx;
+  height: 64rpx;
+  right: 46rpx;
+  top: 44rpx;
+}
+
+.profile-orb-a {
+  width: 40rpx;
+  height: 40rpx;
+  left: 24rpx;
+  bottom: 28rpx;
+}
+
+.profile-dot-a {
+  left: 34rpx;
+  top: 42rpx;
+}
+
+.profile-dot-b {
+  right: 52rpx;
+  bottom: 36rpx;
+}
+
+.profile-line-a {
+  left: 22rpx;
+  right: 24rpx;
+  top: 58rpx;
+}

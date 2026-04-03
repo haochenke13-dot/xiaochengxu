@@ -1,0 +1,69 @@
+<view class="page-shell" wx:if="{{detail}}">
+  <view class="page-body">
+    <view class="hero-card hero-lilac section">
+      <view class="row-between detail-hero-top">
+        <view class="detail-hero-main">
+          <view class="hero-title">{{detail.title}}</view>
+          <view class="hero-desc">{{detail.type}} · {{detail.deviceName}} · {{texts.createdAt}} {{detail.createdAt}}</view>
+        </view>
+        <view class="badge {{statusMeta.className}}">{{statusMeta.text}}</view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="card">
+        <view class="group-title">{{texts.info}}</view>
+        <view class="data-line">
+          <text class="label">{{texts.priority}}</text>
+          <text class="value">{{detail.priority}}</text>
+        </view>
+        <view class="data-line">
+          <text class="label">{{texts.creator}}</text>
+          <text class="value">{{detail.creatorName}}</text>
+        </view>
+        <view class="data-line">
+          <text class="label">{{texts.assignee}}</text>
+          <text class="value">{{detail.assigneeName || texts.unassigned}}</text>
+        </view>
+        <view class="detail-paragraph">
+          <view class="label">{{texts.descLabel}}</view>
+          <view class="value detail-paragraph-text">{{detail.desc}}</view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">
+        <text>{{texts.relatedDevice}}</text>
+      </view>
+      <view class="card" bindtap="toDevice">
+        <view class="row-between">
+          <view>
+            <view class="value">{{detail.deviceName}}</view>
+            <view class="section-subtitle">{{detail.deviceId}}</view>
+          </view>
+          <text class="text-link">{{texts.view}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">
+        <text>{{texts.logs}}</text>
+      </view>
+      <view class="list">
+        <block wx:for="{{detail.logs}}" wx:key="value">
+          <view class="list-card">
+            <view class="value">{{item.label}}</view>
+            <view class="section-subtitle">{{item.value}}</view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="action-row">
+      <button class="secondary-btn action-secondary action-accept" wx:if="{{canAccept}}" bindtap="onAccept">{{texts.accept}}</button>
+      <button class="primary-btn action-primary action-close" wx:if="{{canClose}}" bindtap="onClose">{{texts.close}}</button>
+    </view>
+  </view>
+</view>

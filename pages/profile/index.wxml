@@ -1,0 +1,108 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-lilac section">
+      <view class="hero-layout">
+        <view class="hero-copy">
+          <view class="hero-title">{{profile.name}}</view>
+          <view class="hero-desc">{{roleMeta.name}} · {{profile.employeeNo}}</view>
+        </view>
+        <view class="hero-visual">
+          <view class="visual-ring profile-ring-a"></view>
+          <view class="visual-ring profile-ring-b"></view>
+          <view class="visual-orb profile-orb-a"></view>
+          <view class="visual-dot profile-dot-a"></view>
+          <view class="visual-dot profile-dot-b"></view>
+          <view class="visual-line profile-line-a"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="stat-grid">
+        <block wx:for="{{stats}}" wx:key="label">
+          <view class="stat-card">
+            <view class="stat-value">{{item.value}}</view>
+            <view class="stat-label">{{item.label}}</view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">
+        <text>{{texts.role}}</text>
+      </view>
+      <view class="chip-row">
+        <block wx:for="{{roleOptions}}" wx:key="code">
+          <view class="chip {{profile.roleCode === item.code ? 'chip-active' : ''}}" data-role="{{item.code}}" bindtap="onSwitchRole">{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{adminMenus.length}}">
+      <view class="section-title">
+        <text>{{texts.admin}}</text>
+      </view>
+      <view class="card">
+        <view class="menu-list">
+          <block wx:for="{{adminMenus}}" wx:key="key">
+            <view class="menu-item menu-button" data-key="{{item.key}}" bindtap="onMenuTap">
+              <view class="art-row">
+                <view class="menu-glyph menu-glyph-{{item.key}}"></view>
+                <view>
+                  <view class="mini-title">{{item.title}}</view>
+                  <view class="mini-desc">{{item.desc}}</view>
+                </view>
+              </view>
+              <text class="text-link">{{texts.enter}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">
+        <text>{{texts.flow}}</text>
+      </view>
+      <view class="card">
+        <view class="menu-list">
+          <block wx:for="{{businessMenus}}" wx:key="key">
+            <view class="menu-item menu-button" data-key="{{item.key}}" bindtap="onMenuTap">
+              <view class="art-row">
+                <view class="menu-glyph menu-glyph-{{item.key}}"></view>
+                <view>
+                  <view class="mini-title">{{item.title}}</view>
+                  <view class="mini-desc">{{item.desc}}</view>
+                </view>
+              </view>
+              <text class="text-link">{{texts.enter}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">
+        <text>{{texts.system}}</text>
+      </view>
+      <view class="card">
+        <view class="menu-list">
+          <block wx:for="{{systemMenus}}" wx:key="key">
+            <view class="menu-item menu-button" data-key="{{item.key}}" bindtap="onMenuTap">
+              <view class="art-row">
+                <view class="menu-glyph menu-glyph-{{item.key}}"></view>
+                <view>
+                  <view class="mini-title">{{item.title}}</view>
+                  <view class="mini-desc">{{item.desc}}</view>
+                </view>
+              </view>
+              <text class="text-link">{{texts.enter}}</text>
+            </view>
+          </block>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

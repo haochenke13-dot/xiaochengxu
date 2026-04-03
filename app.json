@@ -1,0 +1,67 @@
+{
+  "pages": [
+    "pages/login/index",
+    "pages/home/index",
+    "pages/workorders/index",
+    "pages/workorder-detail/index",
+    "pages/workorder-form/index",
+    "pages/devices/index",
+    "pages/device-detail/index",
+    "pages/discover/index",
+    "pages/profile/index",
+    "pages/notifications/index",
+    "pages/scan-result/index",
+    "pages/tenant-staff/index",
+    "pages/device-assignment/index",
+    "pages/settings/index",
+    "pages/feedback/index",
+    "pages/about/index"
+  ],
+  "window": {
+    "navigationBarTitleText": "设备服务协同",
+    "navigationBarBackgroundColor": "#F7FBFF",
+    "navigationBarTextStyle": "black",
+    "backgroundColor": "#F4F8FB",
+    "backgroundTextStyle": "dark"
+  },
+  "tabBar": {
+    "color": "#8A99AD",
+    "selectedColor": "#0EA5E9",
+    "backgroundColor": "#FFFFFF",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/home/index",
+        "text": "首页",
+        "iconPath": "assets/tabbar/home.png",
+        "selectedIconPath": "assets/tabbar/home-active.png"
+      },
+      {
+        "pagePath": "pages/workorders/index",
+        "text": "工单",
+        "iconPath": "assets/tabbar/workorder.png",
+        "selectedIconPath": "assets/tabbar/workorder-active.png"
+      },
+      {
+        "pagePath": "pages/devices/index",
+        "text": "设备",
+        "iconPath": "assets/tabbar/device.png",
+        "selectedIconPath": "assets/tabbar/device-active.png"
+      },
+      {
+        "pagePath": "pages/discover/index",
+        "text": "发现",
+        "iconPath": "assets/tabbar/discover.png",
+        "selectedIconPath": "assets/tabbar/discover-active.png"
+      },
+      {
+        "pagePath": "pages/profile/index",
+        "text": "我的",
+        "iconPath": "assets/tabbar/profile.png",
+        "selectedIconPath": "assets/tabbar/profile-active.png"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json"
+}

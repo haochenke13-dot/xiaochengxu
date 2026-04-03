@@ -1,0 +1,76 @@
+.workorders-hero-top {
+  align-items: flex-start;
+  margin-top: 14rpx;
+}
+
+.workorders-create-btn {
+  min-width: 120rpx;
+}
+
+.workorder-kpi-ribbon {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.workorder-card {
+  display: flex;
+  flex-direction: column;
+  gap: 12rpx;
+}
+
+.workorder-title-wrap {
+  flex: 1;
+  min-width: 0;
+  padding-right: 12rpx;
+}
+
+.workorder-title {
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+.workorder-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14rpx;
+  margin-top: 4rpx;
+}
+
+.workorder-small {
+  font-size: 24rpx;
+  margin-top: 6rpx;
+}
+
+.order-line-a {
+  left: 26rpx;
+  right: 36rpx;
+  top: 42rpx;
+}
+
+.order-line-b {
+  left: 34rpx;
+  right: 24rpx;
+  bottom: 44rpx;
+}
+
+.order-dot-a {
+  left: 26rpx;
+  top: 36rpx;
+}
+
+.order-dot-b {
+  right: 56rpx;
+  top: 56rpx;
+}
+
+.order-dot-c {
+  left: 66rpx;
+  bottom: 36rpx;
+}
+
+.order-ring-a {
+  width: 84rpx;
+  height: 84rpx;
+  right: 20rpx;
+  bottom: 18rpx;
+}

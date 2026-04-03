@@ -1,0 +1,54 @@
+<view class="login-shell">
+  <image
+    wx:if="{{!bgError}}"
+    class="login-bg"
+    src="/assets/login-bg.jpg"
+    mode="aspectFill"
+    binderror="onBgError"
+  />
+
+  <view class="login-body">
+    <view class="login-card">
+      <view class="card-logo">
+        <image
+          wx:if="{{!logoError}}"
+          class="logo-img"
+          src="/assets/company-logo.jpg"
+          mode="aspectFit"
+          bindload="onLogoLoad"
+          binderror="onLogoError"
+        />
+        <text wx:else class="logo-text">✦</text>
+      </view>
+
+      <view class="login-title">{{texts.title}}</view>
+      <view class="login-desc">{{texts.desc}}</view>
+
+      <view class="form-group">
+        <picker class="role-picker" bindchange="onRoleChange" value="{{selectedRoleIndex}}" range="{{roles}}" range-key="name">
+          <view class="picker-value">
+            <view class="picker-value-main">
+              <view class="picker-value-text {{selectedRoleIndex === -1 ? 'placeholder' : ''}}">
+                {{selectedRoleIndex === -1 ? texts.placeholder : roles[selectedRoleIndex].name}}
+              </view>
+            </view>
+            <view class="picker-value-arrow">›</view>
+          </view>
+        </picker>
+      </view>
+
+      <view class="role-desc" wx:if="{{selectedRoleIndex !== -1}}">
+        <text class="desc-icon">{{texts.roleHintIcon}}</text>
+        <text>{{roles[selectedRoleIndex].homeTitle}}</text>
+      </view>
+
+      <button class="login-btn" bindtap="onLogin" disabled="{{selectedRoleIndex === -1}}">
+        {{texts.enter}}
+      </button>
+    </view>
+
+    <view class="footer-tip">
+      {{texts.footer}}
+    </view>
+  </view>
+</view>

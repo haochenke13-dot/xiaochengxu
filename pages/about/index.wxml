@@ -1,0 +1,31 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-pearl section">
+      <view class="hero-title">{{texts.title}}</view>
+      <view class="hero-desc">{{texts.desc}}</view>
+    </view>
+
+    <view class="section">
+      <view class="card">
+        <view class="menu-list">
+          <view class="menu-item">
+            <text class="label">{{texts.version}}</text>
+            <text class="value">0.1.0-beta</text>
+          </view>
+          <view class="menu-item">
+            <text class="label">{{texts.tone}}</text>
+            <text class="value">{{texts.toneValue}}</text>
+          </view>
+          <view class="menu-item">
+            <text class="label">{{texts.capability}}</text>
+            <text class="value">{{texts.capabilityValue}}</text>
+          </view>
+          <view class="menu-item">
+            <text class="label">{{texts.next}}</text>
+            <text class="value">{{texts.nextValue}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

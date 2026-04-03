@@ -1,0 +1,37 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-azure section">
+      <view class="hero-title">{{texts.title}}</view>
+      <view class="hero-desc">{{texts.desc}}</view>
+    </view>
+
+    <view class="section">
+      <view class="chip-row">
+        <block wx:for="{{categories}}" wx:key="key">
+          <view class="chip {{currentCategory === item.key ? 'chip-active' : ''}}" data-category="{{item.key}}" bindtap="onCategoryTap">{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="list" wx:if="{{notifications.length}}">
+        <block wx:for="{{notifications}}" wx:key="id">
+          <view class="card">
+            <view class="row-between">
+              <view class="column-gap notice-main">
+                <view class="value">{{item.title}}</view>
+                <view class="section-subtitle">{{item.desc}}</view>
+              </view>
+              <view class="badge {{item.read ? 'badge-success' : 'badge-warning'}}">{{item.categoryLabel || item.category}}</view>
+            </view>
+            <view class="row-between notice-foot">
+              <text class="label">{{item.time}}</text>
+              <button class="ghost-btn action-ghost action-read action-compact" size="mini" wx:if="{{!item.read}}" data-id="{{item.id}}" bindtap="markRead">{{texts.read}}</button>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="empty" wx:else>{{texts.empty}}</view>
+    </view>
+  </view>
+</view>

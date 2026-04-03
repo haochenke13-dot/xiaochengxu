@@ -1,0 +1,20 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-azure section">
+      <view class="hero-title">{{texts.title}}</view>
+      <view class="hero-desc">{{texts.desc}}</view>
+    </view>
+
+    <view class="section">
+      <view class="card">
+        <view class="field">
+          <text class="field-label">{{texts.label}}</text>
+          <textarea class="field-textarea" placeholder="{{texts.placeholder}}" value="{{content}}" bindinput="onInput"></textarea>
+        </view>
+        <view class="action-row">
+          <button class="primary-btn action-primary action-feedback" bindtap="onSubmit">{{texts.submit}}</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

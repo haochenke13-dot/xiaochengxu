@@ -1,0 +1,9 @@
+.notice-main {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16rpx;
+}
+
+.notice-foot {
+  margin-top: 16rpx;
+}

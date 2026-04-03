@@ -1,0 +1,56 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-pearl section">
+      <view class="hero-title">{{texts.title}}</view>
+      <view class="hero-desc">{{texts.desc}}</view>
+    </view>
+
+    <view class="section">
+      <view class="card">
+        <view class="field">
+          <text class="field-label">{{texts.language}}</text>
+          <picker range="{{texts.languages}}" value="{{languageIndex}}" bindchange="onLanguageChange">
+            <view class="field-picker">{{texts.languages[languageIndex]}}</view>
+          </picker>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="card">
+        <view class="menu-item">
+          <view>
+            <view class="value">{{texts.showBanner}}</view>
+            <view class="section-subtitle">{{texts.showBannerDesc}}</view>
+          </view>
+          <switch checked="{{prefs.showBanner}}" data-key="showBanner" bindchange="onToggle" color="#0ea5e9" />
+        </view>
+        <view class="menu-item">
+          <view>
+            <view class="value">{{texts.showWorkbench}}</view>
+            <view class="section-subtitle">{{texts.showWorkbenchDesc}}</view>
+          </view>
+          <switch checked="{{prefs.showWorkbench}}" data-key="showWorkbench" bindchange="onToggle" color="#0ea5e9" />
+        </view>
+        <view class="menu-item">
+          <view>
+            <view class="value">{{texts.showScan}}</view>
+            <view class="section-subtitle">{{texts.showScanDesc}}</view>
+          </view>
+          <switch checked="{{prefs.showScan}}" data-key="showScan" bindchange="onToggle" color="#0ea5e9" />
+        </view>
+        <view class="menu-item">
+          <view>
+            <view class="value">{{texts.showKnowledge}}</view>
+            <view class="section-subtitle">{{texts.showKnowledgeDesc}}</view>
+          </view>
+          <switch checked="{{prefs.showKnowledge}}" data-key="showKnowledge" bindchange="onToggle" color="#0ea5e9" />
+        </view>
+      </view>
+    </view>
+
+    <view class="action-row">
+      <button class="primary-btn action-primary action-save" bindtap="onSave">{{texts.save}}</button>
+    </view>
+  </view>
+</view>

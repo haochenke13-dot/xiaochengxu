@@ -1,0 +1,26 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-mint section" wx:if="{{tenant}}">
+      <view class="panel-kicker">TENANT STAFF</view>
+      <view class="hero-title">{{tenant.name}}</view>
+      <view class="hero-desc">{{texts.titlePrefix}} {{tenant.inviteCode}} · {{texts.desc}}</view>
+    </view>
+
+    <view class="section">
+      <view class="list" wx:if="{{members.length}}">
+        <block wx:for="{{members}}" wx:key="userId">
+          <view class="card">
+            <view class="row-between">
+              <view>
+                <view class="value">{{item.name}}</view>
+                <view class="section-subtitle">{{item.employeeNo}} · {{item.mobile}}</view>
+              </view>
+              <view class="badge badge-info">{{item.roleName}}</view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="empty" wx:else>{{texts.empty}}</view>
+    </view>
+  </view>
+</view>

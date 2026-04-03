@@ -1,0 +1,73 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-lilac section">
+      <view class="hero-layout">
+        <view class="hero-copy">
+          <view class="hero-title">{{texts.title}}</view>
+          <view class="hero-desc">{{texts.desc}}</view>
+          <view class="kpi-ribbon workorder-kpi-ribbon">
+            <view class="kpi-chip">
+              <view class="kpi-code">ALL</view>
+              <view class="kpi-value">{{orders.length}}</view>
+            </view>
+            <view class="kpi-chip">
+              <view class="kpi-code">TAB</view>
+              <view class="kpi-value">{{currentStatus === 'all' ? 'A' : currentStatus === 'pending' ? 'P' : currentStatus === 'processing' ? 'R' : 'C'}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="hero-visual">
+          <view class="visual-line order-line-a"></view>
+          <view class="visual-line order-line-b"></view>
+          <view class="visual-dot order-dot-a"></view>
+          <view class="visual-dot order-dot-b"></view>
+          <view class="visual-dot order-dot-c"></view>
+          <view class="visual-ring order-ring-a"></view>
+        </view>
+      </view>
+      <view class="row-between workorders-hero-top">
+        <view class="mini-code">{{texts.workflow}}</view>
+        <button class="secondary-btn workorders-create-btn action-secondary action-create" wx:if="{{canCreate}}" bindtap="createOrder">{{texts.create}}</button>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="chip-row">
+        <block wx:for="{{statusTabs}}" wx:key="key">
+          <view class="chip {{currentStatus === item.key ? 'chip-active' : ''}}" data-status="{{item.key}}" bindtap="onChangeStatus">{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="list" wx:if="{{orders.length}}">
+        <block wx:for="{{orders}}" wx:key="workOrderId">
+          <view class="card workorder-card" data-id="{{item.workOrderId}}" bindtap="openDetail">
+            <view class="row-between">
+              <view class="art-row workorder-title-wrap">
+                <view class="art-pill art-pill-line"></view>
+                <view class="workorder-title">{{item.title}}</view>
+              </view>
+              <view class="badge {{item.statusMeta.className}}">{{item.statusMeta.text}}</view>
+            </view>
+            <view class="meta-inline">
+              <text class="meta-item">{{item.deviceName}}</text>
+              <text class="meta-item">{{item.priorityLabel}}</text>
+            </view>
+            <view class="workorder-meta-grid">
+              <view>
+                <view class="label">{{texts.time}}</view>
+                <view class="value workorder-small">{{item.createdAt}}</view>
+              </view>
+              <view>
+                <view class="label">{{texts.by}}</view>
+                <view class="value workorder-small">{{item.creatorName}}</view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="empty" wx:else>{{texts.empty}}</view>
+    </view>
+  </view>
+</view>

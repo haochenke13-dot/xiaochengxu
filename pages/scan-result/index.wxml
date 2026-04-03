@@ -1,0 +1,22 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-pearl section">
+      <view class="hero-title">{{texts.title}}</view>
+      <view class="hero-desc">{{texts.desc}}</view>
+    </view>
+
+    <view class="section">
+      <view class="card">
+        <view class="group-title">{{texts.raw}}</view>
+        <view class="field-picker scan-content">{{code}}</view>
+        <view class="group-title scan-group-gap">{{texts.parsed}}</view>
+        <view class="field-picker">
+          {{result.targetType === 'unknown' ? result.message : result.targetType === 'device' ? texts.parsedDevice : texts.parsedOrder}}
+        </view>
+        <view class="action-row" wx:if="{{result.targetType !== 'unknown'}}">
+          <button class="primary-btn action-primary action-open" bindtap="onOpenTarget">{{texts.open}}</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

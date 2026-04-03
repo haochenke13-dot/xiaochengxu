@@ -1,0 +1,19 @@
+.detail-hero-top {
+  align-items: flex-start;
+}
+
+.detail-hero-main {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16rpx;
+}
+
+.detail-paragraph {
+  margin-top: 18rpx;
+}
+
+.detail-paragraph-text {
+  margin-top: 8rpx;
+  font-size: 24rpx;
+  line-height: 1.8;
+}

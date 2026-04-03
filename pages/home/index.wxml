@@ -1,0 +1,329 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-azure section">
+      <view class="hero-layout">
+        <view class="hero-copy">
+          <view class="hero-kicker-row">
+            <view class="mini-code">{{texts.opsTag}}</view>
+            <view class="hero-tenant-chip">{{profile.tenantName}}</view>
+          </view>
+          <view class="hero-title home-hero-title">{{roleMeta.homeTitle}}</view>
+          <view class="hero-desc home-hero-desc">{{profile.name}} · {{roleMeta.name}}</view>
+          <view class="kpi-ribbon">
+            <view class="kpi-chip">
+              <view class="kpi-code">DEV</view>
+              <view class="kpi-value">{{summary.deviceCount}}</view>
+            </view>
+            <view class="kpi-chip">
+              <view class="kpi-code">TODO</view>
+              <view class="kpi-value">{{summary.pendingOrders}}</view>
+            </view>
+            <view class="kpi-chip">
+              <view class="kpi-code">ALT</view>
+              <view class="kpi-value">{{summary.activeAlarms}}</view>
+            </view>
+            <view class="kpi-chip">
+              <view class="kpi-code">MSG</view>
+              <view class="kpi-value">{{summary.unreadNotifications}}</view>
+            </view>
+          </view>
+        </view>
+        <view class="hero-visual">
+          <view class="ops-surface">
+            <view class="ops-gridline ops-gridline-a"></view>
+            <view class="ops-gridline ops-gridline-b"></view>
+            <view class="ops-gridline ops-gridline-c"></view>
+            <view class="ops-gridline ops-gridline-d"></view>
+            <view class="ops-radar ops-radar-a"></view>
+            <view class="ops-radar ops-radar-b"></view>
+            <view class="ops-core"></view>
+            <view class="ops-node ops-node-a"></view>
+            <view class="ops-node ops-node-b"></view>
+            <view class="ops-node ops-node-c"></view>
+            <view class="ops-link ops-link-a"></view>
+            <view class="ops-link ops-link-b"></view>
+            <view class="ops-link ops-link-c"></view>
+            <view class="ops-panel ops-panel-a">
+              <view class="ops-panel-kpi">RUN</view>
+              <view class="ops-panel-value">{{summary.deviceCount}}</view>
+            </view>
+            <view class="ops-panel ops-panel-b">
+              <view class="ops-panel-kpi">TASK</view>
+              <view class="ops-panel-value">{{summary.pendingOrders}}</view>
+            </view>
+            <view class="ops-bars">
+              <view style="height: 28rpx;"></view>
+              <view style="height: 48rpx;"></view>
+              <view style="height: 72rpx;"></view>
+            </view>
+          </view>
+        </view>
+      </view>
+
+      <view class="home-hero-top">
+        <view class="hero-status-card">
+          <view class="mini-code">{{texts.statusHint}}</view>
+          <view class="hero-status-value">{{summary.pendingOrders}}</view>
+        </view>
+        <button class="secondary-btn hero-message-card action-secondary action-notify" bindtap="goNotifications">
+          <view class="hero-message-copy">
+            <view class="mini-code">{{texts.message}}</view>
+            <view class="hero-message-value">{{summary.unreadNotifications}}</view>
+          </view>
+        </button>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{homePrefs.showBanner}}">
+      <view class="ai-entry-card" bindtap="openAIAsk">
+        <view class="ai-entry-copy">
+          <view class="mini-code">{{texts.aiTitle}}</view>
+          <view class="hero-title ai-entry-title">{{texts.aiTitle}}</view>
+          <view class="mini-desc ai-entry-desc">{{texts.aiDesc}}</view>
+          <button class="primary-btn action-primary action-open ai-entry-btn" bindtap="openAIAsk">{{texts.aiButton}}</button>
+        </view>
+        <view class="ai-entry-visual">
+          <view class="ai-grid ai-grid-h"></view>
+          <view class="ai-grid ai-grid-v"></view>
+          <view class="ai-glow ai-glow-a"></view>
+          <view class="ai-glow ai-glow-b"></view>
+          <view class="ai-brain-shell">
+            <view class="ai-brain-side ai-brain-left">
+              <view class="ai-brain-lobe ai-brain-lobe-a"></view>
+              <view class="ai-brain-lobe ai-brain-lobe-b"></view>
+              <view class="ai-brain-lobe ai-brain-lobe-c"></view>
+              <view class="ai-brain-groove ai-brain-groove-a"></view>
+              <view class="ai-brain-groove ai-brain-groove-b"></view>
+              <view class="ai-brain-groove ai-brain-groove-c"></view>
+            </view>
+            <view class="ai-brain-side ai-brain-right">
+              <view class="ai-brain-lobe ai-brain-lobe-a"></view>
+              <view class="ai-brain-lobe ai-brain-lobe-b"></view>
+              <view class="ai-brain-lobe ai-brain-lobe-c"></view>
+              <view class="ai-brain-groove ai-brain-groove-a"></view>
+              <view class="ai-brain-groove ai-brain-groove-b"></view>
+              <view class="ai-brain-groove ai-brain-groove-c"></view>
+            </view>
+            <view class="ai-brain-core-line"></view>
+            <view class="ai-brain-stem"></view>
+          </view>
+          <view class="ai-neuron ai-neuron-a"></view>
+          <view class="ai-neuron ai-neuron-b"></view>
+          <view class="ai-neuron ai-neuron-c"></view>
+          <view class="ai-neuron ai-neuron-d"></view>
+          <view class="ai-neural-link ai-neural-link-a"></view>
+          <view class="ai-neural-link ai-neural-link-b"></view>
+          <view class="ai-neural-link ai-neural-link-c"></view>
+          <view class="ai-trace ai-trace-a"></view>
+          <view class="ai-trace ai-trace-b"></view>
+          <view class="ai-trace ai-trace-c"></view>
+          <view class="ai-data-panel ai-data-panel-a">
+            <view class="ai-data-code">LLM</view>
+            <view class="ai-data-bars">
+              <view style="height: 16rpx;"></view>
+              <view style="height: 24rpx;"></view>
+              <view style="height: 12rpx;"></view>
+            </view>
+          </view>
+          <view class="ai-data-panel ai-data-panel-b">
+            <view class="ai-data-chip"></view>
+            <view class="ai-data-line ai-data-line-a"></view>
+            <view class="ai-data-line ai-data-line-b"></view>
+          </view>
+          <view class="ai-wave"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{homePrefs.showScan || homePrefs.showWorkbench}}">
+      <view class="home-matrix-grid">
+        <block wx:for="{{quickActions}}" wx:key="key">
+          <view class="card matrix-card matrix-{{item.visual}}" data-action="{{item.action}}" bindtap="onQuickAction">
+            <view class="matrix-scene matrix-scene-{{item.visual}}">
+              <view class="matrix-aura matrix-aura-{{item.visual}}"></view>
+              <view class="matrix-grain"></view>
+              <block wx:if="{{item.visual === 'scan'}}">
+                <view class="scan-frame">
+                  <view class="scan-corner scan-corner-lt"></view>
+                  <view class="scan-corner scan-corner-rt"></view>
+                  <view class="scan-corner scan-corner-lb"></view>
+                  <view class="scan-corner scan-corner-rb"></view>
+                  <view class="scan-grid">
+                    <view class="scan-grid-dot scan-dot-lg"></view>
+                    <view class="scan-grid-dot"></view>
+                    <view class="scan-grid-dot"></view>
+                    <view class="scan-grid-dot"></view>
+                    <view class="scan-grid-dot scan-dot-lg"></view>
+                    <view class="scan-grid-dot"></view>
+                    <view class="scan-grid-dot"></view>
+                    <view class="scan-grid-dot"></view>
+                    <view class="scan-grid-dot scan-dot-lg"></view>
+                  </view>
+                  <view class="scan-line"></view>
+                </view>
+              </block>
+              <block wx:elif="{{item.visual === 'device'}}">
+                <view class="device-shell">
+                  <view class="device-topbar">
+                    <view></view>
+                    <view></view>
+                    <view></view>
+                  </view>
+                  <view class="device-screen">
+                    <view class="device-wave"></view>
+                    <view class="device-wave device-wave-b"></view>
+                    <view class="device-wave device-wave-c"></view>
+                    <view class="device-gridline device-gridline-a"></view>
+                    <view class="device-gridline device-gridline-b"></view>
+                  </view>
+                  <view class="device-metrics">
+                    <view></view>
+                    <view></view>
+                    <view></view>
+                  </view>
+                </view>
+              </block>
+              <block wx:elif="{{item.visual === 'signal'}}">
+                <view class="signal-core">
+                  <view class="signal-core-dot"></view>
+                </view>
+                <view class="signal-ring signal-ring-a"></view>
+                <view class="signal-ring signal-ring-b"></view>
+                <view class="signal-ring signal-ring-c"></view>
+                <view class="signal-beam signal-beam-a"></view>
+                <view class="signal-beam signal-beam-b"></view>
+                <view class="signal-pulse"></view>
+              </block>
+              <block wx:elif="{{item.visual === 'queue'}}">
+                <view class="queue-stack queue-back"></view>
+                <view class="queue-stack queue-mid"></view>
+                <view class="queue-sheet">
+                  <view class="queue-sheet-top"></view>
+                  <view class="queue-bullet"></view>
+                  <view class="queue-line queue-line-a"></view>
+                  <view class="queue-line queue-line-b"></view>
+                  <view class="queue-line queue-line-c"></view>
+                </view>
+              </block>
+              <block wx:elif="{{item.visual === 'create'}}">
+                <view class="create-card">
+                  <view class="create-fold"></view>
+                  <view class="create-plus-h"></view>
+                  <view class="create-plus-v"></view>
+                  <view class="create-line create-line-a"></view>
+                  <view class="create-line create-line-b"></view>
+                  <view class="create-line create-line-c"></view>
+                </view>
+              </block>
+              <block wx:elif="{{item.visual === 'team'}}">
+                <view class="team-node team-node-main"></view>
+                <view class="team-node team-node-left"></view>
+                <view class="team-node team-node-right"></view>
+                <view class="team-node team-node-bottom"></view>
+                <view class="team-link team-link-top"></view>
+                <view class="team-link team-link-left"></view>
+                <view class="team-link team-link-right"></view>
+                <view class="team-link team-link-down"></view>
+              </block>
+              <view class="matrix-meta">
+                <view class="matrix-caption">
+                  <view class="mini-code">{{item.title}}</view>
+                  <view class="mini-desc">{{item.desc}}</view>
+                </view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section" wx:if="{{homePrefs.showKnowledge}}">
+      <view class="section-title">
+        <text>{{texts.kit}}</text>
+      </view>
+      <view class="knowledge-grid">
+        <block wx:for="{{knowledgeItems}}" wx:key="id">
+          <view class="knowledge-card knowledge-{{item.visual}}" data-title="{{item.title}}" bindtap="onKnowledgeTap">
+            <view class="knowledge-visual">
+              <block wx:if="{{item.visual === 'guide'}}">
+                <view class="guide-book guide-book-back"></view>
+                <view class="guide-book guide-book-front">
+                  <view class="guide-spine"></view>
+                  <view class="guide-line guide-line-a"></view>
+                  <view class="guide-line guide-line-b"></view>
+                  <view class="guide-line guide-line-c"></view>
+                </view>
+              </block>
+              <block wx:elif="{{item.visual === 'video'}}">
+                <view class="video-screen">
+                  <view class="video-play"></view>
+                  <view class="video-track video-track-a"></view>
+                  <view class="video-track video-track-b"></view>
+                </view>
+              </block>
+              <block wx:elif="{{item.visual === 'faq'}}">
+                <view class="faq-bubble faq-bubble-main">
+                  <view class="faq-mark"></view>
+                </view>
+                <view class="faq-bubble faq-bubble-sub"></view>
+                <view class="faq-dot faq-dot-a"></view>
+                <view class="faq-dot faq-dot-b"></view>
+              </block>
+            </view>
+            <view class="knowledge-copy">
+              <view class="mini-code">{{item.code}}</view>
+              <view class="mini-title">{{item.title}}</view>
+              <view class="mini-desc">{{item.desc}}</view>
+              <view class="knowledge-link">{{texts.knowledgeHint}}</view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="section-title">
+        <text>{{texts.feed}}</text>
+      </view>
+      <view class="feed-grid" wx:if="{{notifications.length}}">
+        <block wx:for="{{notifications}}" wx:key="id">
+          <view class="feed-card feed-{{item.visual}}" bindtap="onFeedTap">
+            <view class="feed-visual">
+              <block wx:if="{{item.visual === 'system'}}">
+                <view class="feed-system-ring feed-system-ring-a"></view>
+                <view class="feed-system-ring feed-system-ring-b"></view>
+                <view class="feed-system-core"></view>
+              </block>
+              <block wx:elif="{{item.visual === 'orders'}}">
+                <view class="feed-order-sheet feed-order-sheet-back"></view>
+                <view class="feed-order-sheet feed-order-sheet-front">
+                  <view class="feed-order-line feed-order-line-a"></view>
+                  <view class="feed-order-line feed-order-line-b"></view>
+                  <view class="feed-order-line feed-order-line-c"></view>
+                </view>
+              </block>
+              <block wx:elif="{{item.visual === 'alert'}}">
+                <view class="feed-alert-triangle"></view>
+                <view class="feed-alert-line"></view>
+                <view class="feed-alert-dot"></view>
+              </block>
+            </view>
+            <view class="feed-copy">
+              <view class="row-between feed-topline">
+                <view class="mini-code">{{item.code}}</view>
+                <view class="badge {{item.read ? 'badge-success' : 'badge-warning'}}">{{item.categoryLabel || item.category}}</view>
+              </view>
+              <view class="mini-title feed-title">{{item.title}}</view>
+              <view class="mini-desc">{{item.hint}}</view>
+              <view class="feed-foot">
+                <text class="label">{{item.time}}</text>
+                <text class="knowledge-link">{{texts.feedHint}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="empty" wx:else>{{texts.emptyFeed}}</view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,9 @@
+.assignment-main {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16rpx;
+}
+
+.assignment-btn {
+  min-width: 132rpx;
+}

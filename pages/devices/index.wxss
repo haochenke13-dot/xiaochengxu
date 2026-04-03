@@ -1,0 +1,80 @@
+.device-summary-grid {
+  margin-top: 20rpx;
+}
+
+.device-kpi-ribbon {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.device-filter-row {
+  margin-bottom: 20rpx;
+}
+
+.device-group-gap {
+  margin-top: 22rpx;
+}
+
+.device-card {
+  display: flex;
+  flex-direction: column;
+  gap: 14rpx;
+}
+
+.device-title-wrap {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16rpx;
+}
+
+.device-meta-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14rpx;
+}
+
+.device-grid-full {
+  grid-column: 1 / -1;
+}
+
+.device-meta-value {
+  font-size: 24rpx;
+  margin-top: 6rpx;
+}
+
+.device-ring-a {
+  width: 118rpx;
+  height: 118rpx;
+  right: 20rpx;
+  top: 24rpx;
+}
+
+.device-orb-a {
+  width: 70rpx;
+  height: 70rpx;
+  right: 18rpx;
+  top: 16rpx;
+}
+
+.device-orb-b {
+  width: 34rpx;
+  height: 34rpx;
+  left: 30rpx;
+  bottom: 26rpx;
+}
+
+.device-line-a {
+  left: 18rpx;
+  right: 20rpx;
+  top: 52rpx;
+}
+
+.device-line-b {
+  left: 28rpx;
+  right: 16rpx;
+  bottom: 40rpx;
+}
+
+.device-dot-a {
+  left: 42rpx;
+  top: 42rpx;
+}

@@ -1,0 +1,7 @@
+.scan-content {
+  word-break: break-all;
+}
+
+.scan-group-gap {
+  margin-top: 22rpx;
+}
