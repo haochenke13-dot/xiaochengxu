@@ -118,6 +118,26 @@ const PAGE_TEXTS = {
       empty: "No content in this category",
     },
   },
+  materials: {
+    zh: {
+      nav: "物料",
+      title: "物料中心",
+      desc: "选择仪器型号，查看零件、配件与耗材",
+      selectSeries: "选择系列",
+      selectModel: "选择型号",
+      materials: "物料清单",
+      empty: "暂无物料数据"
+    },
+    en: {
+      nav: "Materials",
+      title: "Material Center",
+      desc: "Select model to view parts, accessories & consumables",
+      selectSeries: "Select Series",
+      selectModel: "Select Model",
+      materials: "Material List",
+      empty: "No materials available"
+    }
+  },
   profile: {
     zh: {
       nav: "我的",

@@ -528,6 +528,36 @@ function getAssignableDevices(tenantId) {
   return clone(mock.devices.filter((item) => item.tenantId === tenantId)).map((item) => localizeDevice(item, currentLocale()));
 }
 
+/**
+ * 物料相关服务函数
+ */
+
+function getMaterialSeries() {
+  return clone(mock.MATERIAL_SERIES);
+}
+
+function getMaterialModels(seriesId) {
+  return clone(mock.MATERIAL_MODELS[seriesId] || []);
+}
+
+function getMaterials(seriesId, modelId) {
+  const materials = mock.MATERIALS[modelId] || [];
+  const locale = currentLocale();
+  return clone(materials).map((item) => localizeMaterial(item, locale));
+}
+
+function getMaterialCategories() {
+  return clone(mock.MATERIAL_CATEGORIES);
+}
+
+function localizeMaterial(material, locale) {
+  const categoryInfo = mock.MATERIAL_CATEGORIES[material.category];
+  return {
+    ...material,
+    categoryName: categoryInfo ? (locale === 'en' ? categoryInfo.nameEn : categoryInfo.name) : material.category,
+  };
+}
+
 module.exports = {
   acceptWorkOrder,
   closeWorkOrder,
@@ -548,4 +578,8 @@ module.exports = {
   loginAsRole,
   markNotificationRead,
   parseScanCode,
+  getMaterialSeries,
+  getMaterialModels,
+  getMaterials,
+  getMaterialCategories,
 };

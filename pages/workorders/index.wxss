@@ -1,22 +1,25 @@
-.workorders-hero-top {
-  align-items: flex-start;
-  margin-top: 14rpx;
-}
+/* 工单列表页UI优化 */
 
-.workorders-create-btn {
-  min-width: 120rpx;
-}
-
-.workorder-kpi-ribbon {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
+/* 优化工单卡片样式 */
 .workorder-card {
   display: flex;
   flex-direction: column;
   gap: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  border-radius: 20rpx;
+  background: #FFFFFF;
+  border: 1rpx solid #E2E8F0;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
 }
 
+.workorder-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 16rpx rgba(0, 0, 0, 0.08);
+}
+
+/* 优化工单标题 */
 .workorder-title-wrap {
   flex: 1;
   min-width: 0;
@@ -25,52 +28,130 @@
 
 .workorder-title {
   font-size: 30rpx;
-  font-weight: 700;
+  font-weight: 600;
   color: #0f172a;
+  line-height: 1.4;
 }
 
+/* 优化状态标签 */
+.badge {
+  padding: 6rpx 16rpx;
+  border-radius: 12rpx;
+  font-size: 22rpx;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+.badge.pending {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #92400E;
+}
+
+.badge.processing {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+  color: #1E40AF;
+}
+
+.badge.closed {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+  color: #065F46;
+}
+
+/* 优化元数据网格 */
 .workorder-meta-grid {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 14rpx;
-  margin-top: 4rpx;
+  gap: 16rpx;
+  margin-top: 8rpx;
+  padding-top: 12rpx;
+  border-top: 1rpx solid #F1F5F9;
+}
+
+.workorder-meta-grid .label {
+  font-size: 22rpx;
+  color: #94A3B8;
+  margin-bottom: 4rpx;
+}
+
+.workorder-meta-grid .value {
+  font-size: 24rpx;
+  color: #475569;
+  font-weight: 500;
 }
 
 .workorder-small {
   font-size: 24rpx;
-  margin-top: 6rpx;
+  color: #475569;
 }
 
-.order-line-a {
-  left: 26rpx;
-  right: 36rpx;
-  top: 42rpx;
+/* 优化元数据行 */
+.meta-inline {
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: wrap;
 }
 
-.order-line-b {
-  left: 34rpx;
-  right: 24rpx;
-  bottom: 44rpx;
+.meta-item {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 12rpx;
+  background: #F8FAFC;
+  border-radius: 8rpx;
+  font-size: 22rpx;
+  color: #64748B;
 }
 
-.order-dot-a {
-  left: 26rpx;
-  top: 36rpx;
+/* 优化Hero区域 */
+.workorders-hero-top {
+  align-items: flex-start;
+  margin-top: 14rpx;
 }
 
-.order-dot-b {
-  right: 56rpx;
-  top: 56rpx;
+.workorders-create-btn {
+  min-width: 120rpx;
+  height: 64rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  font-weight: 500;
 }
 
-.order-dot-c {
-  left: 66rpx;
-  bottom: 36rpx;
+/* 优化KPI丝带 */
+.workorder-kpi-ribbon {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8rpx;
+  margin-top: 12rpx;
 }
 
-.order-ring-a {
-  width: 84rpx;
-  height: 84rpx;
-  right: 20rpx;
-  bottom: 18rpx;
+/* 优化空状态 */
+.empty {
+  text-align: center;
+  padding: 100rpx 32rpx;
+  font-size: 28rpx;
+  color: #94A3B8;
+}
+
+/* 优化chip行 */
+.chip-row {
+  display: flex;
+  gap: 12rpx;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.chip {
+  flex-shrink: 0;
+  padding: 12rpx 24rpx;
+  border-radius: 24rpx;
+  background: #F1F5F9;
+  color: #64748B;
+  font-size: 26rpx;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.chip-active {
+  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+  color: #FFFFFF;
+  box-shadow: 0 4rpx 12rpx rgba(139, 92, 246, 0.25);
 }

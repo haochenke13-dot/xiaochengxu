@@ -269,6 +269,27 @@
                 <view class="faq-dot faq-dot-a"></view>
                 <view class="faq-dot faq-dot-b"></view>
               </block>
+              <block wx:elif="{{item.visual === 'case'}}">
+                <view class="case-document case-document-back"></view>
+                <view class="case-document case-document-front">
+                  <view class="case-fold"></view>
+                  <view class="case-line case-line-a"></view>
+                  <view class="case-line case-line-b"></view>
+                  <view class="case-line case-line-c"></view>
+                  <view class="case-badge"></view>
+                </view>
+              </block>
+              <block wx:elif="{{item.visual === 'tip'}}">
+                <view class="tip-lightbulb">
+                  <view class="tip-bulb"></view>
+                  <view class="tip-base"></view>
+                  <view class="tip-rays">
+                    <view class="tip-ray tip-ray-1"></view>
+                    <view class="tip-ray tip-ray-2"></view>
+                    <view class="tip-ray tip-ray-3"></view>
+                  </view>
+                </view>
+              </block>
             </view>
             <view class="knowledge-copy">
               <view class="mini-code">{{item.code}}</view>

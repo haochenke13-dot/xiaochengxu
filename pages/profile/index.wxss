@@ -1,40 +1,161 @@
+/* 个人中心页UI优化 */
+
 page {
   background: #f4f8fb;
 }
 
-.profile-ring-a {
-  width: 112rpx;
-  height: 112rpx;
-  right: 22rpx;
-  top: 20rpx;
+/* 优化用户信息卡片 */
+.user-info-card {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 24rpx;
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
 }
 
-.profile-ring-b {
-  width: 64rpx;
-  height: 64rpx;
-  right: 46rpx;
-  top: 44rpx;
+.user-avatar {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0EA5E9, #3B82F6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #FFFFFF;
+  font-size: 32rpx;
+  font-weight: 600;
 }
 
-.profile-orb-a {
-  width: 40rpx;
-  height: 40rpx;
-  left: 24rpx;
-  bottom: 28rpx;
+.user-details {
+  flex: 1;
+  min-width: 0;
 }
 
-.profile-dot-a {
-  left: 34rpx;
-  top: 42rpx;
+.user-name {
+  font-size: 30rpx;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 4rpx;
 }
 
-.profile-dot-b {
-  right: 52rpx;
-  bottom: 36rpx;
+.user-role {
+  font-size: 24rpx;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
 }
 
-.profile-line-a {
-  left: 22rpx;
-  right: 24rpx;
-  top: 58rpx;
+.role-badge {
+  padding: 4rpx 12rpx;
+  background: #F1F5F9;
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  color: #475569;
+}
+
+/* 优化菜单列表 */
+.menu-list {
+  background: #FFFFFF;
+  border-radius: 20rpx;
+  overflow: hidden;
+  box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.04);
+}
+
+.menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  padding: 20rpx 24rpx;
+  border-bottom: 1rpx solid #F1F5F9;
+  transition: background 0.2s ease;
+}
+
+.menu-item:last-child {
+  border-bottom: none;
+}
+
+.menu-item:active {
+  background: #F8FAFC;
+}
+
+.menu-icon {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.menu-icon.settings {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+}
+
+.menu-icon.feedback {
+  background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
+}
+
+.menu-icon.about {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+}
+
+.menu-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.menu-title {
+  font-size: 28rpx;
+  font-weight: 500;
+  color: #475569;
+  margin-bottom: 4rpx;
+}
+
+.menu-desc {
+  font-size: 22rpx;
+  color: #94A3B8;
+}
+
+.menu-arrow {
+  width: 32rpx;
+  height: 32rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #CBD5E1;
+}
+
+/* 优化退出按钮 */
+.logout-btn {
+  margin-top: 24rpx;
+  width: 100%;
+  height: 88rpx;
+  border-radius: 16rpx;
+  background: #FFFFFF;
+  border: 2rpx solid #EF4444;
+  color: #EF4444;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2rpx 8rpx rgba(239, 68, 68, 0.1);
+}
+
+.logout-btn:active {
+  background: #FEF2F2;
+}
+
+/* 优化版本信息 */
+.version-info {
+  text-align: center;
+  padding: 32rpx;
+  font-size: 22rpx;
+  color: #CBD5E1;
 }

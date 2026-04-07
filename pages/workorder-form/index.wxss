@@ -1,3 +1,76 @@
 page {
   background: #f4f8fb;
 }
+
+/* 统一的表单字段样式 */
+.field {
+  margin-bottom: 20rpx;
+}
+
+.field-label {
+  margin-bottom: 8rpx;
+}
+
+/* 统一的输入框和选择框样式 */
+.field-input,
+.field-picker,
+.field-textarea {
+  width: 100%;
+  background: #FFFFFF;
+  border: 2rpx solid #E2E8F0;
+  border-radius: 16rpx;
+  padding: 20rpx 24rpx;
+  box-sizing: border-box;
+  color: #1E293B;
+  font-size: 28rpx;
+  transition: all 0.3s ease;
+  font-weight: 400;
+}
+
+/* 输入框样式 */
+.field-input {
+  min-height: 80rpx;
+  line-height: 1.4;
+}
+
+/* 输入框聚焦效果 */
+.field-input:focus {
+  border-color: #0EA5E9;
+  background: #F8FAFC;
+  box-shadow: 0 0 0 4rpx rgba(14, 165, 233, 0.1);
+}
+
+/* 选择框样式 */
+.field-picker {
+  min-height: 80rpx;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+/* 文本域样式 */
+.field-textarea {
+  min-height: 180rpx;
+  line-height: 1.6;
+  resize: none;
+}
+
+/* Placeholder样式 */
+.field-input::placeholder,
+.field-textarea::placeholder {
+  color: #94A3B8;
+  font-size: 28rpx;
+}
+
+/* 提交按钮区域 */
+.action-row {
+  margin-top: 32rpx;
+}
+
+.action-submit {
+  width: 100%;
+  height: 96rpx;
+  border-radius: 16rpx;
+  font-size: 32rpx;
+  font-weight: 600;
+}

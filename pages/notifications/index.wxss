@@ -1,9 +1,101 @@
+/* 通知中心页UI优化 */
+
+/* 优化通知卡片 */
+.notification-card {
+  display: flex;
+  gap: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 12rpx;
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  border: 1rpx solid #E2E8F0;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+  transition: all 0.3s ease;
+}
+
+.notification-card:active {
+  transform: scale(0.98);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.notification-card.unread {
+  background: linear-gradient(135deg, #F0F9FF, #E0F2FE);
+  border-left: 4rpx solid #0EA5E9;
+}
+
+/* 优化通知图标 */
+.notification-icon {
+  width: 48rpx;
+  height: 48rpx;
+  border-radius: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.notification-icon.system {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+}
+
+.notification-icon.order {
+  background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
+}
+
+.notification-icon.alert {
+  background: linear-gradient(135deg, #FEE2E2, #FECACA);
+}
+
+/* 优化通知内容 */
 .notice-main {
   flex: 1;
   min-width: 0;
   padding-right: 16rpx;
 }
 
+.notification-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 6rpx;
+  line-height: 1.4;
+}
+
+.notification-desc {
+  font-size: 24rpx;
+  color: #64748B;
+  line-height: 1.5;
+  margin-bottom: 8rpx;
+}
+
 .notice-foot {
-  margin-top: 16rpx;
+  margin-top: 12rpx;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.notification-time {
+  font-size: 22rpx;
+  color: #94A3B8;
+}
+
+/* 优化分类标签 */
+.category-badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4rpx 12rpx;
+  background: #F1F5F9;
+  border-radius: 8rpx;
+  font-size: 20rpx;
+  color: #64748B;
+  margin-bottom: 8rpx;
+}
+
+/* 优化空状态 */
+.empty {
+  text-align: center;
+  padding: 100rpx 32rpx;
+  font-size: 28rpx;
+  color: #94A3B8;
 }

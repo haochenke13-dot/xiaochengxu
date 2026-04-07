@@ -77,6 +77,40 @@ function decorateKnowledgeItems(items, locale) {
   }));
 }
 
+/**
+ * 将发现页内容转换为资料模块格式
+ */
+function decorateDiscoverItems(items, locale) {
+  const categoryToVisual = {
+    "售后视频": "video",
+    "工单经验": "case",
+    "使用技巧": "tip"
+  };
+
+  const categoryToCode = {
+    "售后视频": "VIDEO",
+    "工单经验": "CASE",
+    "使用技巧": "TIP"
+  };
+
+  const isEn = locale === "en";
+  const descMap = {
+    "售后视频": isEn ? "Training video" : "培训视频",
+    "工单经验": isEn ? "Case experience" : "工单经验",
+    "使用技巧": isEn ? "Usage tips" : "使用技巧"
+  };
+
+  return items.map((item) => ({
+    id: item.contentId,
+    title: item.title,
+    desc: item.summary,
+    visual: categoryToVisual[item.category] || "guide",
+    code: categoryToCode[item.category] || "KIT",
+    visualDesc: descMap[item.category] || (isEn ? "Knowledge" : "资料"),
+    meta: item.duration
+  }));
+}
+
 function decorateFeedItems(items, locale) {
   const isEn = locale === "en";
   const visualMap = {
@@ -133,7 +167,7 @@ Page({
       roleMeta,
       summary: services.getHomeSummary(profile),
       quickActions: buildQuickActions(profile.roleCode, locale),
-      knowledgeItems: decorateKnowledgeItems(services.getKnowledgeItems(), locale),
+      knowledgeItems: decorateDiscoverItems(services.getDiscoverContent(profile, "all"), locale),
       notifications: decorateFeedItems(services.getNotifications(profile).slice(0, 2), locale),
       homePrefs: app.globalData.homePrefs || {},
     });

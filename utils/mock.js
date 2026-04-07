@@ -23,7 +23,7 @@ const users = [
     mobile: "13800000001",
     employeeNo: "ENG1001",
     deviceScope: ["DEV-1001", "DEV-1002", "DEV-2001"],
-    menuCodes: ["home", "workorders", "devices", "discover", "profile"],
+    menuCodes: ["home", "workorders", "devices", "materials", "profile"],
   },
   {
     userId: "U-TEN-001",
@@ -34,7 +34,7 @@ const users = [
     mobile: "13800000002",
     employeeNo: "TEN2001",
     deviceScope: ["DEV-1001", "DEV-1002"],
-    menuCodes: ["home", "workorders", "devices", "discover", "profile"],
+    menuCodes: ["home", "workorders", "devices", "materials", "profile"],
   },
   {
     userId: "U-CUS-001",
@@ -45,7 +45,7 @@ const users = [
     mobile: "13800000003",
     employeeNo: "CUS3001",
     deviceScope: ["DEV-1001"],
-    menuCodes: ["home", "workorders", "devices", "discover", "profile"],
+    menuCodes: ["home", "workorders", "devices", "materials", "profile"],
   },
 ];
 
@@ -266,6 +266,73 @@ const knowledgeItems = [
   { id: "KN-3", title: "常见问题", desc: "现场常见报错与解决步骤汇总。" },
 ];
 
+// 物料系列定义
+const MATERIAL_SERIES = [
+  { id: 'venus', name: 'Venus系列', nameEn: 'Venus Series' },
+  { id: 'smart', name: 'Smart系列', nameEn: 'Smart Series' }
+];
+
+// 物料型号定义
+const MATERIAL_MODELS = {
+  venus: [
+    { id: 'venus100', name: 'Venus100', nameEn: 'Venus100' },
+    { id: 'venus300', name: 'Venus300', nameEn: 'Venus300' },
+    { id: 'venus500', name: 'Venus500', nameEn: 'Venus500' },
+    { id: 'venus9000', name: 'Venus9000', nameEn: 'Venus9000' }
+  ],
+  smart: [
+    { id: 'smart500', name: 'Smart500', nameEn: 'Smart500' },
+    { id: 'smart6500', name: 'Smart6500', nameEn: 'Smart6500' }
+  ]
+};
+
+// 物料数据（按型号组织）
+const MATERIALS = {
+  venus100: [
+    { materialId: 'MT-V100-001', name: '主控板', category: 'parts', spec: 'V100-CTRL-01', price: '¥2,800' },
+    { materialId: 'MT-V100-002', name: '电源模块', category: 'parts', spec: 'V100-PWR-02', price: '¥580' },
+    { materialId: 'MT-V100-003', name: '传感器套装', category: 'accessories', spec: 'V100-SENS-03', price: '¥1,200' },
+    { materialId: 'MT-V100-004', name: '校准标准件', category: 'consumables', spec: 'V100-CAL-04', price: '¥350' }
+  ],
+  venus300: [
+    { materialId: 'MT-V300-001', name: '主控板', category: 'parts', spec: 'V300-CTRL-01', price: '¥3,200' },
+    { materialId: 'MT-V300-002', name: '光学组件', category: 'parts', spec: 'V300-OPT-02', price: '¥4,500' },
+    { materialId: 'MT-V300-003', name: '检测探头', category: 'accessories', spec: 'V300-PROBE-03', price: '¥890' },
+    { materialId: 'MT-V300-004', name: '标准液试剂', category: 'consumables', spec: 'V300-REAGENT-04', price: '¥280' }
+  ],
+  venus500: [
+    { materialId: 'MT-V500-001', name: '核心处理器', category: 'parts', spec: 'V500-CPU-01', price: '¥4,800' },
+    { materialId: 'MT-V500-002', name: '液路模块', category: 'parts', spec: 'V500-FLUID-02', price: '¥2,100' },
+    { materialId: 'MT-V500-003', name: '样品盘', category: 'accessories', spec: 'V500-TRAY-03', price: '¥650' },
+    { materialId: 'MT-V500-004', name: '清洗液', category: 'consumables', spec: 'V500-CLEAN-04', price: '¥180' }
+  ],
+  venus9000: [
+    { materialId: 'MT-V9000-001', name: '主板总成', category: 'parts', spec: 'V9000-MAIN-01', price: '¥12,800' },
+    { materialId: 'MT-V9000-002', name: '光学引擎', category: 'parts', spec: 'V9000-OPT-02', price: '¥8,500' },
+    { materialId: 'MT-V9000-003', name: '自动进样器', category: 'accessories', spec: 'V9000-AUTO-03', price: '¥3,200' },
+    { materialId: 'MT-V9000-004', name: '校准品', category: 'consumables', spec: 'V9000-CAL-04', price: '¥580' }
+  ],
+  smart500: [
+    { materialId: 'MT-S500-001', name: '显示屏', category: 'parts', spec: 'S500-DISP-01', price: '¥890' },
+    { materialId: 'MT-S500-002', name: '触摸面板', category: 'parts', spec: 'S500-TOUCH-02', price: '¥650' },
+    { materialId: 'MT-S500-003', name: '打印模块', category: 'accessories', spec: 'S500-PRINT-03', price: '¥420' },
+    { materialId: 'MT-S500-004', name: '打印纸', category: 'consumables', spec: 'S500-PAPER-04', price: '¥45' }
+  ],
+  smart6500: [
+    { materialId: 'MT-S6500-001', name: '处理器', category: 'parts', spec: 'S6500-CPU-01', price: '¥1,500' },
+    { materialId: 'MT-S6500-002', name: '存储模块', category: 'parts', spec: 'S6500-STORAGE-02', price: '¥780' },
+    { materialId: 'MT-S6500-003', name: '网络适配器', category: 'accessories', spec: 'S6500-NET-03', price: '¥320' },
+    { materialId: 'MT-S6500-004', name: '密封圈套装', category: 'consumables', spec: 'S6500-SEAL-04', price: '¥120' }
+  ]
+};
+
+// 物料分类
+const MATERIAL_CATEGORIES = {
+  parts: { name: '零件', nameEn: 'Parts', icon: 'part', color: '#0EA5E9' },
+  accessories: { name: '配件', nameEn: 'Accessories', icon: 'accessory', color: '#8B5CF6' },
+  consumables: { name: '耗材', nameEn: 'Consumables', icon: 'consumable', color: '#10B981' }
+};
+
 module.exports = {
   banners,
   users,
@@ -275,4 +342,8 @@ module.exports = {
   notifications,
   contents,
   knowledgeItems,
+  MATERIAL_SERIES,
+  MATERIAL_MODELS,
+  MATERIALS,
+  MATERIAL_CATEGORIES,
 };
