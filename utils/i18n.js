@@ -122,19 +122,29 @@ const PAGE_TEXTS = {
     zh: {
       nav: "物料",
       title: "物料中心",
+      series: "仪器系列",
       desc: "选择仪器型号，查看零件、配件与耗材",
       selectSeries: "选择系列",
       selectModel: "选择型号",
       materials: "物料清单",
+      all: "全部",
+      parts: "零件",
+      accessories: "配件",
+      consumables: "耗材",
       empty: "暂无物料数据"
     },
     en: {
       nav: "Materials",
       title: "Material Center",
+      series: "Series",
       desc: "Select model to view parts, accessories & consumables",
       selectSeries: "Select Series",
       selectModel: "Select Model",
       materials: "Material List",
+      all: "All",
+      parts: "Parts",
+      accessories: "Accessories",
+      consumables: "Consumables",
       empty: "No materials available"
     }
   },

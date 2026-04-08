@@ -1,88 +1,78 @@
 <view class="page-shell">
-  <view class="page-body">
-    <view class="hero-card hero-azure section">
-      <view class="hero-layout">
-        <view class="hero-copy">
-          <view class="hero-title">{{texts.title}}</view>
-          <view class="hero-desc">{{texts.desc}}</view>
-        </view>
-        <view class="hero-visual">
-          <!-- 堆叠的物料盒子 -->
-          <view class="material-box-stack">
-            <view class="material-box material-box-back"></view>
-            <view class="material-box material-box-front"></view>
+  <view class="page-body materials-page">
+    <!-- 顶部系列选择器 -->
+    <view class="top-section">
+      <view class="section-title">{{texts.series}}</view>
+      <view class="series-selector">
+        <block wx:for="{{seriesList}}" wx:key="id">
+          <view class="series-item {{selectedSeries === item.id ? 'series-active' : ''}}"
+                data-series="{{item.id}}"
+                bindtap="onSeriesChange">
+            <view class="series-icon series-icon-{{item.id}}"></view>
+            <view class="series-name">{{locale === 'zh' ? item.name : item.nameEn}}</view>
           </view>
-          <!-- 齿轮零件 -->
-          <view class="material-gear">
-            <view class="gear-center"></view>
-            <view class="gear-tooth gear-tooth-1"></view>
-            <view class="gear-tooth gear-tooth-2"></view>
-            <view class="gear-tooth gear-tooth-3"></view>
-            <view class="gear-tooth gear-tooth-4"></view>
-            <view class="gear-tooth gear-tooth-5"></view>
-            <view class="gear-tooth gear-tooth-6"></view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 型号选择器 -->
+    <view class="models-section" wx:if="{{modelsList.length > 0}}">
+      <view class="model-header">
+        <view class="section-title-small">{{texts.selectModel}}</view>
+        <view class="slide-hint">{{locale === 'zh' ? '← 查看更多' : 'See more ←'}}</view>
+      </view>
+      <view class="model-scroll">
+        <block wx:for="{{modelsList}}" wx:key="id">
+          <view class="model-item {{selectedModel === item.id ? 'model-active' : ''}}"
+                data-model="{{item.id}}"
+                bindtap="onModelChange">
+            <view class="model-image-wrapper">
+              <image class="model-image" src="/assets/models/{{item.id}}.png" mode="aspectFit"></image>
+            </view>
+            <view class="model-name">{{locale === 'zh' ? item.name : item.nameEn}}</view>
           </view>
+        </block>
+      </view>
+    </view>
+
+    <!-- 底部区域：类别侧边栏 + 零件列表 -->
+    <view class="bottom-section" wx:if="{{materials.length > 0}}">
+      <!-- 类别侧边栏 -->
+      <view class="category-sidebar">
+        <block wx:for="{{categoriesList}}" wx:key="key">
+          <view class="category-item {{selectedCategory === item.key ? 'category-active' : ''}}"
+                data-category="{{item.key}}"
+                bindtap="onCategoryChange">
+            <view class="category-icon category-{{item.key}}"></view>
+            <view class="category-name">{{item.name}}</view>
+            <view class="category-count">{{item.count}}</view>
+          </view>
+        </block>
+      </view>
+
+      <!-- 零件列表 -->
+      <view class="parts-content">
+        <view class="parts-grid">
+          <block wx:for="{{filteredMaterials}}" wx:key="materialId">
+            <view class="part-card">
+              <view class="part-image-wrapper">
+                <image class="part-image" src="/assets/parts/{{item.materialId}}.png" mode="aspectFit"></image>
+              </view>
+              <view class="part-info">
+                <view class="part-name">{{item.name}}</view>
+                <view class="part-spec">{{item.spec}}</view>
+                <view class="part-price">{{item.price}}</view>
+              </view>
+            </view>
+          </block>
         </view>
       </view>
     </view>
 
-  <!-- 系列选择器 -->
-  <view class="selector-section">
-    <view class="section-title">{{texts.selectSeries}}</view>
-    <view class="segmented-control">
-      <block wx:for="{{seriesList}}" wx:key="id">
-        <view class="segment-item {{selectedSeries === item.id ? 'segment-active' : ''}}"
-              data-series="{{item.id}}"
-              bindtap="onSeriesChange">
-          <view class="segment-icon segment-icon-{{item.id}}"></view>
-          <view class="segment-text">{{locale === 'zh' ? item.name : item.nameEn}}</view>
-        </view>
-      </block>
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{selectedSeries && selectedModel && materials.length === 0}}">
+      <view class="empty-icon"></view>
+      <view class="empty-text">{{texts.empty}}</view>
     </view>
-  </view>
-
-  <!-- 型号选择器 -->
-  <view class="selector-section" wx:if="{{modelsList.length > 0}}">
-    <view class="section-title">{{texts.selectModel}}</view>
-    <view class="model-grid">
-      <block wx:for="{{modelsList}}" wx:key="id">
-        <view class="model-card {{selectedModel === item.id ? 'model-active' : ''}}"
-              data-model="{{item.id}}"
-              bindtap="onModelChange">
-          <view class="model-icon"></view>
-          <view class="model-name">{{locale === 'zh' ? item.name : item.nameEn}}</view>
-        </view>
-      </block>
-    </view>
-  </view>
-
-  <!-- 物料列表 -->
-  <view class="materials-section" wx:if="{{materials.length > 0}}">
-    <view class="section-title">{{texts.materials}}</view>
-    <view class="materials-list">
-      <block wx:for="{{materials}}" wx:key="materialId">
-        <view class="material-card">
-          <view class="material-icon-wrapper material-{{item.category}}">
-            <view class="material-icon-bg"></view>
-            <view class="material-icon-symbol"></view>
-          </view>
-          <view class="material-info">
-            <view class="material-name">{{item.name}}</view>
-            <view class="material-spec">{{item.spec}}</view>
-            <view class="material-meta">
-              <text class="material-category">{{item.categoryName}}</text>
-              <text class="material-price">{{item.price}}</text>
-            </view>
-          </view>
-        </view>
-      </block>
-    </view>
-  </view>
-
-  <!-- 空状态 -->
-  <view class="empty-state" wx:if="{{selectedSeries && selectedModel && materials.length === 0}}">
-    <view class="empty-icon"></view>
-    <view class="empty-text">{{texts.empty}}</view>
-  </view>
   </view>
 </view>
