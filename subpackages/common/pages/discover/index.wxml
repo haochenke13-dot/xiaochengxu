@@ -1,0 +1,50 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-pearl section">
+      <view class="hero-layout">
+        <view class="hero-copy">
+          <view class="hero-title">{{texts.title}}</view>
+          <view class="hero-desc">{{texts.desc}}</view>
+        </view>
+        <view class="hero-visual">
+          <view class="visual-ring discover-ring-a"></view>
+          <view class="visual-ring discover-ring-b"></view>
+          <view class="visual-orb discover-orb-a"></view>
+          <view class="visual-line discover-line-a"></view>
+          <view class="visual-line discover-line-b"></view>
+        </view>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="chip-row">
+        <block wx:for="{{categories}}" wx:key="key">
+          <view class="chip {{currentCategory === item.key ? 'chip-active' : ''}}" data-category="{{item.key}}" bindtap="onChangeCategory">{{item.name}}</view>
+        </block>
+      </view>
+    </view>
+
+    <view class="section">
+      <view class="list" wx:if="{{contents.length}}">
+        <block wx:for="{{contents}}" wx:key="contentId">
+          <view class="card discover-card">
+            <view class="cover-block {{item.category === '售后视频' ? 'cover-video' : item.category === '工单经验' ? 'cover-case' : 'cover-tip'}}">
+              <view class="cover-kicker">{{item.categoryLabel}}</view>
+              <view class="cover-title">{{item.title}}</view>
+            </view>
+            <view class="discover-content">
+              <view class="row-between discover-foot">
+                <view class="art-row">
+                  <view class="art-pill art-pill-dot"></view>
+                  <view class="mini-code">{{item.categoryLabel}}</view>
+                </view>
+                <text class="label">{{item.duration}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="empty" wx:else>{{texts.empty}}</view>
+    </view>
+  </view>
+</view>

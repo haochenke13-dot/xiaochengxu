@@ -1,0 +1,45 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-pearl section">
+      <view class="panel-kicker">NEW ORDER</view>
+      <view class="hero-title">{{texts.title}}</view>
+      <view class="hero-desc">{{texts.desc}}</view>
+    </view>
+
+    <view class="section">
+      <view class="card">
+        <view class="field-group">
+          <view class="field">
+            <text class="field-label">{{texts.formTitle}}</text>
+            <input class="field-input" placeholder="{{texts.titlePlaceholder}}" value="{{form.title}}" bindinput="onTitleChange" />
+          </view>
+          <view class="field">
+            <text class="field-label">{{texts.type}}</text>
+            <picker range="{{typeOptions}}" value="{{selectedTypeIndex}}" bindchange="onTypeChange">
+              <view class="field-picker">{{form.type}}</view>
+            </picker>
+          </view>
+          <view class="field">
+            <text class="field-label">{{texts.priority}}</text>
+            <picker range="{{priorityOptions}}" value="{{selectedPriorityIndex}}" bindchange="onPriorityChange">
+              <view class="field-picker">{{form.priority}}</view>
+            </picker>
+          </view>
+          <view class="field">
+            <text class="field-label">{{texts.device}}</text>
+            <picker range="{{deviceNames}}" value="{{selectedDeviceIndex}}" bindchange="onDeviceChange">
+              <view class="field-picker">{{form.deviceName || texts.devicePlaceholder}}</view>
+            </picker>
+          </view>
+          <view class="field">
+            <text class="field-label">{{texts.description}}</text>
+            <textarea class="field-textarea" placeholder="{{texts.descPlaceholder}}" value="{{form.desc}}" bindinput="onDescChange"></textarea>
+          </view>
+        </view>
+        <view class="action-row">
+          <button class="primary-btn action-primary action-submit" bindtap="onSubmit">{{texts.submit}}</button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,199 @@
+/* 设备详情页UI优化 */
+
+/* 优化Hero区域 */
+.detail-hero-card {
+  margin-bottom: 20rpx;
+}
+
+/* 优化参数卡片 */
+.param-card {
+  background: #F8FAFC;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 12rpx;
+  border: 1rpx solid #E2E8F0;
+}
+
+.param-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12rpx 0;
+}
+
+.param-row:last-child {
+  padding-bottom: 0;
+}
+
+.param-label {
+  font-size: 24rpx;
+  color: #64748B;
+}
+
+.param-value {
+  font-size: 26rpx;
+  color: #1E293B;
+  font-weight: 500;
+}
+
+/* 优化告警卡片 */
+.alarm-section {
+  margin-top: 24rpx;
+}
+
+.alarm-card {
+  display: flex;
+  gap: 12rpx;
+  padding: 16rpx;
+  margin-bottom: 12rpx;
+  background: #FEF2F2;
+  border-radius: 12rpx;
+  border-left: 4rpx solid #EF4444;
+}
+
+.alarm-card.warning {
+  background: #FFFBEB;
+  border-left-color: #F59E0B;
+}
+
+.alarm-icon {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.alarm-card.warning .alarm-icon {
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.alarm-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.alarm-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #991B1B;
+  margin-bottom: 4rpx;
+}
+
+.alarm-card.warning .alarm-title {
+  color: #92400E;
+}
+
+.alarm-time {
+  font-size: 22rpx;
+  color: #DC2626;
+}
+
+.alarm-card.warning .alarm-time {
+  color: #D97706;
+}
+
+/* 优化操作按钮 */
+.action-buttons {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 24rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 优化状态指示器 */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 8rpx;
+  padding: 8rpx 16rpx;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.status-indicator.running {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+  color: #065F46;
+}
+
+.status-indicator.warning {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #92400E;
+}
+
+.status-indicator.offline {
+  background: linear-gradient(135deg, #F1F5F9, #E2E8F0);
+  color: #64748B;
+}
+
+.status-dot {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+/* 优化心跳显示 */
+.device-heartbeat {
+  font-size: 24rpx;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  gap: 6rpx;
+}
+
+.heartbeat-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: #10B981;
+  animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+@keyframes heartbeat {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(0.8);
+  }
+}
+
+/* 优化信息卡片 */
+.info-card {
+  background: #FFFFFF;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+  border: 1rpx solid #E2E8F0;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.04);
+}
+
+.info-title {
+  font-size: 26rpx;
+  font-weight: 600;
+  color: #1E293B;
+  margin-bottom: 12rpx;
+}
+
+.info-content {
+  font-size: 24rpx;
+  color: #475569;
+  line-height: 1.6;
+}

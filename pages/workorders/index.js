@@ -55,11 +55,11 @@ Page({
 
   openDetail(event) {
     wx.navigateTo({
-      url: `/pages/workorder-detail/index?id=${event.currentTarget.dataset.id}`,
+      url: `/subpackages/workorder/pages/detail/index?id=${event.currentTarget.dataset.id}`,
     });
   },
 
   createOrder() {
-    wx.navigateTo({ url: "/pages/workorder-form/index" });
+    wx.navigateTo({ url: "/subpackages/workorder/pages/form/index" });
   },
 });

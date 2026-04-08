@@ -177,12 +177,12 @@ Page({
     const action = event.currentTarget.dataset.action;
     const mapping = {
       devices: () => wx.switchTab({ url: "/pages/devices/index" }),
-      notifications: () => wx.navigateTo({ url: "/pages/notifications/index" }),
+      notifications: () => wx.navigateTo({ url: "/subpackages/common/pages/notifications/index" }),
       pending: () => {
         wx.setStorageSync("workordersStatus", "pending");
         wx.switchTab({ url: "/pages/workorders/index" });
       },
-      create: () => wx.navigateTo({ url: "/pages/workorder-form/index" }),
+      create: () => wx.navigateTo({ url: "/subpackages/workorder/pages/form/index" }),
       scan: () => this.startScan(),
     };
 
@@ -200,7 +200,7 @@ Page({
   },
 
   onFeedTap() {
-    wx.navigateTo({ url: "/pages/notifications/index" });
+    wx.navigateTo({ url: "/subpackages/common/pages/notifications/index" });
   },
 
   openAIAsk() {
@@ -230,11 +230,11 @@ Page({
 
   openScanResult(code) {
     wx.navigateTo({
-      url: `/pages/scan-result/index?code=${encodeURIComponent(code)}`,
+      url: `/subpackages/common/pages/scan-result/index?code=${encodeURIComponent(code)}`,
     });
   },
 
   goNotifications() {
-    wx.navigateTo({ url: "/pages/notifications/index" });
+    wx.navigateTo({ url: "/subpackages/common/pages/notifications/index" });
   },
 });

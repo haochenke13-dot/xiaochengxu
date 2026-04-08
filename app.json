@@ -3,20 +3,40 @@
     "pages/login/index",
     "pages/home/index",
     "pages/workorders/index",
-    "pages/workorder-detail/index",
-    "pages/workorder-form/index",
     "pages/devices/index",
-    "pages/device-detail/index",
     "pages/materials/index",
-    "pages/discover/index",
-    "pages/profile/index",
-    "pages/notifications/index",
-    "pages/scan-result/index",
-    "pages/tenant-staff/index",
-    "pages/device-assignment/index",
-    "pages/settings/index",
-    "pages/feedback/index",
-    "pages/about/index"
+    "pages/profile/index"
+  ],
+  "subpackages": [
+    {
+      "root": "subpackages/workorder",
+      "name": "工单",
+      "pages": [
+        "pages/detail/index",
+        "pages/form/index"
+      ]
+    },
+    {
+      "root": "subpackages/device",
+      "name": "设备",
+      "pages": [
+        "pages/detail/index",
+        "pages/assignment/index"
+      ]
+    },
+    {
+      "root": "subpackages/common",
+      "name": "通用",
+      "pages": [
+        "pages/discover/index",
+        "pages/notifications/index",
+        "pages/scan-result/index",
+        "pages/tenant-staff/index",
+        "pages/settings/index",
+        "pages/feedback/index",
+        "pages/about/index"
+      ]
+    }
   ],
   "window": {
     "navigationBarTitleText": "设备服务协同",

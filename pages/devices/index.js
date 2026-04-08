@@ -66,7 +66,7 @@ Page({
 
   openDetail(event) {
     wx.navigateTo({
-      url: `/pages/device-detail/index?id=${event.currentTarget.dataset.id}`,
+      url: `/subpackages/device/pages/detail/index?id=${event.currentTarget.dataset.id}`,
     });
   },
 });

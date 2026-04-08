@@ -67,12 +67,12 @@ Page({
     const actions = {
       workorders: () => wx.switchTab({ url: "/pages/workorders/index" }),
       devices: () => wx.switchTab({ url: "/pages/devices/index" }),
-      notifications: () => wx.navigateTo({ url: "/pages/notifications/index" }),
-      settings: () => wx.navigateTo({ url: "/pages/settings/index" }),
-      feedback: () => wx.navigateTo({ url: "/pages/feedback/index" }),
-      about: () => wx.navigateTo({ url: "/pages/about/index" }),
-      staff: () => wx.navigateTo({ url: "/pages/tenant-staff/index" }),
-      assignment: () => wx.navigateTo({ url: "/pages/device-assignment/index" }),
+      notifications: () => wx.navigateTo({ url: "/subpackages/common/pages/notifications/index" }),
+      settings: () => wx.navigateTo({ url: "/subpackages/common/pages/settings/index" }),
+      feedback: () => wx.navigateTo({ url: "/subpackages/common/pages/feedback/index" }),
+      about: () => wx.navigateTo({ url: "/subpackages/common/pages/about/index" }),
+      staff: () => wx.navigateTo({ url: "/subpackages/common/pages/tenant-staff/index" }),
+      assignment: () => wx.navigateTo({ url: "/subpackages/device/pages/assignment/index" }),
     };
     if (actions[key]) {
       actions[key]();

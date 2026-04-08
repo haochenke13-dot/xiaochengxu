@@ -1,0 +1,124 @@
+/* 工单详情页UI优化 */
+
+/* Hero区域优化 */
+.detail-hero-top {
+  align-items: flex-start;
+  margin-top: 14rpx;
+}
+
+.detail-hero-main {
+  flex: 1;
+  min-width: 0;
+  padding-right: 16rpx;
+}
+
+/* 详情段落优化 */
+.detail-paragraph {
+  margin-top: 20rpx;
+  padding: 20rpx;
+  background: #F8FAFC;
+  border-radius: 16rpx;
+  border: 1rpx solid #E2E8F0;
+}
+
+.detail-paragraph-text {
+  margin-top: 8rpx;
+  font-size: 26rpx;
+  line-height: 1.8;
+  color: #475569;
+}
+
+/* 优化日志列表 */
+.log-list {
+  margin-top: 20rpx;
+}
+
+.log-item {
+  display: flex;
+  gap: 12rpx;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #F1F5F9;
+}
+
+.log-item:last-child {
+  border-bottom: none;
+}
+
+.log-label {
+  font-size: 22rpx;
+  color: #94A3B8;
+  min-width: 120rpx;
+  padding-top: 4rpx;
+}
+
+.log-value {
+  flex: 1;
+  font-size: 24rpx;
+  color: #475569;
+  line-height: 1.6;
+}
+
+/* 优化操作按钮区域 */
+.action-row {
+  display: flex;
+  gap: 12rpx;
+  margin-top: 24rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 88rpx;
+  border-radius: 16rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 优化状态徽章 */
+.badge {
+  padding: 8rpx 20rpx;
+  border-radius: 16rpx;
+  font-size: 24rpx;
+  font-weight: 600;
+}
+
+.badge.pending {
+  background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+  color: #92400E;
+}
+
+.badge.processing {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+  color: #1E40AF;
+}
+
+.badge.closed {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
+  color: #065F46;
+}
+
+/* 优化元数据显示 */
+.meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 0;
+  border-bottom: 1rpx solid #F1F5F9;
+}
+
+.meta-row:last-child {
+  border-bottom: none;
+}
+
+.meta-label {
+  font-size: 24rpx;
+  color: #94A3B8;
+}
+
+.meta-value {
+  font-size: 26rpx;
+  color: #475569;
+  font-weight: 500;
+}

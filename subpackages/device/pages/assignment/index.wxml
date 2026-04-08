@@ -1,0 +1,26 @@
+<view class="page-shell">
+  <view class="page-body">
+    <view class="hero-card hero-mint section">
+      <view class="panel-kicker">DEVICE ASSIGN</view>
+      <view class="hero-title">{{texts.title}}</view>
+      <view class="hero-desc">{{texts.desc}}</view>
+    </view>
+
+    <view class="section">
+      <view class="list" wx:if="{{devices.length}}">
+        <block wx:for="{{devices}}" wx:key="deviceId">
+          <view class="card">
+            <view class="row-between">
+              <view class="assignment-main">
+                <view class="value">{{item.name}}</view>
+                <view class="section-subtitle">{{item.deviceId}} · {{item.location}}</view>
+              </view>
+              <button class="secondary-btn assignment-btn action-secondary action-assign action-compact" size="mini" data-id="{{item.deviceId}}" bindtap="onAssign">{{texts.assign}}</button>
+            </view>
+          </view>
+        </block>
+      </view>
+      <view class="empty" wx:else>{{texts.empty}}</view>
+    </view>
+  </view>
+</view>
