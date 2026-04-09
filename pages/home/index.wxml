@@ -3,58 +3,36 @@
     <view class="hero-card hero-azure section">
       <view class="hero-layout">
         <view class="hero-copy">
-          <view class="hero-kicker-row">
-            <view class="mini-code">{{texts.opsTag}}</view>
-            <view class="hero-tenant-chip">{{profile.tenantName}}</view>
-          </view>
-          <view class="hero-title home-hero-title">{{roleMeta.homeTitle}}</view>
-          <view class="hero-desc home-hero-desc">{{profile.name}} · {{roleMeta.name}}</view>
+          <view class="hero-title home-hero-title-medium">{{roleMeta.homeTitle}}</view>
+          <view class="hero-desc home-hero-desc-small">{{profile.name}}，{{roleMeta.name}}</view>
           <view class="kpi-ribbon">
             <view class="kpi-chip">
-              <view class="kpi-code">DEV</view>
+              <view class="kpi-code">设备</view>
               <view class="kpi-value">{{summary.deviceCount}}</view>
             </view>
             <view class="kpi-chip">
-              <view class="kpi-code">TODO</view>
+              <view class="kpi-code">待办</view>
               <view class="kpi-value">{{summary.pendingOrders}}</view>
             </view>
             <view class="kpi-chip">
-              <view class="kpi-code">ALT</view>
+              <view class="kpi-code">告警</view>
               <view class="kpi-value">{{summary.activeAlarms}}</view>
             </view>
             <view class="kpi-chip">
-              <view class="kpi-code">MSG</view>
+              <view class="kpi-code">消息</view>
               <view class="kpi-value">{{summary.unreadNotifications}}</view>
             </view>
           </view>
         </view>
         <view class="hero-visual">
-          <view class="ops-surface">
-            <view class="ops-gridline ops-gridline-a"></view>
-            <view class="ops-gridline ops-gridline-b"></view>
-            <view class="ops-gridline ops-gridline-c"></view>
-            <view class="ops-gridline ops-gridline-d"></view>
-            <view class="ops-radar ops-radar-a"></view>
-            <view class="ops-radar ops-radar-b"></view>
-            <view class="ops-core"></view>
-            <view class="ops-node ops-node-a"></view>
-            <view class="ops-node ops-node-b"></view>
-            <view class="ops-node ops-node-c"></view>
-            <view class="ops-link ops-link-a"></view>
-            <view class="ops-link ops-link-b"></view>
-            <view class="ops-link ops-link-c"></view>
-            <view class="ops-panel ops-panel-a">
-              <view class="ops-panel-kpi">RUN</view>
-              <view class="ops-panel-value">{{summary.deviceCount}}</view>
-            </view>
-            <view class="ops-panel ops-panel-b">
-              <view class="ops-panel-kpi">TASK</view>
-              <view class="ops-panel-value">{{summary.pendingOrders}}</view>
-            </view>
-            <view class="ops-bars">
-              <view style="height: 28rpx;"></view>
-              <view style="height: 48rpx;"></view>
-              <view style="height: 72rpx;"></view>
+          <view class="hero-visual-card">
+            <view class="hero-visual-core"></view>
+            <view class="hero-visual-ring hero-visual-ring-a"></view>
+            <view class="hero-visual-ring hero-visual-ring-b"></view>
+            <view class="hero-visual-bar">
+              <view style="height: 20rpx;"></view>
+              <view style="height: 32rpx;"></view>
+              <view style="height: 44rpx;"></view>
             </view>
           </view>
         </view>
@@ -77,10 +55,16 @@
     <view class="section" wx:if="{{homePrefs.showBanner}}">
       <view class="ai-entry-card" bindtap="openAIAsk">
         <view class="ai-entry-copy">
-          <view class="mini-code">{{texts.aiTitle}}</view>
-          <view class="hero-title ai-entry-title">{{texts.aiTitle}}</view>
-          <view class="mini-desc ai-entry-desc">{{texts.aiDesc}}</view>
-          <button class="primary-btn action-primary action-open ai-entry-btn" bindtap="openAIAsk">{{texts.aiButton}}</button>
+          <view class="ai-entry-head">
+            <view class="hero-title ai-entry-title">{{texts.aiTitle}}</view>
+            <view class="mini-desc ai-entry-desc">{{texts.aiDesc}}</view>
+          </view>
+          <view class="ai-entry-btn" bindtap="openAIAsk">
+            <view class="ai-entry-btn-icon">
+              <view class="ai-entry-btn-icon-core"></view>
+            </view>
+            <view class="ai-entry-btn-text">{{texts.aiButton}}</view>
+          </view>
         </view>
         <view class="ai-entry-visual">
           <view class="ai-grid ai-grid-h"></view>
@@ -164,18 +148,21 @@
               </block>
               <block wx:elif="{{item.visual === 'device'}}">
                 <view class="device-shell">
-                  <view class="device-topbar">
-                    <view></view>
-                    <view></view>
-                    <view></view>
+                  <view class="device-antenna"></view>
+                  <view class="device-head">
+                    <view class="device-lens"></view>
+                    <view class="device-indicator device-indicator-a"></view>
+                    <view class="device-indicator device-indicator-b"></view>
                   </view>
                   <view class="device-screen">
-                    <view class="device-wave"></view>
-                    <view class="device-wave device-wave-b"></view>
-                    <view class="device-wave device-wave-c"></view>
+                    <view class="device-panel device-panel-a"></view>
+                    <view class="device-panel device-panel-b"></view>
+                    <view class="device-panel device-panel-c"></view>
+                    <view class="device-status-dot"></view>
                     <view class="device-gridline device-gridline-a"></view>
                     <view class="device-gridline device-gridline-b"></view>
                   </view>
+                  <view class="device-stand"></view>
                   <view class="device-metrics">
                     <view></view>
                     <view></view>
@@ -227,8 +214,7 @@
               </block>
               <view class="matrix-meta">
                 <view class="matrix-caption">
-                  <view class="mini-code">{{item.title}}</view>
-                  <view class="mini-desc">{{item.desc}}</view>
+                  <view class="matrix-label">{{locale === 'en' ? item.desc : item.label}}</view>
                 </view>
               </view>
             </view>

@@ -35,16 +35,16 @@ function getHomeTextOverrides(locale) {
 function buildQuickActions(roleCode, locale) {
   const isEn = locale === "en";
   const common = [
-    { key: "scan", title: "SCAN", desc: isEn ? "Device / Order" : "设备 / 工单", action: "scan", visual: "scan" },
-    { key: "devices", title: "DEVICE", desc: isEn ? "Status board" : "状态总览", action: "devices", visual: "device" },
-    { key: "notifications", title: "SIGNAL", desc: isEn ? "Message center" : "通知中心", action: "notifications", visual: "signal" },
+    { key: "scan", title: "SCAN", desc: isEn ? "Device / Order" : "设备 / 工单", label: "扫码", action: "scan", visual: "scan" },
+    { key: "devices", title: "DEVICE", desc: isEn ? "Status board" : "状态总览", label: "设备", action: "devices", visual: "device" },
+    { key: "notifications", title: "SIGNAL", desc: isEn ? "Message center" : "通知中心", label: "消息", action: "notifications", visual: "signal" },
   ];
 
   if (roleCode === "engineer") {
-    return common.concat([{ key: "pending", title: "QUEUE", desc: isEn ? "Priority first" : "优先处理", action: "pending", visual: "queue" }]);
+    return common.concat([{ key: "pending", title: "QUEUE", desc: isEn ? "Priority first" : "优先处理", label: "工单", action: "pending", visual: "queue" }]);
   }
 
-  return common.concat([{ key: "create", title: "NEW", desc: isEn ? "Create request" : "发起需求", action: "create", visual: "create" }]);
+  return common.concat([{ key: "create", title: "NEW", desc: isEn ? "Create request" : "发起需求", label: "新建", action: "create", visual: "create" }]);
 }
 
 function decorateKnowledgeItems(items, locale) {

@@ -42,8 +42,8 @@ const ROLE_META = {
       en: "Platform Admin",
     },
     homeTitle: {
-      zh: "平台运营中心",
-      en: "Operations Center",
+      zh: "平台服务中心",
+      en: "Service Center",
     },
     color: "#1d4ed8",
   },
