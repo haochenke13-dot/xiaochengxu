@@ -5,50 +5,36 @@
         <view class="hero-copy">
           <view class="hero-title home-hero-title-medium">{{roleMeta.homeTitle}}</view>
           <view class="hero-desc home-hero-desc-small">{{profile.name}}，{{roleMeta.name}}</view>
-          <view class="kpi-ribbon">
-            <view class="kpi-chip">
-              <view class="kpi-code">设备</view>
-              <view class="kpi-value">{{summary.deviceCount}}</view>
-            </view>
-            <view class="kpi-chip">
-              <view class="kpi-code">待办</view>
-              <view class="kpi-value">{{summary.pendingOrders}}</view>
-            </view>
-            <view class="kpi-chip">
-              <view class="kpi-code">告警</view>
-              <view class="kpi-value">{{summary.activeAlarms}}</view>
-            </view>
-            <view class="kpi-chip">
-              <view class="kpi-code">消息</view>
-              <view class="kpi-value">{{summary.unreadNotifications}}</view>
-            </view>
-          </view>
-        </view>
-        <view class="hero-visual">
-          <view class="hero-visual-card">
-            <view class="hero-visual-core"></view>
-            <view class="hero-visual-ring hero-visual-ring-a"></view>
-            <view class="hero-visual-ring hero-visual-ring-b"></view>
-            <view class="hero-visual-bar">
-              <view style="height: 20rpx;"></view>
-              <view style="height: 32rpx;"></view>
-              <view style="height: 44rpx;"></view>
+          <view class="hero-notification-card action-notify" bindtap="goNotifications">
+            <view class="hero-notification-scene">
+              <view class="hero-notification-label">{{texts.message}}</view>
+              <view class="hero-notification-visual">
+                <view class="hero-notification-icon">
+                  <view class="hero-notification-ring-outer"></view>
+                  <view class="hero-notification-ring-middle"></view>
+                  <view class="hero-notification-ring-inner"></view>
+                  <view class="hero-notification-dots">
+                    <view class="hero-notification-dot"></view>
+                    <view class="hero-notification-dot"></view>
+                    <view class="hero-notification-dot"></view>
+                    <view class="hero-notification-dot"></view>
+                    <view class="hero-notification-dot"></view>
+                    <view class="hero-notification-dot"></view>
+                    <view class="hero-notification-dot"></view>
+                    <view class="hero-notification-dot"></view>
+                    <view class="hero-notification-dot"></view>
+                  </view>
+                </view>
+              </view>
+              <view class="hero-notification-info" wx:if="{{summary.unreadNotifications > 0}}">
+                <view class="hero-notification-badge">{{summary.unreadNotifications}}</view>
+              </view>
             </view>
           </view>
         </view>
-      </view>
-
-      <view class="home-hero-top">
-        <view class="hero-status-card">
-          <view class="mini-code">{{texts.statusHint}}</view>
-          <view class="hero-status-value">{{summary.pendingOrders}}</view>
+        <view class="hero-logo">
+          <image class="hero-logo-image" src="/assets/company-logo.jpg" mode="aspectFit"></image>
         </view>
-        <button class="secondary-btn hero-message-card action-secondary action-notify" bindtap="goNotifications">
-          <view class="hero-message-copy">
-            <view class="mini-code">{{texts.message}}</view>
-            <view class="hero-message-value">{{summary.unreadNotifications}}</view>
-          </view>
-        </button>
       </view>
     </view>
 
@@ -233,49 +219,5 @@
       </view>
     </view>
 
-    <view class="section">
-      <view class="section-title">
-        <text>{{texts.feed}}</text>
-      </view>
-      <view class="feed-grid" wx:if="{{notifications.length}}">
-        <block wx:for="{{notifications}}" wx:key="id">
-          <view class="feed-card feed-{{item.visual}}" bindtap="onFeedTap">
-            <view class="feed-visual">
-              <block wx:if="{{item.visual === 'system'}}">
-                <view class="feed-system-ring feed-system-ring-a"></view>
-                <view class="feed-system-ring feed-system-ring-b"></view>
-                <view class="feed-system-core"></view>
-              </block>
-              <block wx:elif="{{item.visual === 'orders'}}">
-                <view class="feed-order-sheet feed-order-sheet-back"></view>
-                <view class="feed-order-sheet feed-order-sheet-front">
-                  <view class="feed-order-line feed-order-line-a"></view>
-                  <view class="feed-order-line feed-order-line-b"></view>
-                  <view class="feed-order-line feed-order-line-c"></view>
-                </view>
-              </block>
-              <block wx:elif="{{item.visual === 'alert'}}">
-                <view class="feed-alert-triangle"></view>
-                <view class="feed-alert-line"></view>
-                <view class="feed-alert-dot"></view>
-              </block>
-            </view>
-            <view class="feed-copy">
-              <view class="row-between feed-topline">
-                <view class="mini-code">{{item.code}}</view>
-                <view class="badge {{item.read ? 'badge-success' : 'badge-warning'}}">{{item.categoryLabel || item.category}}</view>
-              </view>
-              <view class="mini-title feed-title">{{item.title}}</view>
-              <view class="mini-desc">{{item.hint}}</view>
-              <view class="feed-foot">
-                <text class="label">{{item.time}}</text>
-                <text class="knowledge-link">{{texts.feedHint}}</text>
-              </view>
-            </view>
-          </view>
-        </block>
-      </view>
-      <view class="empty" wx:else>{{texts.emptyFeed}}</view>
-    </view>
   </view>
 </view>

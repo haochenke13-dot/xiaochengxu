@@ -1,5 +1,147 @@
 /* 工单列表页UI优化 */
 
+/* 工单文档图案 */
+.workorder-document {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 140rpx;
+  height: 160rpx;
+}
+
+.workorder-doc-frame {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 120rpx;
+  height: 140rpx;
+  border-radius: 28rpx;
+  background: rgba(255, 255, 255, 0.45);
+  border: 2rpx solid rgba(191, 219, 254, 0.65);
+}
+
+.workorder-doc-corner {
+  position: absolute;
+  width: 36rpx;
+  height: 36rpx;
+  z-index: 4;
+}
+
+.workorder-doc-corner-tl {
+  left: 8rpx;
+  top: 8rpx;
+  border-left: 5rpx solid rgba(59, 130, 246, 0.92);
+  border-top: 5rpx solid rgba(59, 130, 246, 0.92);
+  border-top-left-radius: 18rpx;
+}
+
+.workorder-doc-corner-tr {
+  right: 8rpx;
+  top: 8rpx;
+  border-right: 5rpx solid rgba(34, 197, 213, 0.92);
+  border-top: 5rpx solid rgba(34, 197, 213, 0.92);
+  border-top-right-radius: 18rpx;
+}
+
+.workorder-doc-corner-bl {
+  left: 8rpx;
+  bottom: 8rpx;
+  border-left: 5rpx solid rgba(34, 197, 213, 0.92);
+  border-bottom: 5rpx solid rgba(34, 197, 213, 0.92);
+  border-bottom-left-radius: 18rpx;
+}
+
+.workorder-doc-corner-br {
+  right: 8rpx;
+  bottom: 8rpx;
+  border-right: 5rpx solid rgba(59, 130, 246, 0.92);
+  border-bottom: 5rpx solid rgba(59, 130, 246, 0.92);
+  border-bottom-right-radius: 18rpx;
+}
+
+.workorder-doc-body {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 88rpx;
+  height: 110rpx;
+  border-radius: 20rpx;
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.95) 0%, rgba(243, 249, 255, 0.92) 100%);
+  border: 4rpx solid rgba(59, 130, 246, 0.88);
+  box-shadow:
+    0 8rpx 16rpx rgba(59, 130, 246, 0.12),
+    inset 0 2rpx 0 rgba(255, 255, 255, 0.8);
+  z-index: 3;
+  overflow: hidden;
+}
+
+.workorder-doc-header {
+  position: absolute;
+  left: 50%;
+  top: 16rpx;
+  transform: translateX(-50%);
+  width: 72rpx;
+  height: 12rpx;
+  border-radius: 8rpx;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.85), rgba(34, 197, 213, 0.75));
+  box-shadow: 0 2rpx 6rpx rgba(59, 130, 246, 0.15);
+  z-index: 4;
+}
+
+.workorder-doc-lines {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10rpx;
+  width: 60rpx;
+  z-index: 4;
+}
+
+.workorder-doc-line {
+  height: 5rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(59, 130, 246, 0.4), rgba(59, 130, 246, 0.25));
+}
+
+.workorder-doc-line-1 {
+  width: 50rpx;
+}
+
+.workorder-doc-line-2 {
+  width: 40rpx;
+}
+
+.workorder-doc-line-3 {
+  width: 56rpx;
+}
+
+.workorder-doc-dots {
+  position: absolute;
+  left: 50%;
+  bottom: 16rpx;
+  transform: translateX(-50%);
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6rpx;
+  width: 48rpx;
+  z-index: 2;
+  opacity: 0.5;
+}
+
+.workorder-doc-dot {
+  width: 6rpx;
+  height: 6rpx;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.6), rgba(59, 130, 246, 0.4));
+}
+
 /* 优化工单卡片样式 */
 .workorder-card {
   display: flex;

@@ -17,12 +17,31 @@
           </view>
         </view>
         <view class="hero-visual">
-          <view class="visual-line order-line-a"></view>
-          <view class="visual-line order-line-b"></view>
-          <view class="visual-dot order-dot-a"></view>
-          <view class="visual-dot order-dot-b"></view>
-          <view class="visual-dot order-dot-c"></view>
-          <view class="visual-ring order-ring-a"></view>
+          <view class="workorder-document">
+            <view class="workorder-doc-frame">
+              <view class="workorder-doc-corner workorder-doc-corner-tl"></view>
+              <view class="workorder-doc-corner workorder-doc-corner-tr"></view>
+              <view class="workorder-doc-corner workorder-doc-corner-bl"></view>
+              <view class="workorder-doc-corner workorder-doc-corner-br"></view>
+            </view>
+            <view class="workorder-doc-body"></view>
+            <view class="workorder-doc-lines">
+              <view class="workorder-doc-line workorder-doc-line-1"></view>
+              <view class="workorder-doc-line workorder-doc-line-2"></view>
+              <view class="workorder-doc-line workorder-doc-line-3"></view>
+            </view>
+            <view class="workorder-doc-header"></view>
+            <view class="workorder-doc-dots">
+              <view class="workorder-doc-dot"></view>
+              <view class="workorder-doc-dot"></view>
+              <view class="workorder-doc-dot"></view>
+              <view class="workorder-doc-dot"></view>
+              <view class="workorder-doc-dot"></view>
+              <view class="workorder-doc-dot"></view>
+              <view class="workorder-doc-dot"></view>
+              <view class="workorder-doc-dot"></view>
+            </view>
+          </view>
         </view>
       </view>
       <view class="row-between workorders-hero-top">

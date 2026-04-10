@@ -31,23 +31,19 @@ const PAGE_TEXTS = {
   home: {
     zh: {
       nav: "首页",
-      message: "消息",
+      message: "通知",
       signal: "信号",
       grid: "矩阵",
       kit: "资料",
-      feed: "动态",
       board: "实时面板",
-      emptyFeed: "当前暂无需要关注的消息",
     },
     en: {
       nav: "Home",
-      message: "Inbox",
+      message: "Notifications",
       signal: "Signal",
       grid: "Grid",
       kit: "Kit",
-      feed: "Feed",
       board: "Live Board",
-      emptyFeed: "No messages to focus on now",
     },
   },
   workorders: {

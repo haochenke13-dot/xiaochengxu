@@ -14,7 +14,6 @@ function getHomeTextOverrides(locale) {
         aiButton: "Ask AI",
         aiSoon: "AI model connection is coming soon",
         knowledgeHint: "Open",
-        feedHint: "Open",
         knowledgeSoon: "Knowledge content will open soon",
         opsTag: "LIVE OPS",
         statusHint: "Current status",
@@ -25,7 +24,6 @@ function getHomeTextOverrides(locale) {
         aiButton: "立即问答",
         aiSoon: "AI 模型接入功能即将开放",
         knowledgeHint: "查看",
-        feedHint: "打开",
         knowledgeSoon: "资料内容即将开放",
         opsTag: "实时运营",
         statusHint: "当前状态",
@@ -124,27 +122,6 @@ function decorateDiscoverItems(items, locale) {
   }));
 }
 
-function decorateFeedItems(items, locale) {
-  const isEn = locale === "en";
-  const visualMap = {
-    System: { visual: "system", code: "SYS", hint: isEn ? "Platform updates" : "平台更新" },
-    Orders: { visual: "orders", code: "ORD", hint: isEn ? "Task activity" : "工单动态" },
-    Alerts: { visual: "alert", code: "ALT", hint: isEn ? "Risk signals" : "风险提醒" },
-    系统通知: { visual: "system", code: "SYS", hint: isEn ? "Platform updates" : "平台更新" },
-    工单通知: { visual: "orders", code: "ORD", hint: isEn ? "Task activity" : "工单动态" },
-    告警通知: { visual: "alert", code: "ALT", hint: isEn ? "Risk signals" : "风险提醒" },
-  };
-
-  return items.map((item) => ({
-    ...item,
-    ...(visualMap[item.categoryLabel] || visualMap[item.category] || {
-      visual: "system",
-      code: "MSG",
-      hint: isEn ? "Latest message" : "最新消息",
-    }),
-  }));
-}
-
 Page({
   data: {
     profile: null,
@@ -152,7 +129,6 @@ Page({
     summary: {},
     quickActions: [],
     knowledgeItems: [],
-    notifications: [],
     homePrefs: {},
     texts: {},
     locale: "zh",
@@ -181,7 +157,6 @@ Page({
       summary: services.getHomeSummary(profile),
       quickActions: buildQuickActions(profile.roleCode, locale),
       knowledgeItems: decorateDiscoverItems(services.getDiscoverContent(profile, "all"), locale),
-      notifications: decorateFeedItems(services.getNotifications(profile).slice(0, 2), locale),
       homePrefs: app.globalData.homePrefs || {},
     });
   },
@@ -211,10 +186,6 @@ Page({
       title: this.data.locale === "en" ? `${title}: coming soon` : `${title}：即将开放`,
       icon: "none",
     });
-  },
-
-  onFeedTap() {
-    wx.navigateTo({ url: "/subpackages/common/pages/notifications/index" });
   },
 
   openAIAsk() {
