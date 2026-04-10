@@ -192,6 +192,16 @@
                   <view class="queue-line queue-line-c"></view>
                 </view>
               </block>
+              <block wx:elif="{{item.visual === 'common'}}">
+                <view class="common-board">
+                  <view class="common-tile common-tile-a"></view>
+                  <view class="common-tile common-tile-b"></view>
+                  <view class="common-tile common-tile-c"></view>
+                  <view class="common-tile common-tile-d"></view>
+                  <view class="common-dot common-dot-a"></view>
+                  <view class="common-dot common-dot-b"></view>
+                </view>
+              </block>
               <block wx:elif="{{item.visual === 'create'}}">
                 <view class="create-card">
                   <view class="create-fold"></view>
@@ -217,71 +227,6 @@
                   <view class="matrix-label">{{locale === 'en' ? item.desc : item.label}}</view>
                 </view>
               </view>
-            </view>
-          </view>
-        </block>
-      </view>
-    </view>
-
-    <view class="section" wx:if="{{homePrefs.showKnowledge}}">
-      <view class="section-title">
-        <text>{{texts.kit}}</text>
-      </view>
-      <view class="knowledge-grid">
-        <block wx:for="{{knowledgeItems}}" wx:key="id">
-          <view class="knowledge-card knowledge-{{item.visual}}" data-title="{{item.title}}" bindtap="onKnowledgeTap">
-            <view class="knowledge-visual">
-              <block wx:if="{{item.visual === 'guide'}}">
-                <view class="guide-book guide-book-back"></view>
-                <view class="guide-book guide-book-front">
-                  <view class="guide-spine"></view>
-                  <view class="guide-line guide-line-a"></view>
-                  <view class="guide-line guide-line-b"></view>
-                  <view class="guide-line guide-line-c"></view>
-                </view>
-              </block>
-              <block wx:elif="{{item.visual === 'video'}}">
-                <view class="video-screen">
-                  <view class="video-play"></view>
-                  <view class="video-track video-track-a"></view>
-                  <view class="video-track video-track-b"></view>
-                </view>
-              </block>
-              <block wx:elif="{{item.visual === 'faq'}}">
-                <view class="faq-bubble faq-bubble-main">
-                  <view class="faq-mark"></view>
-                </view>
-                <view class="faq-bubble faq-bubble-sub"></view>
-                <view class="faq-dot faq-dot-a"></view>
-                <view class="faq-dot faq-dot-b"></view>
-              </block>
-              <block wx:elif="{{item.visual === 'case'}}">
-                <view class="case-document case-document-back"></view>
-                <view class="case-document case-document-front">
-                  <view class="case-fold"></view>
-                  <view class="case-line case-line-a"></view>
-                  <view class="case-line case-line-b"></view>
-                  <view class="case-line case-line-c"></view>
-                  <view class="case-badge"></view>
-                </view>
-              </block>
-              <block wx:elif="{{item.visual === 'tip'}}">
-                <view class="tip-lightbulb">
-                  <view class="tip-bulb"></view>
-                  <view class="tip-base"></view>
-                  <view class="tip-rays">
-                    <view class="tip-ray tip-ray-1"></view>
-                    <view class="tip-ray tip-ray-2"></view>
-                    <view class="tip-ray tip-ray-3"></view>
-                  </view>
-                </view>
-              </block>
-            </view>
-            <view class="knowledge-copy">
-              <view class="mini-code">{{item.code}}</view>
-              <view class="mini-title">{{item.title}}</view>
-              <view class="mini-desc">{{item.desc}}</view>
-              <view class="knowledge-link">{{texts.knowledgeHint}}</view>
             </view>
           </view>
         </block>

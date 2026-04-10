@@ -37,14 +37,27 @@ function buildQuickActions(roleCode, locale) {
   const common = [
     { key: "scan", title: "SCAN", desc: isEn ? "Device / Order" : "设备 / 工单", label: "扫码", action: "scan", visual: "scan" },
     { key: "devices", title: "DEVICE", desc: isEn ? "Status board" : "状态总览", label: "设备", action: "devices", visual: "device" },
-    { key: "notifications", title: "SIGNAL", desc: isEn ? "Message center" : "通知中心", label: "消息", action: "notifications", visual: "signal" },
   ];
+  const commonArea = {
+    key: "materials",
+    title: "COMMON",
+    desc: isEn ? "Common tools" : "常用功能区",
+    label: "发现",
+    action: "materials",
+    visual: "common",
+  };
 
   if (roleCode === "engineer") {
-    return common.concat([{ key: "pending", title: "QUEUE", desc: isEn ? "Priority first" : "优先处理", label: "工单", action: "pending", visual: "queue" }]);
+    return common.concat([
+      { key: "pending", title: "QUEUE", desc: isEn ? "Priority first" : "优先处理", label: "工单", action: "pending", visual: "queue" },
+      commonArea,
+    ]);
   }
 
-  return common.concat([{ key: "create", title: "NEW", desc: isEn ? "Create request" : "发起需求", label: "新建", action: "create", visual: "create" }]);
+  return common.concat([
+    { key: "create", title: "NEW", desc: isEn ? "Create request" : "发起需求", label: "新建", action: "create", visual: "create" },
+    commonArea,
+  ]);
 }
 
 function decorateKnowledgeItems(items, locale) {
@@ -178,6 +191,7 @@ Page({
     const mapping = {
       devices: () => wx.switchTab({ url: "/pages/devices/index" }),
       notifications: () => wx.navigateTo({ url: "/subpackages/common/pages/notifications/index" }),
+      materials: () => wx.navigateTo({ url: "/subpackages/common/pages/discover/index" }),
       pending: () => {
         wx.setStorageSync("workordersStatus", "pending");
         wx.switchTab({ url: "/pages/workorders/index" });

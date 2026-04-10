@@ -917,6 +917,10 @@
   background: linear-gradient(160deg, #f5f7ff 0%, #f8fbff 54%, #eefbf8 100%);
 }
 
+.matrix-common .matrix-scene {
+  background: linear-gradient(160deg, #eef7ff 0%, #f7fbff 48%, #eefbf7 100%);
+}
+
 .matrix-create .matrix-scene {
   background: linear-gradient(160deg, #eef7ff 0%, #f7fbff 52%, #ecfbf5 100%);
 }
@@ -1180,6 +1184,12 @@
   background:
     radial-gradient(circle at 72% 24%, rgba(96, 165, 250, 0.14), transparent 24%),
     radial-gradient(circle at 18% 84%, rgba(34, 197, 213, 0.12), transparent 20%);
+}
+
+.matrix-aura-common {
+  background:
+    radial-gradient(circle at 30% 22%, rgba(96, 165, 250, 0.16), transparent 24%),
+    radial-gradient(circle at 78% 72%, rgba(34, 197, 213, 0.12), transparent 22%);
 }
 
 .matrix-aura-create {
@@ -1587,6 +1597,86 @@
   top: 100rpx;
   left: 18rpx;
   right: 34rpx;
+}
+
+.common-board {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 126rpx;
+  height: 126rpx;
+  transform: translate(-50%, -60%);
+}
+
+.common-tile,
+.common-dot {
+  position: absolute;
+}
+
+.common-tile {
+  width: 52rpx;
+  height: 52rpx;
+  border-radius: 18rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.94), rgba(240, 248, 255, 0.9));
+  border: 1rpx solid rgba(191, 219, 254, 0.8);
+  box-shadow:
+    0 10rpx 18rpx rgba(15, 23, 42, 0.05),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.84);
+}
+
+.common-tile-a {
+  left: 0;
+  top: 0;
+}
+
+.common-tile-b {
+  right: 0;
+  top: 0;
+}
+
+.common-tile-c {
+  left: 0;
+  bottom: 0;
+}
+
+.common-tile-d {
+  right: 0;
+  bottom: 0;
+}
+
+.common-tile-a::before,
+.common-tile-b::before,
+.common-tile-c::before,
+.common-tile-d::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 20rpx;
+  height: 20rpx;
+  transform: translate(-50%, -50%);
+  border-radius: 8rpx;
+  background: linear-gradient(180deg, rgba(59, 130, 246, 0.84), rgba(34, 197, 213, 0.52));
+}
+
+.common-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: rgba(34, 197, 213, 0.9);
+  box-shadow: 0 0 0 6rpx rgba(34, 197, 213, 0.08);
+}
+
+.common-dot-a {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.common-dot-b {
+  right: 8rpx;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .create-card {
