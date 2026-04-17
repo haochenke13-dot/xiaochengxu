@@ -1,6 +1,267 @@
 /* 个人中心页UI优化 */
 
 /* 简约蓝色用户图标 */
+.hero-visual {
+  background:
+    radial-gradient(circle at 18% 22%, rgba(196, 181, 253, 0.22), transparent 28%),
+    radial-gradient(circle at 78% 74%, rgba(96, 165, 250, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(245, 243, 255, 0.74));
+  border: 1rpx solid rgba(221, 214, 254, 0.86);
+  box-shadow:
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.86),
+    0 10rpx 20rpx rgba(124, 58, 237, 0.06);
+}
+
+.hero-scene-grid,
+.hero-scene-glow,
+.profile-link,
+.profile-node,
+.profile-id-card,
+.profile-id-topbar,
+.profile-avatar-shell,
+.profile-avatar-ring,
+.profile-avatar-head,
+.profile-avatar-body,
+.profile-card-line,
+.profile-card-chip,
+.profile-badge,
+.profile-badge-core {
+  position: absolute;
+}
+
+.hero-scene-grid {
+  opacity: 0.44;
+}
+
+.hero-scene-grid-h {
+  left: 18rpx;
+  right: 18rpx;
+  top: 22rpx;
+  bottom: 22rpx;
+  background: linear-gradient(rgba(167, 139, 250, 0.08) 2rpx, transparent 2rpx);
+  background-size: 100% 28rpx;
+}
+
+.hero-scene-grid-v {
+  left: 28rpx;
+  right: 28rpx;
+  top: 18rpx;
+  bottom: 18rpx;
+  background: linear-gradient(90deg, rgba(96, 165, 250, 0.08) 2rpx, transparent 2rpx);
+  background-size: 28rpx 100%;
+}
+
+.hero-scene-glow {
+  border-radius: 50%;
+}
+
+.profile-scene-glow-a {
+  width: 116rpx;
+  height: 116rpx;
+  left: 6rpx;
+  top: 10rpx;
+  background: radial-gradient(circle, rgba(196, 181, 253, 0.2), transparent 72%);
+}
+
+.profile-scene-glow-b {
+  width: 136rpx;
+  height: 136rpx;
+  right: 0;
+  bottom: -6rpx;
+  background: radial-gradient(circle, rgba(96, 165, 250, 0.18), transparent 72%);
+}
+
+.profile-link {
+  height: 4rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(196, 181, 253, 0.08), rgba(129, 140, 248, 0.54), rgba(96, 165, 250, 0.08));
+}
+
+.profile-link-a {
+  left: 22rpx;
+  top: 48rpx;
+  width: 70rpx;
+  transform: rotate(-22deg);
+}
+
+.profile-link-b {
+  right: 22rpx;
+  top: 50rpx;
+  width: 66rpx;
+  transform: rotate(22deg);
+}
+
+.profile-link-c {
+  right: 28rpx;
+  bottom: 44rpx;
+  width: 56rpx;
+  transform: rotate(-18deg);
+}
+
+.profile-node {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.92), rgba(96, 165, 250, 0.76));
+  box-shadow: 0 0 0 6rpx rgba(196, 181, 253, 0.14);
+}
+
+.profile-node-a {
+  left: 18rpx;
+  top: 34rpx;
+}
+
+.profile-node-b {
+  right: 18rpx;
+  top: 36rpx;
+}
+
+.profile-node-c {
+  right: 22rpx;
+  bottom: 28rpx;
+}
+
+.profile-id-card {
+  left: 50%;
+  top: 50%;
+  width: 130rpx;
+  height: 148rpx;
+  transform: translate(-50%, -56%);
+  border-radius: 28rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 243, 255, 0.92));
+  border: 1rpx solid rgba(196, 181, 253, 0.82);
+  box-shadow:
+    0 16rpx 28rpx rgba(124, 58, 237, 0.12),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.92);
+  z-index: 3;
+}
+
+.profile-id-topbar {
+  left: 16rpx;
+  right: 16rpx;
+  top: 16rpx;
+  height: 12rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.86), rgba(96, 165, 250, 0.72));
+}
+
+.profile-avatar-shell {
+  left: 50%;
+  top: 62rpx;
+  width: 64rpx;
+  height: 64rpx;
+  transform: translateX(-50%);
+}
+
+.profile-avatar-ring {
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(circle at 50% 32%, rgba(255, 255, 255, 0.94), rgba(224, 231, 255, 0.72) 54%, rgba(196, 181, 253, 0.42) 100%);
+  box-shadow: 0 0 0 6rpx rgba(196, 181, 253, 0.12);
+}
+
+.profile-avatar-head {
+  left: 50%;
+  top: 20rpx;
+  width: 20rpx;
+  height: 20rpx;
+  transform: translateX(-50%);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.98);
+  box-shadow: 0 3rpx 8rpx rgba(96, 165, 250, 0.12);
+  z-index: 2;
+}
+
+.profile-avatar-body {
+  left: 50%;
+  bottom: 12rpx;
+  width: 34rpx;
+  height: 24rpx;
+  transform: translateX(-50%);
+  border-radius: 18rpx 18rpx 10rpx 10rpx;
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 3rpx 8rpx rgba(124, 58, 237, 0.1);
+  z-index: 2;
+}
+
+.profile-card-line {
+  left: 20rpx;
+  height: 6rpx;
+  border-radius: 999rpx;
+}
+
+.profile-card-line-a {
+  right: 20rpx;
+  top: 104rpx;
+  background: rgba(129, 140, 248, 0.34);
+}
+
+.profile-card-line-b {
+  right: 44rpx;
+  top: 118rpx;
+  background: rgba(167, 139, 250, 0.28);
+}
+
+.profile-card-line-c {
+  right: 30rpx;
+  top: 132rpx;
+  background: rgba(96, 165, 250, 0.22);
+}
+
+.profile-card-chip {
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 8rpx;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1rpx solid rgba(196, 181, 253, 0.76);
+}
+
+.profile-card-chip-a {
+  left: 18rpx;
+  top: 44rpx;
+}
+
+.profile-card-chip-b {
+  right: 18rpx;
+  top: 44rpx;
+  background: rgba(239, 246, 255, 0.9);
+}
+
+.profile-badge {
+  border-radius: 50%;
+}
+
+.profile-badge-a {
+  left: 24rpx;
+  bottom: 24rpx;
+  width: 32rpx;
+  height: 32rpx;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1rpx solid rgba(221, 214, 254, 0.84);
+  box-shadow: 0 8rpx 14rpx rgba(96, 165, 250, 0.08);
+}
+
+.profile-badge-b {
+  right: 34rpx;
+  top: 26rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1rpx solid rgba(191, 219, 254, 0.84);
+  box-shadow: 0 10rpx 16rpx rgba(124, 58, 237, 0.08);
+}
+
+.profile-badge-core {
+  left: 50%;
+  top: 50%;
+  width: 16rpx;
+  height: 16rpx;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.86), rgba(96, 165, 250, 0.76));
+  box-shadow: 0 0 0 5rpx rgba(196, 181, 253, 0.14);
+}
+
 .user-icon {
   position: absolute;
   left: 50%;

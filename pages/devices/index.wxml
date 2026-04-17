@@ -21,12 +21,46 @@
           </view>
         </view>
         <view class="hero-visual">
-          <view class="device-icon">
-            <view class="device-body"></view>
-            <view class="device-screen-simple"></view>
-            <view class="device-base"></view>
-            <view class="device-light device-light-a"></view>
-            <view class="device-light device-light-b"></view>
+          <view class="hero-scene-grid hero-scene-grid-h"></view>
+          <view class="hero-scene-grid hero-scene-grid-v"></view>
+          <view class="hero-scene-glow device-scene-glow-a"></view>
+          <view class="hero-scene-glow device-scene-glow-b"></view>
+          <view class="device-signal-ring device-signal-ring-a"></view>
+          <view class="device-signal-ring device-signal-ring-b"></view>
+          <view class="device-hub-panel device-hub-panel-a">
+            <view class="device-hub-panel-dot"></view>
+            <view class="device-hub-panel-line"></view>
+            <view class="device-hub-panel-line device-hub-panel-line-short"></view>
+          </view>
+          <view class="device-hub-panel device-hub-panel-b">
+            <view class="device-hub-panel-chip"></view>
+            <view class="device-hub-panel-bars">
+              <view></view>
+              <view></view>
+              <view></view>
+            </view>
+          </view>
+          <view class="device-hub-shell">
+            <view class="device-hub-antenna"></view>
+            <view class="device-hub-head">
+              <view class="device-hub-lens"></view>
+              <view class="device-hub-light device-hub-light-a"></view>
+              <view class="device-hub-light device-hub-light-b"></view>
+            </view>
+            <view class="device-hub-screen">
+              <view class="device-hub-grid device-hub-grid-a"></view>
+              <view class="device-hub-grid device-hub-grid-b"></view>
+              <view class="device-hub-bar device-hub-bar-a"></view>
+              <view class="device-hub-bar device-hub-bar-b"></view>
+              <view class="device-hub-bar device-hub-bar-c"></view>
+              <view class="device-hub-pulse"></view>
+            </view>
+            <view class="device-hub-base"></view>
+            <view class="device-hub-metrics">
+              <view></view>
+              <view></view>
+              <view></view>
+            </view>
           </view>
         </view>
       </view>

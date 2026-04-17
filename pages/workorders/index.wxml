@@ -17,15 +17,41 @@
           </view>
         </view>
         <view class="hero-visual">
-          <view class="queue-stack queue-back"></view>
-          <view class="queue-stack queue-mid"></view>
-          <view class="queue-sheet">
-            <view class="queue-sheet-top"></view>
-            <view class="queue-bullet"></view>
-            <view class="queue-line queue-line-a"></view>
-            <view class="queue-line queue-line-b"></view>
-            <view class="queue-line queue-line-c"></view>
+          <view class="hero-scene-grid hero-scene-grid-h"></view>
+          <view class="hero-scene-grid hero-scene-grid-v"></view>
+          <view class="hero-scene-glow workorder-scene-glow-a"></view>
+          <view class="hero-scene-glow workorder-scene-glow-b"></view>
+          <view class="workorder-flow-card workorder-flow-card-back"></view>
+          <view class="workorder-flow-card workorder-flow-card-mid"></view>
+          <view class="workorder-flow-card workorder-flow-card-front">
+            <view class="workorder-flow-topbar"></view>
+            <view class="workorder-flow-status"></view>
+            <view class="workorder-flow-step workorder-flow-step-a">
+              <view class="workorder-flow-node"></view>
+              <view class="workorder-flow-line"></view>
+              <view class="workorder-flow-chip"></view>
+            </view>
+            <view class="workorder-flow-step workorder-flow-step-b">
+              <view class="workorder-flow-node workorder-flow-node-soft"></view>
+              <view class="workorder-flow-line workorder-flow-line-short"></view>
+              <view class="workorder-flow-chip workorder-flow-chip-wide"></view>
+            </view>
+            <view class="workorder-flow-step workorder-flow-step-c">
+              <view class="workorder-flow-dot"></view>
+              <view class="workorder-flow-chip workorder-flow-chip-mid"></view>
+              <view class="workorder-flow-chip workorder-flow-chip-short"></view>
+            </view>
           </view>
+          <view class="workorder-float workorder-float-a">
+            <view class="workorder-float-core"></view>
+          </view>
+          <view class="workorder-float workorder-float-b"></view>
+          <view class="workorder-float-pill workorder-float-pill-a"></view>
+          <view class="workorder-float-pill workorder-float-pill-b"></view>
+          <view class="workorder-curve workorder-curve-a"></view>
+          <view class="workorder-curve workorder-curve-b"></view>
+          <view class="workorder-curve-dot workorder-curve-dot-a"></view>
+          <view class="workorder-curve-dot workorder-curve-dot-b"></view>
         </view>
       </view>
       <view class="workorders-actions">

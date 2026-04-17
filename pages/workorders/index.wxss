@@ -1,6 +1,299 @@
 /* 工单列表页UI优化 */
 
 /* 工单队列图案（与首页一致） */
+.hero-visual {
+  background:
+    radial-gradient(circle at 18% 24%, rgba(196, 181, 253, 0.24), transparent 28%),
+    radial-gradient(circle at 78% 74%, rgba(129, 140, 248, 0.16), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(248, 243, 255, 0.72));
+  border: 1rpx solid rgba(221, 214, 254, 0.88);
+  box-shadow:
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.84),
+    0 10rpx 20rpx rgba(139, 92, 246, 0.06);
+}
+
+.hero-scene-grid,
+.hero-scene-glow,
+.workorder-flow-card,
+.workorder-flow-topbar,
+.workorder-flow-status,
+.workorder-flow-step,
+.workorder-flow-node,
+.workorder-flow-line,
+.workorder-flow-chip,
+.workorder-flow-dot,
+.workorder-float,
+.workorder-float-core,
+.workorder-float-pill,
+.workorder-curve,
+.workorder-curve-dot {
+  position: absolute;
+}
+
+.hero-scene-grid {
+  opacity: 0.46;
+}
+
+.hero-scene-grid-h {
+  left: 18rpx;
+  right: 18rpx;
+  top: 24rpx;
+  bottom: 24rpx;
+  background: linear-gradient(rgba(139, 92, 246, 0.08) 2rpx, transparent 2rpx);
+  background-size: 100% 28rpx;
+}
+
+.hero-scene-grid-v {
+  left: 28rpx;
+  right: 28rpx;
+  top: 18rpx;
+  bottom: 18rpx;
+  background: linear-gradient(90deg, rgba(129, 140, 248, 0.08) 2rpx, transparent 2rpx);
+  background-size: 28rpx 100%;
+}
+
+.hero-scene-glow {
+  border-radius: 50%;
+}
+
+.workorder-scene-glow-a {
+  width: 104rpx;
+  height: 104rpx;
+  left: 16rpx;
+  top: 16rpx;
+  background: radial-gradient(circle, rgba(196, 181, 253, 0.22), transparent 70%);
+}
+
+.workorder-scene-glow-b {
+  width: 136rpx;
+  height: 136rpx;
+  right: 4rpx;
+  bottom: 0;
+  background: radial-gradient(circle, rgba(129, 140, 248, 0.18), transparent 72%);
+}
+
+.workorder-flow-card {
+  border-radius: 24rpx;
+}
+
+.workorder-flow-card-back {
+  left: 58rpx;
+  top: 38rpx;
+  width: 116rpx;
+  height: 130rpx;
+  background: rgba(196, 181, 253, 0.18);
+  border: 1rpx solid rgba(221, 214, 254, 0.6);
+  transform: rotate(-11deg);
+}
+
+.workorder-flow-card-mid {
+  left: 74rpx;
+  top: 28rpx;
+  width: 122rpx;
+  height: 138rpx;
+  background: rgba(224, 231, 255, 0.28);
+  border: 1rpx solid rgba(199, 210, 254, 0.68);
+  transform: rotate(-4deg);
+}
+
+.workorder-flow-card-front {
+  left: 50%;
+  top: 50%;
+  width: 128rpx;
+  height: 148rpx;
+  transform: translate(-50%, -56%);
+  border-radius: 28rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.98), rgba(245, 243, 255, 0.94));
+  border: 1rpx solid rgba(196, 181, 253, 0.82);
+  box-shadow:
+    0 14rpx 24rpx rgba(139, 92, 246, 0.12),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.9);
+  z-index: 3;
+}
+
+.workorder-flow-topbar {
+  left: 16rpx;
+  right: 42rpx;
+  top: 16rpx;
+  height: 12rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(124, 58, 237, 0.88), rgba(129, 140, 248, 0.7));
+}
+
+.workorder-flow-status {
+  right: 16rpx;
+  top: 14rpx;
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(167, 139, 250, 0.94), rgba(124, 58, 237, 0.82));
+  box-shadow: 0 0 0 6rpx rgba(167, 139, 250, 0.14);
+}
+
+.workorder-flow-step {
+  left: 16rpx;
+  right: 16rpx;
+  display: flex;
+  align-items: center;
+  gap: 10rpx;
+}
+
+.workorder-flow-step-a {
+  top: 46rpx;
+}
+
+.workorder-flow-step-b {
+  top: 78rpx;
+}
+
+.workorder-flow-step-c {
+  top: 112rpx;
+  gap: 8rpx;
+}
+
+.workorder-flow-node {
+  width: 16rpx;
+  height: 16rpx;
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.92), rgba(129, 140, 248, 0.76));
+  box-shadow: 0 0 0 6rpx rgba(196, 181, 253, 0.16);
+  flex-shrink: 0;
+}
+
+.workorder-flow-node-soft {
+  background: linear-gradient(180deg, rgba(167, 139, 250, 0.72), rgba(196, 181, 253, 0.64));
+}
+
+.workorder-flow-line {
+  flex: 1;
+  height: 4rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(196, 181, 253, 0.18), rgba(129, 140, 248, 0.66));
+}
+
+.workorder-flow-line-short {
+  max-width: 26rpx;
+}
+
+.workorder-flow-chip {
+  width: 34rpx;
+  height: 10rpx;
+  border-radius: 999rpx;
+  background: rgba(129, 140, 248, 0.28);
+  flex-shrink: 0;
+}
+
+.workorder-flow-chip-wide {
+  width: 40rpx;
+}
+
+.workorder-flow-chip-mid {
+  width: 40rpx;
+}
+
+.workorder-flow-chip-short {
+  width: 22rpx;
+  background: rgba(167, 139, 250, 0.24);
+}
+
+.workorder-flow-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: rgba(124, 58, 237, 0.7);
+  box-shadow: 0 0 0 4rpx rgba(196, 181, 253, 0.16);
+  flex-shrink: 0;
+}
+
+.workorder-float {
+  border-radius: 50%;
+}
+
+.workorder-float-a {
+  left: 28rpx;
+  bottom: 28rpx;
+  width: 40rpx;
+  height: 40rpx;
+  background: rgba(255, 255, 255, 0.84);
+  border: 1rpx solid rgba(221, 214, 254, 0.92);
+  box-shadow: 0 8rpx 14rpx rgba(129, 140, 248, 0.1);
+}
+
+.workorder-float-core {
+  left: 50%;
+  top: 50%;
+  width: 16rpx;
+  height: 16rpx;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: linear-gradient(180deg, rgba(124, 58, 237, 0.88), rgba(167, 139, 250, 0.76));
+}
+
+.workorder-float-b {
+  right: 30rpx;
+  top: 34rpx;
+  width: 18rpx;
+  height: 18rpx;
+  background: rgba(255, 255, 255, 0.86);
+  border: 1rpx solid rgba(196, 181, 253, 0.84);
+}
+
+.workorder-float-pill {
+  height: 10rpx;
+  border-radius: 999rpx;
+  background: rgba(196, 181, 253, 0.34);
+}
+
+.workorder-float-pill-a {
+  left: 22rpx;
+  top: 40rpx;
+  width: 42rpx;
+}
+
+.workorder-float-pill-b {
+  right: 20rpx;
+  bottom: 26rpx;
+  width: 36rpx;
+  background: rgba(129, 140, 248, 0.28);
+}
+
+.workorder-curve {
+  height: 4rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(196, 181, 253, 0.08), rgba(129, 140, 248, 0.52), rgba(196, 181, 253, 0.08));
+}
+
+.workorder-curve-a {
+  left: 34rpx;
+  top: 58rpx;
+  width: 60rpx;
+  transform: rotate(-26deg);
+}
+
+.workorder-curve-b {
+  right: 22rpx;
+  bottom: 52rpx;
+  width: 68rpx;
+  transform: rotate(26deg);
+}
+
+.workorder-curve-dot {
+  width: 8rpx;
+  height: 8rpx;
+  border-radius: 50%;
+  background: rgba(129, 140, 248, 0.74);
+}
+
+.workorder-curve-dot-a {
+  left: 80rpx;
+  top: 42rpx;
+}
+
+.workorder-curve-dot-b {
+  right: 72rpx;
+  bottom: 34rpx;
+}
+
 .queue-stack {
   position: absolute;
   left: 50%;

@@ -1,6 +1,323 @@
 /* 设备列表页UI优化 */
 
 /* 简约蓝色设备图标 */
+.hero-visual {
+  background:
+    radial-gradient(circle at 22% 22%, rgba(110, 231, 183, 0.22), transparent 28%),
+    radial-gradient(circle at 78% 72%, rgba(56, 189, 248, 0.18), transparent 24%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.82), rgba(236, 253, 245, 0.74));
+  border: 1rpx solid rgba(167, 243, 208, 0.84);
+  box-shadow:
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.84),
+    0 10rpx 20rpx rgba(16, 185, 129, 0.06);
+}
+
+.hero-scene-grid,
+.hero-scene-glow,
+.device-signal-ring,
+.device-hub-panel,
+.device-hub-panel-dot,
+.device-hub-panel-line,
+.device-hub-panel-chip,
+.device-hub-shell,
+.device-hub-antenna,
+.device-hub-head,
+.device-hub-lens,
+.device-hub-light,
+.device-hub-screen,
+.device-hub-grid,
+.device-hub-bar,
+.device-hub-pulse,
+.device-hub-base,
+.device-hub-metrics {
+  position: absolute;
+}
+
+.hero-scene-grid {
+  opacity: 0.44;
+}
+
+.hero-scene-grid-h {
+  left: 18rpx;
+  right: 18rpx;
+  top: 22rpx;
+  bottom: 22rpx;
+  background: linear-gradient(rgba(20, 184, 166, 0.08) 2rpx, transparent 2rpx);
+  background-size: 100% 28rpx;
+}
+
+.hero-scene-grid-v {
+  left: 28rpx;
+  right: 28rpx;
+  top: 18rpx;
+  bottom: 18rpx;
+  background: linear-gradient(90deg, rgba(14, 165, 233, 0.08) 2rpx, transparent 2rpx);
+  background-size: 28rpx 100%;
+}
+
+.hero-scene-glow {
+  border-radius: 50%;
+}
+
+.device-scene-glow-a {
+  width: 122rpx;
+  height: 122rpx;
+  left: 8rpx;
+  top: 8rpx;
+  background: radial-gradient(circle, rgba(110, 231, 183, 0.2), transparent 72%);
+}
+
+.device-scene-glow-b {
+  width: 144rpx;
+  height: 144rpx;
+  right: 0;
+  bottom: -6rpx;
+  background: radial-gradient(circle, rgba(56, 189, 248, 0.18), transparent 72%);
+}
+
+.device-signal-ring {
+  left: 50%;
+  top: 48%;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.device-signal-ring-a {
+  width: 122rpx;
+  height: 122rpx;
+  border: 3rpx solid rgba(56, 189, 248, 0.2);
+}
+
+.device-signal-ring-b {
+  width: 158rpx;
+  height: 158rpx;
+  border: 2rpx dashed rgba(45, 212, 191, 0.18);
+}
+
+.device-hub-panel {
+  width: 64rpx;
+  height: 48rpx;
+  border-radius: 18rpx;
+  background: rgba(255, 255, 255, 0.74);
+  border: 1rpx solid rgba(186, 230, 253, 0.82);
+  box-shadow:
+    0 10rpx 18rpx rgba(15, 23, 42, 0.05),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.86);
+}
+
+.device-hub-panel-a {
+  left: 22rpx;
+  top: 26rpx;
+}
+
+.device-hub-panel-b {
+  right: 18rpx;
+  bottom: 20rpx;
+}
+
+.device-hub-panel-dot {
+  left: 12rpx;
+  top: 14rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.92), rgba(6, 182, 212, 0.82));
+  box-shadow: 0 0 0 4rpx rgba(110, 231, 183, 0.14);
+}
+
+.device-hub-panel-line {
+  left: 32rpx;
+  right: 12rpx;
+  top: 16rpx;
+  height: 5rpx;
+  border-radius: 999rpx;
+  background: rgba(56, 189, 248, 0.32);
+}
+
+.device-hub-panel-line-short {
+  top: 28rpx;
+  right: 22rpx;
+  background: rgba(20, 184, 166, 0.3);
+}
+
+.device-hub-panel-chip {
+  left: 12rpx;
+  top: 12rpx;
+  width: 18rpx;
+  height: 18rpx;
+  border-radius: 6rpx;
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.88), rgba(20, 184, 166, 0.72));
+}
+
+.device-hub-panel-bars {
+  position: absolute;
+  right: 12rpx;
+  bottom: 12rpx;
+  display: flex;
+  align-items: flex-end;
+  gap: 5rpx;
+}
+
+.device-hub-panel-bars view {
+  width: 7rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.88), rgba(16, 185, 129, 0.52));
+}
+
+.device-hub-panel-bars view:nth-child(1) {
+  height: 12rpx;
+}
+
+.device-hub-panel-bars view:nth-child(2) {
+  height: 18rpx;
+}
+
+.device-hub-panel-bars view:nth-child(3) {
+  height: 24rpx;
+}
+
+.device-hub-shell {
+  left: 50%;
+  top: 50%;
+  width: 124rpx;
+  height: 142rpx;
+  transform: translate(-50%, -58%);
+  border-radius: 30rpx;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.96), rgba(237, 252, 247, 0.92));
+  border: 1rpx solid rgba(186, 230, 253, 0.88);
+  box-shadow:
+    0 16rpx 26rpx rgba(14, 165, 233, 0.12),
+    inset 0 1rpx 0 rgba(255, 255, 255, 0.88);
+  z-index: 3;
+}
+
+.device-hub-antenna {
+  left: 50%;
+  top: -14rpx;
+  width: 6rpx;
+  height: 22rpx;
+  transform: translateX(-50%);
+  border-radius: 999rpx;
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.88), rgba(20, 184, 166, 0.6));
+}
+
+.device-hub-head {
+  left: 20rpx;
+  right: 20rpx;
+  top: 16rpx;
+  height: 28rpx;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.device-hub-lens {
+  width: 28rpx;
+  height: 28rpx;
+  border-radius: 50%;
+  background: radial-gradient(circle at 40% 38%, rgba(255, 255, 255, 0.94), rgba(186, 230, 253, 0.72) 40%, rgba(14, 165, 233, 0.7) 72%, rgba(8, 47, 73, 0.78) 100%);
+  box-shadow: 0 0 0 6rpx rgba(56, 189, 248, 0.08);
+}
+
+.device-hub-light {
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: rgba(167, 243, 208, 0.9);
+}
+
+.device-hub-light-a {
+  box-shadow: 0 0 0 4rpx rgba(16, 185, 129, 0.08);
+}
+
+.device-hub-light-b {
+  background: rgba(125, 211, 252, 0.92);
+  box-shadow: 0 0 0 4rpx rgba(14, 165, 233, 0.08);
+}
+
+.device-hub-screen {
+  left: 16rpx;
+  right: 16rpx;
+  top: 52rpx;
+  height: 56rpx;
+  border-radius: 16rpx;
+  background: linear-gradient(180deg, rgba(240, 253, 250, 0.98), rgba(224, 242, 254, 0.96));
+  border: 1rpx solid rgba(167, 243, 208, 0.82);
+  overflow: hidden;
+}
+
+.device-hub-grid {
+  left: 12rpx;
+  right: 12rpx;
+  height: 2rpx;
+  background: rgba(148, 163, 184, 0.16);
+}
+
+.device-hub-grid-a {
+  top: 16rpx;
+}
+
+.device-hub-grid-b {
+  bottom: 14rpx;
+}
+
+.device-hub-bar {
+  bottom: 10rpx;
+  width: 10rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(180deg, rgba(14, 165, 233, 0.84), rgba(16, 185, 129, 0.5));
+}
+
+.device-hub-bar-a {
+  left: 18rpx;
+  height: 18rpx;
+}
+
+.device-hub-bar-b {
+  left: 34rpx;
+  height: 28rpx;
+}
+
+.device-hub-bar-c {
+  left: 50rpx;
+  height: 38rpx;
+}
+
+.device-hub-pulse {
+  right: 14rpx;
+  top: 14rpx;
+  width: 12rpx;
+  height: 12rpx;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.94);
+  box-shadow: 0 0 0 6rpx rgba(16, 185, 129, 0.08);
+}
+
+.device-hub-base {
+  left: 50%;
+  bottom: 22rpx;
+  width: 22rpx;
+  height: 14rpx;
+  transform: translateX(-50%);
+  border-radius: 0 0 10rpx 10rpx;
+  background: linear-gradient(180deg, rgba(186, 230, 253, 0.9), rgba(148, 163, 184, 0.64));
+}
+
+.device-hub-metrics {
+  left: 24rpx;
+  right: 24rpx;
+  bottom: 6rpx;
+  display: flex;
+  gap: 8rpx;
+}
+
+.device-hub-metrics view {
+  flex: 1;
+  height: 8rpx;
+  border-radius: 999rpx;
+  background: linear-gradient(90deg, rgba(14, 165, 233, 0.72), rgba(16, 185, 129, 0.44));
+}
+
 .device-icon {
   position: absolute;
   left: 50%;

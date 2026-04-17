@@ -7,11 +7,32 @@
           <view class="hero-desc">{{roleMeta.name}} · {{profile.employeeNo}}</view>
         </view>
         <view class="hero-visual">
-          <view class="user-icon">
-            <view class="user-circle"></view>
-            <view class="user-head-simple"></view>
-            <view class="user-body-simple"></view>
-            <view class="user-glow"></view>
+          <view class="hero-scene-grid hero-scene-grid-h"></view>
+          <view class="hero-scene-grid hero-scene-grid-v"></view>
+          <view class="hero-scene-glow profile-scene-glow-a"></view>
+          <view class="hero-scene-glow profile-scene-glow-b"></view>
+          <view class="profile-link profile-link-a"></view>
+          <view class="profile-link profile-link-b"></view>
+          <view class="profile-link profile-link-c"></view>
+          <view class="profile-node profile-node-a"></view>
+          <view class="profile-node profile-node-b"></view>
+          <view class="profile-node profile-node-c"></view>
+          <view class="profile-id-card">
+            <view class="profile-id-topbar"></view>
+            <view class="profile-avatar-shell">
+              <view class="profile-avatar-ring"></view>
+              <view class="profile-avatar-head"></view>
+              <view class="profile-avatar-body"></view>
+            </view>
+            <view class="profile-card-line profile-card-line-a"></view>
+            <view class="profile-card-line profile-card-line-b"></view>
+            <view class="profile-card-line profile-card-line-c"></view>
+            <view class="profile-card-chip profile-card-chip-a"></view>
+            <view class="profile-card-chip profile-card-chip-b"></view>
+          </view>
+          <view class="profile-badge profile-badge-a"></view>
+          <view class="profile-badge profile-badge-b">
+            <view class="profile-badge-core"></view>
           </view>
         </view>
       </view>
