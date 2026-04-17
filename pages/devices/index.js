@@ -121,8 +121,13 @@ Page({
   },
 
   openDetail(event) {
+    const id = event.currentTarget.dataset.id;
+    console.log('=== 打开设备详情 ===');
+    console.log('传递的ID:', id);
+    console.log('ID类型:', typeof id);
+    console.log('完整的item:', event.currentTarget.dataset);
     wx.navigateTo({
-      url: `/subpackages/device/pages/detail/index?id=${event.currentTarget.dataset.id}`,
+      url: `/subpackages/device/pages/detail/index?id=${id}`,
     });
   },
 });

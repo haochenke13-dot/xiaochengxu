@@ -69,7 +69,7 @@
                 <image
                   wx:if="{{!imageErrors[item.imageId]}}"
                   class="part-image"
-                  src="/assets/parts/{{item.materialId}}.png"
+                  src="{{imageUrls.parts[item.materialId] || '/assets/parts/' + item.materialId + '.png'}}"
                   mode="aspectFit"
                   binderror="onImageError"
                   data-imageid="{{item.imageId}}">

@@ -10,7 +10,27 @@
     <view class="status-text">正在测试: {{currentAccount.username}} / {{currentAccount.password}}</view>
   </view>
 
-  <!-- 常用测试账号 -->
+  <!-- 真实测试账号 -->
+  <view class="section">
+    <view class="section-title">✅ 真实测试账号（已验证）</view>
+    <view class="account-grid">
+      <button
+        class="account-btn real-account-btn"
+        data-username="admin"
+        data-password="admin123"
+        bindtap="testAccount"
+        disabled="{{isTesting}}"
+      >
+        <view class="account-info">
+          <view class="account-username">admin</view>
+          <view class="account-password">admin123</view>
+          <view class="account-badge">✅ 有效</view>
+        </view>
+      </button>
+    </view>
+  </view>
+
+  <!-- 基础测试账号 -->
   <view class="section">
     <view class="section-title">基础测试账号（无OAuth凭据）</view>
     <view class="account-grid">
@@ -79,7 +99,7 @@
       <view
         class="result-item {{item.success ? 'success' : 'failed'}}"
         wx:for="{{testResults}}"
-        wx:key="account.username"
+        wx:key="index"
       >
         <view class="result-header">
           <view class="result-account">

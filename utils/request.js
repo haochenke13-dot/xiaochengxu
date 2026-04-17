@@ -83,26 +83,39 @@ function request(options) {
         } else if (res.statusCode === 401) {
           // Token 过期或无效
           handleUnauthorized();
-          reject(new Error('登录已过期，请重新登录'));
+          const error = new Error('登录已过期，请重新登录');
+          error.response = { status: res.statusCode, data: res.data };
+          reject(error);
         } else if (res.statusCode === 403) {
-          reject(new Error('没有权限访问'));
+          const error = new Error('没有权限访问');
+          error.response = { status: res.statusCode, data: res.data };
+          reject(error);
         } else if (res.statusCode === 404) {
-          reject(new Error('请求的资源不存在'));
+          const error = new Error('请求的资源不存在');
+          error.response = { status: res.statusCode, data: res.data };
+          reject(error);
         } else if (res.statusCode >= 500) {
-          reject(new Error('服务器错误，请稍后重试'));
+          const error = new Error('服务器错误，请稍后重试');
+          error.response = { status: res.statusCode, data: res.data };
+          reject(error);
         } else {
-          reject(new Error(res.data?.detail || '请求失败'));
+          const error = new Error(res.data?.detail || '请求失败');
+          error.response = { status: res.statusCode, data: res.data };
+          reject(error);
         }
       },
       fail: (err) => {
         console.error('API 请求失败:', err);
+        let error;
         if (err.errMsg?.includes('timeout')) {
-          reject(new Error('请求超时，请检查网络连接'));
+          error = new Error('请求超时，请检查网络连接');
         } else if (err.errMsg?.includes('fail')) {
-          reject(new Error('网络连接失败，请检查网络设置'));
+          error = new Error('网络连接失败，请检查网络设置');
         } else {
-          reject(new Error('请求失败：' + (err.errMsg || '未知错误')));
+          error = new Error('请求失败：' + (err.errMsg || '未知错误'));
         }
+        error.response = { status: null, data: null };
+        reject(error);
       }
     });
   });

@@ -54,8 +54,22 @@ Page({
   },
 
   openDetail(event) {
+    const id = event.currentTarget.dataset.id;
+    console.log('=== 打开工单详情 ===');
+    console.log('传递的ID:', id);
+    console.log('ID类型:', typeof id);
+    console.log('完整的dataset:', event.currentTarget.dataset);
+    console.log('dataset的所有字段:', Object.keys(event.currentTarget.dataset));
+
+    // 检查是否是从循环中获取的数据
+    const index = event.currentTarget.dataset.index;
+    const item = this.data.orders[index];
+    console.log('从orders数组中获取的item:', item);
+    console.log('item的workOrderNum:', item?.workOrderNum);
+    console.log('item的workOrderId:', item?.workOrderId);
+
     wx.navigateTo({
-      url: `/subpackages/workorder/pages/detail/index?id=${event.currentTarget.dataset.id}`,
+      url: `/subpackages/workorder/pages/detail/index?id=${id}`,
     });
   },
 

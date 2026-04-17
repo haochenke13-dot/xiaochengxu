@@ -86,7 +86,7 @@
     <view class="section">
       <view class="list" wx:if="{{devices.length}}">
         <block wx:for="{{devices}}" wx:key="deviceId">
-          <view class="card device-card" data-id="{{item.deviceId}}" bindtap="openDetail">
+          <view class="card device-card" data-id="{{item.deviceNum || item.deviceId}}" data-index="{{index}}" bindtap="openDetail">
             <view class="row-between">
               <view class="art-row device-title-wrap">
                 <view class="art-pill art-pill-ring"></view>

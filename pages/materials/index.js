@@ -2,6 +2,7 @@ const services = require("../../utils/services");
 const { getLocale, getPageTexts } = require("../../utils/i18n");
 const imageUrlsConfig = require("../../utils/image-urls");
 const cart = require("../../utils/cart");
+const mock = require("../../utils/mock");
 
 Page({
   data: {
@@ -27,8 +28,73 @@ Page({
     const seriesList = await services.getMaterialSeries();
     const categories = await services.getMaterialCategories();
     const defaultSeries = "venus";
-    const modelsList = await services.getMaterialModels(defaultSeries);
-    const defaultModel = "venus100";
+
+    // 找到默认系列的数字ID
+    const defaultSeriesObj = seriesList.find(s => s.id === defaultSeries);
+    const defaultSeriesNum = defaultSeriesObj?.seriesNum;
+
+    console.log('=== onLoad ===');
+    console.log('默认系列:', defaultSeries, '数字ID:', defaultSeriesNum);
+    console.log('seriesList:', seriesList);
+
+    // 如果找不到数字ID，使用mock数据
+    if (!defaultSeriesNum) {
+      console.log('找不到默认系列的数字ID，使用mock数据');
+
+      const models = mock.MATERIAL_MODELS[defaultSeries] || [];
+      const materials = mock.MATERIALS['venus100'] || [];
+
+      const materialsWithIds = materials.map(item => ({
+        ...item,
+        imageId: `img_${item.materialId}`
+      }));
+
+      // 设置图片URL
+      const allImageUrls = { models: {}, parts: {} };
+      models.forEach(model => {
+        allImageUrls.models[model.id] = imageUrlsConfig.models[model.id] || `/assets/models/${model.id}.png`;
+      });
+
+      materialsWithIds.forEach(material => {
+        allImageUrls.parts[material.materialId] = `/assets/parts/${material.materialId}.png`;
+      });
+
+      const categoriesList = this.buildCategoriesList(materialsWithIds);
+      const cartCount = cart.getCartCount();
+
+      this.setData({
+        locale,
+        texts: getPageTexts("materials", locale),
+        seriesList,
+        categories,
+        selectedSeries: defaultSeries,
+        selectedModel: "venus100",
+        modelsList: models,
+        materials: materialsWithIds,
+        filteredMaterials: materialsWithIds,
+        selectedCategory: "all",
+        imageErrors: {},
+        imageUrls: allImageUrls,
+        categoriesList,
+        cartCount,
+        showCartBadge: cartCount > 0
+      });
+
+      console.log('Mock数据加载完成');
+      return;
+    }
+
+    const modelsList = await services.getMaterialModels(defaultSeriesNum);
+    console.log('=== onLoad - 型号列表 ===');
+    console.log('型号列表:', modelsList);
+    modelsList.forEach(model => {
+      console.log(`型号: id=${model.id}, name=${model.name}, _raw.id=${model._raw?.id}`);
+    });
+
+    // 选择第一个型号作为默认型号
+    const defaultModel = modelsList.length > 0 ? modelsList[0].id : "venus100";
+    console.log('默认型号:', defaultModel);
+
     const materials = await services.getMaterials(defaultSeries, defaultModel);
 
     // 为每个物料添加唯一标识，用于图片错误处理
@@ -37,10 +103,51 @@ Page({
       imageId: `img_${item.materialId}`
     }));
 
-    // 设置图片URL
-    const modelImageUrls = { models: {} };
+    // 设置图片URL（包含型号和物料）
+    const allImageUrls = {
+      models: {},
+      parts: {}
+    };
+
+    // 设置型号图片URL
     modelsList.forEach(model => {
-      modelImageUrls.models[model.id] = imageUrlsConfig.models[model.id] || `/assets/models/${model.id}.png`;
+      // 优先使用多种方式查找CDN配置：name、code、id
+      const imageUrlByName = imageUrlsConfig.models[model.name];
+      const imageUrlByCode = imageUrlsConfig.models[model.code];
+      const imageUrlById = imageUrlsConfig.models[model.id];
+
+      const finalUrl = imageUrlByName || imageUrlByCode || imageUrlById || `/assets/models/${model.name}.png`;
+
+      allImageUrls.models[model.id] = finalUrl;
+
+      console.log(`型号 ${model.name} (ID:${model.id}, code:${model.code}):`, {
+        '按name查找': imageUrlByName ? '✓' : '✗',
+        '按code查找': imageUrlByCode ? '✓' : '✗',
+        '按id查找': imageUrlById ? '✓' : '✗',
+        '最终URL': finalUrl.substring(0, 80) + '...'
+      });
+    });
+
+    // 设置物料图片URL
+    materialsWithIds.forEach(material => {
+      // 处理不同格式的物料ID
+      let materialImageUrl;
+      if (imageUrlsConfig.partsBaseUrl) {
+        // 对于数字ID（后端数据），补齐到6位
+        if (/^\d+$/.test(material.materialId)) {
+          const materialImageId = material.materialId?.padStart(6, '0');
+          materialImageUrl = `${imageUrlsConfig.partsBaseUrl}${materialImageId}.png`;
+        } else {
+          // 对于字符串ID（mock数据，如 "MT-V100-001"），直接使用
+          materialImageUrl = `${imageUrlsConfig.partsBaseUrl}${material.materialId}.png`;
+        }
+      } else {
+        // 降级到本地路径
+        materialImageUrl = `/assets/parts/${material.materialId}.png`;
+      }
+
+      allImageUrls.parts[material.materialId] = materialImageUrl;
+      console.log(`物料 ${material.materialId}:`, materialImageUrl);
     });
 
     this.setData({
@@ -55,15 +162,8 @@ Page({
       filteredMaterials: materialsWithIds,
       selectedCategory: "all",
       imageErrors: {},
-      imageUrls: modelImageUrls
+      imageUrls: allImageUrls
     });
-
-    // 调试输出：检查CDN链接配置
-    console.log('=== imageUrlsConfig导入检查 ===');
-    console.log('imageUrlsConfig:', imageUrlsConfig);
-    console.log('imageUrlsConfig.models:', imageUrlsConfig.models);
-    console.log('smart500 CDN链接:', imageUrlsConfig.models?.smart500);
-    console.log('完整imageUrls:', modelImageUrls);
 
     // 在设置categories后再构建类别列表
     const categoriesList = this.buildCategoriesList(materialsWithIds);
@@ -76,6 +176,13 @@ Page({
       cartCount,
       showCartBadge: cartCount > 0
     });
+
+    // 调试输出：检查CDN链接配置
+    console.log('=== imageUrlsConfig导入检查 ===');
+    console.log('imageUrlsConfig:', imageUrlsConfig);
+    console.log('imageUrlsConfig.models:', imageUrlsConfig.models);
+    console.log('smart500 CDN链接:', imageUrlsConfig.models?.smart500);
+    console.log('完整imageUrls:', allImageUrls);
   },
 
   /**
@@ -83,12 +190,44 @@ Page({
    */
   async onSeriesChange(e) {
     const seriesId = e.currentTarget.dataset.series;
-    const modelsList = await services.getMaterialModels(seriesId);
+    console.log('=== onSeriesChange ===');
+    console.log('选中的series code:', seriesId);
+
+    // 检查是否有token
+    const hasToken = require('../../utils/request').getToken();
+    let modelsList;
+
+    if (hasToken) {
+      // 有token：使用数字ID调用真实API
+      const selectedSeries = this.data.seriesList.find(s => s.id === seriesId);
+      const seriesNum = selectedSeries?.seriesNum;
+      console.log('series数字ID:', seriesNum);
+      modelsList = await services.getMaterialModels(seriesNum);
+    } else {
+      // 没有token：直接使用字符串code获取mock数据
+      console.log('使用mock数据，series code:', seriesId);
+      modelsList = mock.MATERIAL_MODELS[seriesId] || [];
+    }
+
+    console.log('获取到的型号列表:', modelsList);
 
     // 设置图片URL
-    const modelImageUrls = { models: {} };
+    const modelImageUrls = { models: {}, parts: {} };
     modelsList.forEach(model => {
-      modelImageUrls.models[model.id] = imageUrlsConfig.models[model.id] || `/assets/models/${model.id}.png`;
+      // 优先使用多种方式查找CDN配置：name、code、id
+      const imageUrlByName = imageUrlsConfig.models[model.name];
+      const imageUrlByCode = imageUrlsConfig.models[model.code];
+      const imageUrlById = imageUrlsConfig.models[model.id];
+
+      const finalUrl = imageUrlByName || imageUrlByCode || imageUrlById || `/assets/models/${model.name}.png`;
+
+      modelImageUrls.models[model.id] = finalUrl;
+      console.log(`型号 ${model.name} (code:${model.code}):`, {
+        '按name查找': imageUrlByName ? '✓' : '✗',
+        '按code查找': imageUrlByCode ? '✓' : '✗',
+        '按id查找': imageUrlById ? '✓' : '✗',
+        '最终URL': finalUrl.substring(0, 60) + '...'
+      });
     });
 
     this.setData({

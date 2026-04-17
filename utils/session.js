@@ -44,11 +44,19 @@ function getCurrentProfile() {
   // 优先从 request 模块获取真实用户信息
   const userInfo = request.getUserInfo();
   if (userInfo) {
+    console.log('=== getCurrentProfile 从 request 获取用户信息 ===');
     return transformUserProfile(userInfo);
   }
 
   // 降级到本地缓存
-  return wx.getStorageSync(PROFILE_KEY) || ensureSession();
+  console.log('=== getCurrentProfile 从本地缓存获取 ===');
+  const cached = wx.getStorageSync(PROFILE_KEY);
+  console.log('缓存的profile:', cached);
+  if (cached && cached.userId) {
+    return cached;
+  }
+  console.log('缓存无效，使用默认session');
+  return ensureSession();
 }
 
 /**
@@ -86,6 +94,9 @@ async function login(username, password) {
     // 获取用户详细信息
     const userInfo = await request.get('/api/v1/auth/me');
     console.log('用户信息:', userInfo);
+    console.log('用户角色 (raw):', userInfo.role);
+    console.log('用户公司ID:', userInfo.company_id);
+    console.log('用户ID:', userInfo.id);
 
     // 保存用户信息
     request.setUserInfo(userInfo);
@@ -166,11 +177,21 @@ function transformUserProfile(userInfo) {
     'employee': 'customer'
   };
 
+  // 如果是系统管理员，使用特殊角色代码
+  const mappedRole = userInfo.is_admin ? 'admin' : (roleMap[userInfo.role] || 'customer');
+
+  console.log('=== transformUserProfile ===');
+  console.log('原始角色:', userInfo.role);
+  console.log('是否管理员:', userInfo.is_admin);
+  console.log('映射后角色:', mappedRole);
+  console.log('公司ID:', userInfo.company_id);
+  console.log('用户ID:', userInfo.id);
+
   return {
     userId: String(userInfo.id),
     tenantId: userInfo.company_id ? String(userInfo.company_id) : 'tenant-internal',
     tenantName: userInfo.company?.name || '平台服务中心',
-    roleCode: roleMap[userInfo.role] || 'customer',
+    roleCode: mappedRole,
     name: userInfo.full_name || userInfo.username,
     mobile: userInfo.phone || '',
     employeeNo: userInfo.username,

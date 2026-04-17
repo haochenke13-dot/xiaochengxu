@@ -3,6 +3,7 @@
  * 用于快速测试不同的账号组合
  */
 const config = require("../../utils/config");
+const cache = require("../../utils/cache");
 
 Page({
   data: {
@@ -44,7 +45,20 @@ Page({
             'Content-Type': 'application/x-www-form-urlencoded',
           },
           data: formData,
-          success: resolve,
+          success: (res) => {
+            console.log('=== 登录API响应 ===');
+            console.log('状态码:', res.statusCode);
+            console.log('响应数据 (JSON):', JSON.stringify(res.data, null, 2));
+            console.log('响应数据所有键:', Object.keys(res.data));
+            if (res.data.access_token) {
+              console.log('Token存在:', res.data.access_token.substring(0, 30) + '...');
+            }
+            if (res.data.user) {
+              console.log('User对象:', JSON.stringify(res.data.user, null, 2));
+              console.log('User对象所有键:', Object.keys(res.data.user));
+            }
+            resolve(res);
+          },
           fail: reject
         });
       });
@@ -69,7 +83,33 @@ Page({
         // 保存token
         if (response.data.access_token) {
           wx.setStorageSync(config.tokenKey, response.data.access_token);
-          wx.setStorageSync(config.userKey, response.data.user || response.data);
+
+          // 获取用户信息
+          try {
+            const userInfo = await new Promise((resolve, reject) => {
+              wx.request({
+                url: `${config.baseURL}/api/v1/auth/me`,
+                method: 'GET',
+                header: {
+                  'Content-Type': 'application/json',
+                  'Authorization': `Bearer ${response.data.access_token}`
+                },
+                success: resolve,
+                fail: reject
+              });
+            });
+
+            console.log('=== 获取用户信息成功 ===');
+            console.log('用户信息 (JSON):', JSON.stringify(userInfo.data, null, 2));
+            console.log('用户信息所有键:', Object.keys(userInfo.data));
+
+            if (userInfo.statusCode === 200 && userInfo.data) {
+              wx.setStorageSync(config.userKey, userInfo.data);
+              console.log('用户信息已保存');
+            }
+          } catch (error) {
+            console.error('获取用户信息失败:', error);
+          }
         }
 
         console.log('登录成功，Token已保存');
@@ -142,11 +182,29 @@ Page({
    * 清除Token
    */
   clearToken() {
+    console.log('=== 开始清除所有数据 ===');
+
+    // 清除Token
     wx.removeStorageSync(config.tokenKey);
+    console.log('✓ Token已清除');
+
+    // 清除用户信息
     wx.removeStorageSync(config.userKey);
+    console.log('✓ 用户信息已清除');
+
+    // 清除profile缓存
+    wx.removeStorageSync('currentProfile');
+    console.log('✓ Profile缓存已清除');
+
+    // 清除所有数据缓存
+    cache.clearAll();
+    console.log('✓ 数据缓存已清除');
+
+    console.log('=== 已清除所有缓存和Token ===');
     wx.showToast({
-      title: 'Token已清除',
-      icon: 'success'
+      title: '已清除所有数据',
+      icon: 'success',
+      duration: 2000
     });
   }
 });

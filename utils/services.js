@@ -381,7 +381,10 @@ async function getVisibleDevices(profile, filters = {}) {
     const params = {};
 
     // 根据用户角色过滤
-    if (profile.roleCode === "engineer") {
+    if (profile.roleCode === "admin") {
+      // 系统管理员可以看到所有设备，不传递 my_devices 参数
+      console.log('系统管理员，获取所有设备');
+    } else if (profile.roleCode === "engineer") {
       params.my_devices = true; // 只看我的设备
     } else {
       // TODO: 后端需要添加 company_id 过滤参数
@@ -458,6 +461,10 @@ async function getDeviceDetail(deviceId) {
   const locale = currentLocale();
   const profile = getCurrentProfile();
 
+  console.log('=== getDeviceDetail 调用 ===');
+  console.log('传入的 deviceId:', deviceId);
+  console.log('deviceId 类型:', typeof deviceId);
+
   // 检查是否有有效的 token，如果没有就直接使用 mock 数据
   const hasToken = request.getToken();
   if (!hasToken) {
@@ -477,19 +484,46 @@ async function getDeviceDetail(deviceId) {
 
   try {
     // 调用后端 API
+    console.log('准备调用后端API:', `/api/v1/devices/${deviceId}`);
     const backendDevice = await request.get(`/api/v1/devices/${deviceId}`);
+    console.log('后端返回的设备数据:', backendDevice);
 
     // 映射数据
     const device = mappers.mapDevice(backendDevice, locale);
 
     // 权限检查
-    if (profile.roleCode === "engineer" || profile.deviceScope.includes(deviceId)) {
+    // 系统管理员可以看到所有设备
+    if (profile.roleCode === "admin") {
+      console.log('系统管理员，允许查看设备详情');
       return device;
     }
 
+    // engineer可以查看设备权限范围内的设备
+    if (profile.roleCode === "engineer") {
+      if (profile.deviceScope.includes(deviceId)) {
+        console.log('engineer权限检查通过，允许查看设备详情');
+        return device;
+      } else {
+        console.log('engineer权限检查失败，无权查看此设备');
+        return null;
+      }
+    }
+
+    // 其他角色只能查看同一租户的设备
+    if (profile.deviceScope.includes(deviceId)) {
+      console.log('租户权限检查通过，允许查看设备详情');
+      return device;
+    }
+
+    console.log('权限检查失败，无权查看此设备');
     return null;
   } catch (error) {
-    console.log('获取设备详情失败，使用 mock 数据:', error.message);
+    // 详细的错误日志
+    console.error('获取设备详情失败，使用 mock 数据');
+    console.error('设备ID:', deviceId);
+    console.error('状态码:', error.response?.status);
+    console.error('响应数据:', JSON.stringify(error.response?.data, null, 2));
+    console.error('完整错误:', error);
     // 降级到 mock 数据
     const visibleIds = mock.devices
       .filter((item) => {
@@ -507,11 +541,15 @@ async function getDeviceDetail(deviceId) {
 async function getVisibleWorkOrders(profile, status = "all") {
   const locale = currentLocale();
 
+  console.log('=== getVisibleWorkOrders 调用 ===');
+  console.log('status参数:', status);
+  console.log('profile:', profile);
+
   // 尝试从缓存获取数据
   const cacheKey = { status, roleCode: profile.roleCode, tenantId: profile.tenantId };
   const cachedData = getCache('workOrders', cacheKey);
   if (cachedData) {
-    console.log('使用缓存的工单列表');
+    console.log('使用缓存的工单列表，数量:', cachedData.length);
     return cachedData;
   }
 
@@ -556,7 +594,11 @@ async function getVisibleWorkOrders(profile, status = "all") {
     }
 
     // 调用后端 API
+    console.log('准备调用后端API: /api/v1/tickets/', '参数:', params);
     const backendTickets = await request.get('/api/v1/tickets/', params);
+    console.log('后端返回的工单列表:', backendTickets);
+    console.log('工单数量:', backendTickets?.length || 0);
+    console.log('第一个工单对象 (JSON):', JSON.stringify(backendTickets[0], null, 2));
 
     // 获取关联数据（设备和用户信息）
     const deviceIds = [...new Set(backendTickets.filter(t => t.device_id).map(t => t.device_id))];
@@ -589,19 +631,45 @@ async function getVisibleWorkOrders(profile, status = "all") {
 
     // 映射数据
     const tickets = mappers.mapTicketList(backendTickets, locale, deviceCache, userCache);
+    console.log('映射后的工单列表（未过滤）:', tickets);
+    console.log('映射后工单数量:', tickets.length);
+    console.log('第一个工单对象的ID字段:', {
+      workOrderId: tickets[0]?.workOrderId,
+      workOrderNum: tickets[0]?.workOrderNum,
+      id: tickets[0]?._raw?.id
+    });
 
     // 客户端过滤（基于用户角色和权限）
     let filteredTickets = tickets;
-    if (profile.roleCode === "engineer") {
-      filteredTickets = tickets.filter((item) =>
-        item.assigneeId === profile.userId ||
-        item.creatorId === profile.userId ||
-        (item.deviceId && profile.deviceScope.includes(item.deviceId))
-      );
+    console.log('=== 开始权限过滤 ===');
+    console.log('用户角色:', profile.roleCode);
+    console.log('用户ID:', profile.userId);
+    console.log('用户设备权限:', profile.deviceScope);
+
+    // 系统管理员可以看到所有工单
+    if (profile.roleCode === "admin") {
+      console.log('系统管理员，跳过权限过滤，显示所有工单');
+      filteredTickets = tickets;
+    } else if (profile.roleCode === "engineer") {
+      console.log('执行engineer角色权限过滤');
+      filteredTickets = tickets.filter((item) => {
+        const canSee = item.assigneeId === profile.userId ||
+          item.creatorId === profile.userId ||
+          (item.deviceId && profile.deviceScope.includes(item.deviceId));
+        console.log(`工单 ${item.workOrderId}:`, {
+          assigneeId: item.assigneeId,
+          creatorId: item.creatorId,
+          deviceId: item.deviceId,
+          canSee
+        });
+        return canSee;
+      });
     } else if (profile.tenantId) {
       // TODO: 后端需要添加 company_id 过滤
       // filteredTickets = tickets.filter((item) => item.tenantId === profile.tenantId);
     }
+
+    console.log('过滤后工单数量:', filteredTickets.length);
 
     // 缓存结果
     setCache('workOrders', filteredTickets, cacheKey);
@@ -634,6 +702,10 @@ async function getWorkOrderDetail(workOrderId) {
   const locale = currentLocale();
   const profile = getCurrentProfile();
 
+  console.log('=== getWorkOrderDetail 调用 ===');
+  console.log('传入的 workOrderId:', workOrderId);
+  console.log('workOrderId 类型:', typeof workOrderId);
+
   // 检查是否有有效的 token，如果没有就直接使用 mock 数据
   const hasToken = request.getToken();
   if (!hasToken) {
@@ -653,7 +725,9 @@ async function getWorkOrderDetail(workOrderId) {
 
   try {
     // 调用后端 API
+    console.log('准备调用后端API:', `/api/v1/tickets/${workOrderId}`);
     const backendTicket = await request.get(`/api/v1/tickets/${workOrderId}`);
+    console.log('后端返回的工单数据:', backendTicket);
 
     // 获取关联数据
     const deviceCache = {};
@@ -690,13 +764,41 @@ async function getWorkOrderDetail(workOrderId) {
     const ticket = mappers.mapTicket(backendTicket, locale, deviceCache, userCache);
 
     // 权限检查
-    if (profile.roleCode === "engineer" || profile.tenantId === ticket.tenantId) {
+    // 系统管理员可以看到所有工单
+    if (profile.roleCode === "admin") {
+      console.log('系统管理员，允许查看工单详情');
       return ticket;
     }
 
+    // engineer可以查看自己创建的、分配给自己的、或者设备权限范围内的工单
+    if (profile.roleCode === "engineer") {
+      const canSee = ticket.assigneeId === profile.userId ||
+                     ticket.creatorId === profile.userId ||
+                     (ticket.deviceId && profile.deviceScope.includes(ticket.deviceId));
+      if (canSee) {
+        console.log('engineer权限检查通过，允许查看工单详情');
+        return ticket;
+      } else {
+        console.log('engineer权限检查失败，无权查看此工单');
+        return null;
+      }
+    }
+
+    // 其他角色只能查看同一租户的工单
+    if (profile.tenantId === ticket.tenantId) {
+      console.log('租户权限检查通过，允许查看工单详情');
+      return ticket;
+    }
+
+    console.log('权限检查失败，无权查看此工单');
     return null;
   } catch (error) {
-    console.error('获取工单详情失败，降级到 mock 数据:', error);
+    // 详细的错误日志
+    console.error('获取工单详情失败，降级到 mock 数据');
+    console.error('工单ID:', workOrderId);
+    console.error('状态码:', error.response?.status);
+    console.error('响应数据:', JSON.stringify(error.response?.data, null, 2));
+    console.error('完整错误:', error);
     // 降级到 mock 数据
     const visibleIds = mock.workOrders
       .filter((item) => {
@@ -1131,19 +1233,31 @@ async function getMaterialModels(seriesId) {
 
     // 调用后端 API
     const backendModels = await request.get('/api/v1/devices/models/', params);
+    console.log('后端返回的型号列表 (原始数据):', backendModels);
 
     // 映射数据
     const models = backendModels.map(m => mappers.mapDeviceModel(m));
+    console.log('映射后的型号列表:', models);
+
+    // 打印每个型号的详细信息
+    models.forEach(model => {
+      console.log(`型号 ${model.id}: name="${model.name}", code="${model.code}"`);
+    });
 
     return models;
   } catch (error) {
-    console.log('获取设备型号失败，使用 mock 数据:', error.message);
+    console.log('获取设备型号失败，使用 mock 数据');
+    console.log('seriesId:', seriesId);
+    console.log('错误详情:', JSON.stringify(error.response?.data, null, 2));
     // 降级到 mock 数据
     return clone(mock.MATERIAL_MODELS[seriesId] || []);
   }
 }
 
 async function getMaterials(seriesId, modelId) {
+  console.log('=== getMaterials 调用 ===');
+  console.log('seriesId:', seriesId, 'modelId:', modelId);
+
   const locale = currentLocale();
 
   // 检查是否有有效的 token，如果没有就直接使用 mock 数据
@@ -1162,10 +1276,14 @@ async function getMaterials(seriesId, modelId) {
     // 目前后端的物料接口没有 model_id 参数，暂时获取所有物料后在前端过滤
 
     // 调用后端 API
+    console.log('调用物料API，参数:', params);
     const backendMaterials = await request.get('/api/v1/materials/', params);
+    console.log('后端返回的物料列表:', backendMaterials);
+    console.log('物料数量:', backendMaterials?.length || 0);
 
     // 映射数据
     let materials = mappers.mapMaterialList(backendMaterials, locale);
+    console.log('映射后的物料数量:', materials.length);
 
     // 前端过滤（如果后端不支持按型号过滤）
     if (modelId) {

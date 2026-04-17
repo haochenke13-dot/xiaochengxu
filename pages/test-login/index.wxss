@@ -87,6 +87,33 @@
   box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.1);
 }
 
+.real-account-btn {
+  background: linear-gradient(135deg, #D1FAE5 0%, #A7F3D0 100%);
+  border: 3rpx solid #10B981;
+  box-shadow: 0 4rpx 16rpx rgba(16, 185, 129, 0.3);
+  animation: success-pulse 2s ease-in-out infinite;
+}
+
+@keyframes success-pulse {
+  0%, 100% {
+    box-shadow: 0 4rpx 16rpx rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 6rpx 20rpx rgba(16, 185, 129, 0.5);
+  }
+}
+
+.account-badge {
+  font-size: 20rpx;
+  font-weight: 700;
+  color: #059669;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 4rpx 12rpx;
+  border-radius: 8rpx;
+  margin-top: 4rpx;
+  border: 2rpx solid #10B981;
+}
+
 .oauth-btn {
   background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
   border: 2rpx solid #f97316;

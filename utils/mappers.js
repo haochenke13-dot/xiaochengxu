@@ -85,6 +85,7 @@ function mapDevice(backendDevice, locale = 'zh') {
 
   return {
     deviceId: String(backendDevice.id),
+    deviceNum: backendDevice.id,  // 保存数字ID用于API调用
     deviceName: backendDevice.name,
     model: backendDevice.model?.model_name || '',
     type: backendDevice.model?.model_name || backendDevice.model?.series_code || '',
@@ -149,6 +150,8 @@ function mapTicket(backendTicket, locale = 'zh', deviceCache = {}, userCache = {
 
   return {
     workOrderId: backendTicket.ticket_no || String(backendTicket.id),
+    // 保存数字ID用于调用详情接口
+    workOrderNum: backendTicket.id,
     title: backendTicket.title,
     deviceId: backendTicket.device_id ? String(backendTicket.device_id) : '',
     deviceName: deviceName,
@@ -211,6 +214,7 @@ function mapDeviceSeries(backendSeries) {
 
   return {
     id: backendSeries.series_code,
+    seriesNum: backendSeries.id,  // 保存数字ID用于API调用
     name: backendSeries.name,
     nameEn: backendSeries.name, // TODO: 后端需要添加英文名称字段
     description: backendSeries.description || '',

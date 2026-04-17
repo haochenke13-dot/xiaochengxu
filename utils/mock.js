@@ -268,8 +268,8 @@ const knowledgeItems = [
 
 // 物料系列定义
 const MATERIAL_SERIES = [
-  { id: 'venus', name: 'Venus系列', nameEn: 'Venus Series' },
-  { id: 'smart', name: 'Smart系列', nameEn: 'Smart Series' }
+  { id: 'venus', seriesNum: 2, name: 'Venus系列', nameEn: 'Venus Series' },
+  { id: 'smart', seriesNum: 1, name: 'Smart系列', nameEn: 'Smart Series' }
 ];
 
 // 物料型号定义
