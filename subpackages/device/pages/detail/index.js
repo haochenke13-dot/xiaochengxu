@@ -20,18 +20,17 @@ Page({
     this.setData({ id: options.id || "" });
   },
 
-  onShow() {
+  async onShow() {
     const locale = getLocale();
     applyNavigationTitle("deviceDetail", locale);
     const profile = services.getCurrentProfile();
-    const detail = services.getDeviceDetail(this.data.id);
+    const detail = await services.getDeviceDetail(this.data.id);
     const texts = getPageTexts("deviceDetail", locale);
     if (!detail) {
       wx.showToast({ title: texts.missing, icon: "none" });
       return;
     }
-    const relatedOrders = services
-      .getVisibleWorkOrders(profile, "all")
+    const relatedOrders = (await services.getVisibleWorkOrders(profile, "all"))
       .filter((item) => item.deviceId === detail.deviceId)
       .map((item) => ({
         ...item,

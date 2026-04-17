@@ -39,8 +39,8 @@ Page({
     this.loadOrders();
   },
 
-  loadOrders() {
-    const orders = services.getVisibleWorkOrders(this.data.profile, this.data.currentStatus).map((item) => ({
+  async loadOrders() {
+    const orders = (await services.getVisibleWorkOrders(this.data.profile, this.data.currentStatus)).map((item) => ({
       ...item,
       statusMeta: workOrderStatusMeta(item.status),
       priorityLabel: this.data.locale === "en" ? `${this.data.texts.priorityPrefix}${item.priority}` : `${this.data.texts.priorityPrefix} ${item.priority}`,

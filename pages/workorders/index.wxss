@@ -1,13 +1,128 @@
 /* 工单列表页UI优化 */
 
-/* 工单文档图案 */
-.workorder-document {
+/* 工单队列图案（与首页一致） */
+.queue-stack {
   position: absolute;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  width: 140rpx;
-  height: 160rpx;
+  width: 80rpx;
+  height: 100rpx;
+  border-radius: 8rpx;
+  z-index: 1;
+}
+
+.queue-back {
+  background: rgba(191, 219, 254, 0.45);
+  border: 2rpx solid rgba(147, 197, 253, 0.65);
+  transform: translate(-50%, -50%) rotate(-6deg) translate(12rpx, 8rpx);
+}
+
+.queue-mid {
+  background: rgba(147, 197, 253, 0.55);
+  border: 2rpx solid rgba(96, 165, 250, 0.75);
+  transform: translate(-50%, -50%) rotate(3deg) translate(-8rpx, -4rpx);
+  z-index: 2;
+}
+
+.queue-sheet {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 120rpx;
+  height: 150rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 12rpx;
+  border: 3rpx solid rgba(96, 165, 250, 0.85);
+  box-shadow:
+    0 8rpx 24rpx rgba(37, 99, 235, 0.15),
+    inset 0 2rpx 0 rgba(255, 255, 255, 0.9);
+  z-index: 3;
+  overflow: hidden;
+}
+
+.queue-sheet-top {
+  position: absolute;
+  top: 12rpx;
+  left: 12rpx;
+  right: 12rpx;
+  height: 16rpx;
+  background: linear-gradient(90deg, rgba(37, 99, 235, 0.85), rgba(59, 130, 246, 0.75));
+  border-radius: 6rpx;
+}
+
+.queue-bullet {
+  position: absolute;
+  top: 40rpx;
+  left: 16rpx;
+  width: 12rpx;
+  height: 12rpx;
+  background: rgba(239, 68, 68, 0.85);
+  border-radius: 50%;
+  box-shadow: 0 2rpx 6rpx rgba(239, 68, 68, 0.25);
+}
+
+.queue-line {
+  position: absolute;
+  left: 36rpx;
+  height: 6rpx;
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: 3rpx;
+}
+
+.queue-line-a {
+  top: 38rpx;
+  width: 68rpx;
+}
+
+.queue-line-b {
+  top: 52rpx;
+  width: 52rpx;
+}
+
+.queue-line-c {
+  top: 66rpx;
+  width: 76rpx;
+}
+
+/* 工单操作区域布局 */
+.workorders-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16rpx;
+  margin-top: 16rpx;
+  padding: 0 4rpx;
+}
+
+.workorders-workflow {
+  flex: 1;
+}
+
+.workorders-create-btn {
+  min-width: 200rpx;
+  height: 64rpx;
+  background: linear-gradient(135deg, #0EA5E9, #3B82F6);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(14, 165, 233, 0.3);
+  padding: 0 24rpx;
+}
+
+.workorders-create-btn::after {
+  border: none;
+}
+
+.workorders-create-btn:active {
+  transform: scale(0.98);
+  box-shadow: 0 2rpx 6rpx rgba(14, 165, 233, 0.2);
 }
 
 .workorder-doc-frame {

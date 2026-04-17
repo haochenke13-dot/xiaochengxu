@@ -27,7 +27,17 @@
                 data-model="{{item.id}}"
                 bindtap="onModelChange">
             <view class="model-image-wrapper">
-              <image class="model-image" src="/assets/models/{{item.id}}.png" mode="aspectFit"></image>
+              <image
+                wx:if="{{!imageErrors[item.id]}}"
+                class="model-image"
+                src="{{imageUrls.models[item.id] || '/assets/models/' + item.id + '.png'}}"
+                mode="aspectFit"
+                binderror="onModelImageError"
+                data-model-id="{{item.id}}"
+              ></image>
+              <view wx:else class="model-placeholder-icon">
+                {{item.shortName || item.name.substring(0, 4).toUpperCase()}}
+              </view>
             </view>
             <view class="model-name">{{locale === 'zh' ? item.name : item.nameEn}}</view>
           </view>
@@ -56,12 +66,26 @@
           <block wx:for="{{filteredMaterials}}" wx:key="materialId">
             <view class="part-card">
               <view class="part-image-wrapper">
-                <image class="part-image" src="/assets/parts/{{item.materialId}}.png" mode="aspectFit"></image>
+                <image
+                  wx:if="{{!imageErrors[item.imageId]}}"
+                  class="part-image"
+                  src="/assets/parts/{{item.materialId}}.png"
+                  mode="aspectFit"
+                  binderror="onImageError"
+                  data-imageid="{{item.imageId}}">
+                </image>
+                <view wx:else class="part-placeholder part-placeholder-{{item.category}}">
+                  {{item.category === 'parts' ? '⚙️' : item.category === 'accessories' ? '🔧' : item.category === 'consumables' ? '🔋' : '📦'}}
+                </view>
               </view>
               <view class="part-info">
                 <view class="part-name">{{item.name}}</view>
                 <view class="part-spec">{{item.spec}}</view>
                 <view class="part-price">{{item.price}}</view>
+              </view>
+              <!-- 添加到购物车按钮 -->
+              <view class="add-to-cart-btn" data-material="{{item}}" catchtap="addToCart">
+                <text class="add-icon">+</text>
               </view>
             </view>
           </block>
@@ -73,6 +97,19 @@
     <view class="empty-state" wx:if="{{selectedSeries && selectedModel && materials.length === 0}}">
       <view class="empty-icon"></view>
       <view class="empty-text">{{texts.empty}}</view>
+    </view>
+
+    <!-- 购物车悬浮按钮 -->
+    <view class="cart-float-btn" bindtap="goToCart">
+      <view class="cart-icon-wrapper">
+        <text class="cart-icon">🛒</text>
+        <view class="cart-badge" wx:if="{{showCartBadge}}">
+          <text class="cart-badge-text">{{cartCount}}</text>
+        </view>
+      </view>
+      <view class="cart-total" wx:if="{{showCartBadge}}">
+        <text class="cart-total-price">去结算</text>
+      </view>
     </view>
   </view>
 </view>

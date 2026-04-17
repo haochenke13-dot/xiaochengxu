@@ -1,0 +1,75 @@
+<view class="cart-page">
+  <!-- 头部 -->
+  <view class="cart-header">
+    <view class="header-title">购物车</view>
+    <view class="header-action" bindtap="clearCart" wx:if="{{!isEmpty}}">
+      <text class="clear-btn">清空</text>
+    </view>
+  </view>
+
+  <!-- 空状态 -->
+  <view class="empty-cart" wx:if="{{isEmpty}}">
+    <view class="empty-icon">🛒</view>
+    <view class="empty-text">购物车是空的</view>
+    <view class="empty-desc">快去添加需要的物料吧</view>
+    <button class="continue-btn" bindtap="continueShopping">去添加物料</button>
+  </view>
+
+  <!-- 购物车列表 -->
+  <view class="cart-list" wx:else>
+    <block wx:for="{{cartItems}}" wx:key="materialId">
+      <view class="cart-item">
+        <!-- 商品图片占位 -->
+        <view class="item-image-placeholder">
+          <text class="item-emoji">{{item.category === 'parts' ? '⚙️' : item.category === 'accessories' ? '🔧' : '🔋'}}</text>
+        </view>
+
+        <!-- 商品信息 -->
+        <view class="item-info">
+          <view class="item-name">{{item.name}}</view>
+          <view class="item-spec">{{item.spec}}</view>
+          <view class="item-price">¥{{item.price.toFixed(2)}}</view>
+        </view>
+
+        <!-- 数量控制 -->
+        <view class="item-actions">
+          <view class="quantity-control">
+            <view class="qty-btn" data-material-id="{{item.materialId}}" catchtap="decreaseItem">
+              <text class="qty-icon">-</text>
+            </view>
+            <view class="qty-number">{{item.quantity}}</view>
+            <view class="qty-btn" data-material-id="{{item.materialId}}" catchtap="increaseItem">
+              <text class="qty-icon">+</text>
+            </view>
+          </view>
+          <view class="item-total">
+            <text class="total-price">¥{{item.totalPrice.toFixed(2)}}</text>
+          </view>
+        </view>
+
+        <!-- 删除按钮 -->
+        <view class="delete-btn" data-material-id="{{item.materialId}}" catchtap="removeItem">
+          <text class="delete-icon">🗑️</text>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 底部结算栏 -->
+  <view class="cart-footer" wx:if="{{!isEmpty}}">
+    <view class="footer-info">
+      <view class="total-count">
+        <text class="count-label">共</text>
+        <text class="count-number">{{totalQuantity}}</text>
+        <text class="count-label">件</text>
+      </view>
+      <view class="total-price">
+        <text class="price-label">合计：</text>
+        <text class="price-value">¥{{totalPrice.toFixed(2)}}</text>
+      </view>
+    </view>
+    <view class="submit-btn" bindtap="submitOrder">
+      <text class="submit-text">提交订单</text>
+    </view>
+  </view>
+</view>

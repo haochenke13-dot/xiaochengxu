@@ -15,11 +15,11 @@ Page({
     locale: "zh",
   },
 
-  onShow() {
+  async onShow() {
     const locale = getLocale();
     applyNavigationTitle("profile", locale);
     const profile = services.getCurrentProfile();
-    const summary = services.getHomeSummary(profile);
+    const summary = await services.getHomeSummary(profile);
     const isEn = locale === "en";
     this.setData({
       locale,
@@ -39,6 +39,7 @@ Page({
       ],
       systemMenus: [
         { key: "settings", title: "PREF", desc: isEn ? "Display & language" : "显示与语言" },
+        { key: "test-login", title: "TEST", desc: isEn ? "Backend account test" : "后端账号测试" },
         { key: "feedback", title: "NOTE", desc: isEn ? "Experience notes" : "体验建议" },
         { key: "about", title: "ABOUT", desc: isEn ? "Version info" : "版本信息" },
       ],
@@ -69,6 +70,7 @@ Page({
       devices: () => wx.switchTab({ url: "/pages/devices/index" }),
       notifications: () => wx.navigateTo({ url: "/subpackages/common/pages/notifications/index" }),
       settings: () => wx.navigateTo({ url: "/subpackages/common/pages/settings/index" }),
+      "test-login": () => wx.navigateTo({ url: "/pages/test-login/index" }),
       feedback: () => wx.navigateTo({ url: "/subpackages/common/pages/feedback/index" }),
       about: () => wx.navigateTo({ url: "/subpackages/common/pages/about/index" }),
       staff: () => wx.navigateTo({ url: "/subpackages/common/pages/tenant-staff/index" }),

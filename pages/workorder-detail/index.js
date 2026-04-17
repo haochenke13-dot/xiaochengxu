@@ -19,11 +19,11 @@ Page({
     this.setData({ id: options.id || "" });
   },
 
-  onShow() {
+  async onShow() {
     const locale = getLocale();
     applyNavigationTitle("workorderDetail", locale);
     const profile = services.getCurrentProfile();
-    const detail = services.getWorkOrderDetail(this.data.id);
+    const detail = await services.getWorkOrderDetail(this.data.id);
     const texts = getPageTexts("workorderDetail", locale);
     if (!detail) {
       wx.showToast({ title: texts.missing, icon: "none" });
@@ -40,14 +40,14 @@ Page({
     });
   },
 
-  onAccept() {
-    services.acceptWorkOrder(this.data.id);
+  async onAccept() {
+    await services.acceptWorkOrder(this.data.id);
     wx.showToast({ title: this.data.texts.accepted, icon: "success" });
     this.onShow();
   },
 
-  onClose() {
-    services.closeWorkOrder(this.data.id);
+  async onClose() {
+    await services.closeWorkOrder(this.data.id);
     wx.showToast({ title: this.data.texts.closed, icon: "success" });
     this.onShow();
   },

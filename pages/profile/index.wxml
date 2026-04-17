@@ -7,12 +7,12 @@
           <view class="hero-desc">{{roleMeta.name}} · {{profile.employeeNo}}</view>
         </view>
         <view class="hero-visual">
-          <view class="visual-ring profile-ring-a"></view>
-          <view class="visual-ring profile-ring-b"></view>
-          <view class="visual-orb profile-orb-a"></view>
-          <view class="visual-dot profile-dot-a"></view>
-          <view class="visual-dot profile-dot-b"></view>
-          <view class="visual-line profile-line-a"></view>
+          <view class="user-icon">
+            <view class="user-circle"></view>
+            <view class="user-head-simple"></view>
+            <view class="user-body-simple"></view>
+            <view class="user-glow"></view>
+          </view>
         </view>
       </view>
     </view>

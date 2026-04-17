@@ -21,16 +21,12 @@
           </view>
         </view>
         <view class="hero-visual">
-          <view class="visual-ring device-ring-a"></view>
-          <view class="visual-orb device-orb-a"></view>
-          <view class="visual-orb device-orb-b"></view>
-          <view class="visual-line device-line-a"></view>
-          <view class="visual-line device-line-b"></view>
-          <view class="visual-dot device-dot-a"></view>
-          <view class="visual-bars">
-            <view style="height: 34rpx;"></view>
-            <view style="height: 56rpx;"></view>
-            <view style="height: 78rpx;"></view>
+          <view class="device-icon">
+            <view class="device-body"></view>
+            <view class="device-screen-simple"></view>
+            <view class="device-base"></view>
+            <view class="device-light device-light-a"></view>
+            <view class="device-light device-light-b"></view>
           </view>
         </view>
       </view>

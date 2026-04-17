@@ -154,6 +154,46 @@
   padding: 16rpx;
 }
 
+.model-name-large {
+  font-size: 48rpx;
+  font-weight: 800;
+  color: #0EA5E9;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.model-active .model-name-large {
+  color: #FFFFFF;
+}
+
+.model-placeholder-icon {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  font-weight: 800;
+  color: #0EA5E9;
+  background: linear-gradient(135deg, #F8FAFC, #F1F5F9);
+}
+
+.model-active .model-placeholder-icon {
+  color: #FFFFFF;
+  background: linear-gradient(135deg, #0EA5E9, #3B82F6);
+}
+
+.model-icon-wrapper {
+  width: 100%;
+  height: 180rpx;
+  background: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 16rpx;
+}
+
 .model-image {
   width: 100%;
   height: 100%;
@@ -305,81 +345,60 @@
   position: relative;
   z-index: 1;
   transition: all 0.3s ease;
+  font-size: 28rpx;
+  font-weight: bold;
 }
 
 /* 全部类别 - 圆形渐变 */
 .category-icon.category-all {
   background: linear-gradient(135deg, #94A3B8, #64748B);
   box-shadow: 0 4rpx 12rpx rgba(100, 116, 139, 0.2);
+  color: #FFFFFF;
 }
 
 .category-icon.category-all::before {
-  content: '';
-  width: 24rpx;
-  height: 24rpx;
-  background: rgba(255, 255, 255, 0.95);
-  border-radius: 50%;
-  box-shadow: 0 2rpx 6rpx rgba(255, 255, 255, 0.3);
+  content: 'All';
+  font-size: 20rpx;
+  font-weight: 700;
 }
 
-/* 零件 - 齿轮图标 */
+/* 零件 - 蓝色图标 */
 .category-icon.category-parts {
-  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
-  box-shadow: 0 4rpx 12rpx rgba(59, 130, 246, 0.2);
+  background: linear-gradient(135deg, #3B82F6, #2563EB);
+  box-shadow: 0 4rpx 12rpx rgba(59, 130, 246, 0.3);
+  color: #FFFFFF;
 }
 
 .category-icon.category-parts::before {
-  content: '';
-  width: 26rpx;
-  height: 26rpx;
-  border: 4rpx solid rgba(59, 130, 246, 0.95);
-  border-radius: 50%;
-  box-shadow: inset 0 2rpx 4rpx rgba(59, 130, 246, 0.3);
+  content: '⚙';
+  font-size: 32rpx;
+  line-height: 1;
 }
 
-/* 配件 - 扳手图标 */
+/* 配件 - 紫色图标 */
 .category-icon.category-accessories {
-  background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
-  box-shadow: 0 4rpx 12rpx rgba(139, 92, 246, 0.2);
+  background: linear-gradient(135deg, #8B5CF6, #7C3AED);
+  box-shadow: 0 4rpx 12rpx rgba(139, 92, 246, 0.3);
+  color: #FFFFFF;
 }
 
 .category-icon.category-accessories::before {
-  content: '';
-  width: 26rpx;
-  height: 16rpx;
-  background: rgba(139, 92, 246, 0.95);
-  border-radius: 5rpx;
-  transform: rotate(-45deg);
-  box-shadow: 0 3rpx 6rpx rgba(139, 92, 246, 0.3);
+  content: '🔧';
+  font-size: 32rpx;
+  line-height: 1;
 }
 
-/* 耗材 - 电池图标 */
+/* 耗材 - 绿色图标 */
 .category-icon.category-consumables {
-  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
-  box-shadow: 0 4rpx 12rpx rgba(16, 185, 129, 0.2);
+  background: linear-gradient(135deg, #10B981, #059669);
+  box-shadow: 0 4rpx 12rpx rgba(16, 185, 129, 0.3);
+  color: #FFFFFF;
 }
 
 .category-icon.category-consumables::before {
-  content: '';
-  width: 22rpx;
-  height: 28rpx;
-  background: rgba(16, 185, 129, 0.95);
-  border-radius: 7rpx;
-  border: 3rpx solid rgba(16, 185, 129, 0.95);
-  box-shadow: inset 0 2rpx 4rpx rgba(16, 185, 129, 0.4);
-}
-
-.category-icon.category-consumables::after {
-  content: '';
-  position: absolute;
-  left: 50%;
-  top: 7rpx;
-  transform: translateX(-50%);
-  width: 7rpx;
-  height: 4rpx;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 2rpx;
-  box-shadow: 0 4rpx 0 0 rgba(16, 185, 129, 0.35);
+  content: '🔋';
+  font-size: 32rpx;
+  line-height: 1;
 }
 
 /* 选中状态的图标变化 */
@@ -388,8 +407,24 @@
   box-shadow: 0 0 12rpx rgba(255, 255, 255, 0.3);
 }
 
-.category-active .category-icon::before {
+.category-active .category-icon.category-all {
   background: rgba(255, 255, 255, 0.95);
+  color: #64748B;
+}
+
+.category-active .category-icon.category-parts {
+  background: rgba(255, 255, 255, 0.95);
+  color: #3B82F6;
+}
+
+.category-active .category-icon.category-accessories {
+  background: rgba(255, 255, 255, 0.95);
+  color: #8B5CF6;
+}
+
+.category-active .category-icon.category-consumables {
+  background: rgba(255, 255, 255, 0.95);
+  color: #10B981;
 }
 
 .category-name {
@@ -447,6 +482,8 @@
   align-items: center;
   gap: 12rpx;
   transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
 }
 
 .part-card:active {
@@ -469,6 +506,32 @@
   width: 100%;
   height: 100%;
   object-fit: contain;
+}
+
+/* 图片加载失败时的占位符 */
+.part-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 60rpx;
+  background: linear-gradient(135deg, #F8FAFC, #F1F5F9);
+}
+
+/* 零件类别占位符背景 */
+.part-placeholder-parts {
+  background: linear-gradient(135deg, #DBEAFE, #BFDBFE);
+}
+
+/* 配件类别占位符背景 */
+.part-placeholder-accessories {
+  background: linear-gradient(135deg, #EDE9FE, #DDD6FE);
+}
+
+/* 耗材类别占位符背景 */
+.part-placeholder-consumables {
+  background: linear-gradient(135deg, #D1FAE5, #A7F3D0);
 }
 
 .part-info {
@@ -499,6 +562,225 @@
   font-size: 24rpx;
   font-weight: 600;
   color: #0EA5E9;
+}
+
+/* 添加到购物车按钮 */
+.add-to-cart-btn {
+  position: absolute;
+  bottom: 12rpx;
+  right: 12rpx;
+  width: 48rpx;
+  height: 48rpx;
+  background: linear-gradient(135deg, #0EA5E9, #3B82F6);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4rpx 12rpx rgba(14, 165, 233, 0.3);
+  transition: all 0.3s ease;
+  z-index: 10;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    box-shadow: 0 4rpx 12rpx rgba(14, 165, 233, 0.3);
+  }
+  50% {
+    box-shadow: 0 6rpx 16rpx rgba(14, 165, 233, 0.5);
+  }
+}
+
+.add-to-cart-btn:active {
+  transform: scale(0.9);
+  box-shadow: 0 2rpx 6rpx rgba(14, 165, 233, 0.2);
+  animation: none;
+}
+
+.add-icon {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #FFFFFF;
+  line-height: 1;
+  margin-top: -2rpx;
+}
+
+/* 购物车悬浮按钮动画 */
+.cart-float-btn {
+  position: fixed;
+  bottom: 120rpx;
+  right: 24rpx;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: linear-gradient(135deg, #0EA5E9, #3B82F6);
+  border-radius: 50rpx;
+  padding: 16rpx 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(14, 165, 233, 0.4);
+  transition: all 0.3s ease;
+  animation: slideUp 0.5s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(200rpx);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.cart-float-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 12rpx rgba(14, 165, 233, 0.3);
+}
+
+.cart-icon-wrapper {
+  position: relative;
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-icon {
+  font-size: 36rpx;
+  line-height: 1;
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-5deg);
+  }
+  75% {
+    transform: rotate(5deg);
+  }
+}
+
+.cart-badge {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  background: #EF4444;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8rpx;
+  border: 3rpx solid #FFFFFF;
+  box-shadow: 0 2rpx 8rpx rgba(239, 68, 68, 0.4);
+  animation: bounceIn 0.5s ease-out;
+}
+
+@keyframes bounceIn {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.cart-badge-text {
+  font-size: 18rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.cart-total {
+  display: flex;
+  flex-direction: column;
+  padding-right: 8rpx;
+}
+
+.cart-total-price {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FFFFFF;
+}
+
+/* 购物车悬浮按钮 */
+.cart-float-btn {
+  position: fixed;
+  bottom: 120rpx;
+  right: 24rpx;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  gap: 12rpx;
+  background: linear-gradient(135deg, #0EA5E9, #3B82F6);
+  border-radius: 50rpx;
+  padding: 16rpx 20rpx;
+  box-shadow: 0 8rpx 24rpx rgba(14, 165, 233, 0.4);
+  transition: all 0.3s ease;
+}
+
+.cart-float-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 4rpx 12rpx rgba(14, 165, 233, 0.3);
+}
+
+.cart-icon-wrapper {
+  position: relative;
+  width: 56rpx;
+  height: 56rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-icon {
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+.cart-badge {
+  position: absolute;
+  top: -4rpx;
+  right: -4rpx;
+  min-width: 32rpx;
+  height: 32rpx;
+  background: #EF4444;
+  border-radius: 16rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 8rpx;
+  border: 3rpx solid #FFFFFF;
+  box-shadow: 0 2rpx 8rpx rgba(239, 68, 68, 0.4);
+}
+
+.cart-badge-text {
+  font-size: 18rpx;
+  font-weight: 700;
+  color: #FFFFFF;
+  line-height: 1;
+}
+
+.cart-total {
+  display: flex;
+  flex-direction: column;
+  padding-right: 8rpx;
+}
+
+.cart-total-price {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #FFFFFF;
 }
 
 /* ===== 通用样式 ===== */

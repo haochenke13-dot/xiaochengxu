@@ -40,13 +40,13 @@ Page({
     });
   },
 
-  onShow() {
+  async onShow() {
     const locale = getLocale();
     const texts = getPageTexts("workorderForm", locale);
     const typeOptions = getTypeOptions(locale);
     const priorityOptions = getPriorityOptions(locale);
     const profile = services.getCurrentProfile();
-    const devices = services.getVisibleDevices(profile);
+    const devices = await services.getVisibleDevices(profile);
     const deviceNames = devices.map((item) => `${item.name} (${item.deviceId})`);
     const form = { ...this.data.form };
     let selectedDeviceIndex = 0;
@@ -113,13 +113,13 @@ Page({
     });
   },
 
-  onSubmit() {
+  async onSubmit() {
     const { form, texts } = this.data;
     if (!form.title || !form.deviceId || !form.desc) {
       wx.showToast({ title: texts.incomplete, icon: "none" });
       return;
     }
-    const order = services.createWorkOrder(form);
+    const order = await services.createWorkOrder(form);
     wx.showToast({ title: texts.created, icon: "success" });
     wx.redirectTo({
       url: `/subpackages/workorder/pages/detail/index?id=${order.workOrderId}`,

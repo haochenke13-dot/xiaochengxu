@@ -17,36 +17,22 @@
           </view>
         </view>
         <view class="hero-visual">
-          <view class="workorder-document">
-            <view class="workorder-doc-frame">
-              <view class="workorder-doc-corner workorder-doc-corner-tl"></view>
-              <view class="workorder-doc-corner workorder-doc-corner-tr"></view>
-              <view class="workorder-doc-corner workorder-doc-corner-bl"></view>
-              <view class="workorder-doc-corner workorder-doc-corner-br"></view>
-            </view>
-            <view class="workorder-doc-body"></view>
-            <view class="workorder-doc-lines">
-              <view class="workorder-doc-line workorder-doc-line-1"></view>
-              <view class="workorder-doc-line workorder-doc-line-2"></view>
-              <view class="workorder-doc-line workorder-doc-line-3"></view>
-            </view>
-            <view class="workorder-doc-header"></view>
-            <view class="workorder-doc-dots">
-              <view class="workorder-doc-dot"></view>
-              <view class="workorder-doc-dot"></view>
-              <view class="workorder-doc-dot"></view>
-              <view class="workorder-doc-dot"></view>
-              <view class="workorder-doc-dot"></view>
-              <view class="workorder-doc-dot"></view>
-              <view class="workorder-doc-dot"></view>
-              <view class="workorder-doc-dot"></view>
-            </view>
+          <view class="queue-stack queue-back"></view>
+          <view class="queue-stack queue-mid"></view>
+          <view class="queue-sheet">
+            <view class="queue-sheet-top"></view>
+            <view class="queue-bullet"></view>
+            <view class="queue-line queue-line-a"></view>
+            <view class="queue-line queue-line-b"></view>
+            <view class="queue-line queue-line-c"></view>
           </view>
         </view>
       </view>
-      <view class="row-between workorders-hero-top">
-        <view class="mini-code">{{texts.workflow}}</view>
-        <button class="secondary-btn workorders-create-btn action-secondary action-create" wx:if="{{canCreate}}" bindtap="createOrder">{{texts.create}}</button>
+      <view class="workorders-actions">
+        <view class="workorders-workflow">
+          <view class="mini-code">{{texts.workflow}}</view>
+        </view>
+        <button class="workorders-create-btn" wx:if="{{canCreate}}" bindtap="createOrder">{{texts.create}}</button>
       </view>
     </view>
 

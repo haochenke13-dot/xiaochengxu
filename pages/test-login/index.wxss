@@ -1,0 +1,270 @@
+.test-page {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+.header {
+  background: white;
+  border-radius: 16rpx;
+  padding: 32rpx 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  font-size: 36rpx;
+  font-weight: 700;
+  color: #1e293b;
+  margin-bottom: 12rpx;
+}
+
+.subtitle {
+  font-size: 24rpx;
+  color: #64748b;
+  font-family: monospace;
+}
+
+.status-bar {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  border-radius: 12rpx;
+  padding: 20rpx 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(102, 126, 234, 0.3);
+}
+
+.status-text {
+  color: white;
+  font-size: 28rpx;
+  text-align: center;
+  font-weight: 500;
+}
+
+.section {
+  background: white;
+  border-radius: 16rpx;
+  padding: 24rpx;
+  margin-bottom: 20rpx;
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 20rpx;
+}
+
+.result-count {
+  color: #64748b;
+  font-size: 28rpx;
+  font-weight: 400;
+  margin-left: 8rpx;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16rpx;
+}
+
+.account-btn {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border: none;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+  transition: all 0.3s ease;
+}
+
+.account-btn::after {
+  border: none;
+}
+
+.account-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 1rpx 4rpx rgba(0, 0, 0, 0.1);
+}
+
+.oauth-btn {
+  background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+  border: 2rpx solid #f97316;
+}
+
+.account-client {
+  font-size: 22rpx;
+  color: #ea580c;
+  font-family: monospace;
+  font-weight: 500;
+}
+
+.account-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.account-username {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.account-password {
+  font-size: 24rpx;
+  color: #64748b;
+  font-family: monospace;
+}
+
+.results-list {
+  max-height: 800rpx;
+}
+
+.result-item {
+  background: white;
+  border-radius: 12rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+  border-left: 6rpx solid #cbd5e1;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+.result-item.success {
+  border-left-color: #10b981;
+  background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+}
+
+.result-item.failed {
+  border-left-color: #ef4444;
+  background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
+}
+
+.result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.result-account {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1e293b;
+  flex-wrap: wrap;
+}
+
+.account-client-id {
+  font-size: 22rpx;
+  color: #64748b;
+  font-family: monospace;
+  font-weight: 400;
+}
+
+.account-divider {
+  color: #94a3b8;
+}
+
+.result-status {
+  font-size: 24rpx;
+  font-weight: 500;
+}
+
+.result-details {
+  display: flex;
+  flex-direction: column;
+  gap: 8rpx;
+}
+
+.detail-item {
+  display: flex;
+  gap: 8rpx;
+  font-size: 24rpx;
+}
+
+.detail-label {
+  color: #64748b;
+  font-weight: 500;
+  min-width: 80rpx;
+}
+
+.detail-value {
+  color: #1e293b;
+  flex: 1;
+  word-break: break-all;
+}
+
+.result-error {
+  display: flex;
+  flex-direction: column;
+  gap: 4rpx;
+}
+
+.error-text {
+  font-size: 24rpx;
+  color: #ef4444;
+}
+
+.actions {
+  display: flex;
+  gap: 12rpx;
+  margin-bottom: 20rpx;
+}
+
+.action-btn {
+  flex: 1;
+  height: 80rpx;
+  line-height: 80rpx;
+  border-radius: 12rpx;
+  font-size: 28rpx;
+  font-weight: 500;
+  background: white;
+  color: #64748b;
+  border: 2rpx solid #e2e8f0;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.06);
+}
+
+.action-btn::after {
+  border: none;
+}
+
+.action-btn.primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.action-btn.success {
+  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  color: white;
+  border: none;
+}
+
+.action-btn:active {
+  transform: scale(0.98);
+}
+
+.instructions {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 12rpx;
+  padding: 20rpx;
+  border: 2rpx dashed #cbd5e1;
+}
+
+.instruction-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 12rpx;
+}
+
+.instruction-text {
+  font-size: 24rpx;
+  color: #64748b;
+  line-height: 1.8;
+  margin-bottom: 4rpx;
+}

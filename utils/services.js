@@ -1,6 +1,10 @@
 const mock = require("./mock");
 const { getLocale } = require("./i18n");
 const { getCurrentProfile, switchProfile } = require("./session");
+const request = require("./request");
+const mappers = require("./mappers");
+const config = require("./config");
+const { getCache, setCache, invalidateCache } = require("./cache");
 
 const DEVICE_TYPE_LABELS = {
   包装设备: { zh: "包装设备", en: "Packaging" },
@@ -302,9 +306,17 @@ function getProfile() {
   return clone(getCurrentProfile());
 }
 
-function loginAsRole(roleCode) {
-  const profile = switchProfile(roleCode);
-  return clone(profile);
+async function loginAsRole(roleCode) {
+  try {
+    // 使用真实 API 登录
+    const profile = await switchProfile(roleCode);
+    return clone(profile);
+  } catch (error) {
+    console.error('登录失败，降级到 mock 数据:', error);
+    // 降级到 mock 数据
+    const profile = switchProfile(roleCode);
+    return clone(profile);
+  }
 }
 
 function getTenantUsers(tenantId) {
@@ -315,132 +327,673 @@ function getTenantDetail(tenantId) {
   return localizeTenant(clone(mock.tenants.find((item) => item.tenantId === tenantId)), currentLocale());
 }
 
-function getVisibleDevices(profile, filters = {}) {
-  let list = mock.devices.filter((item) => {
-    if (profile.roleCode === "engineer") {
-      return profile.deviceScope.includes(item.deviceId);
+async function getVisibleDevices(profile, filters = {}) {
+  const locale = currentLocale();
+
+  // 检查 profile 参数是否有效
+  if (!profile) {
+    console.error('getVisibleDevices: profile 参数无效');
+    return [];
+  }
+
+  // 尝试从缓存获取数据
+  const cacheKey = { ...filters, roleCode: profile.roleCode, tenantId: profile.tenantId };
+  const cachedData = getCache('devices', cacheKey);
+  if (cachedData) {
+    console.log('使用缓存的设备列表');
+    return cachedData;
+  }
+
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+
+    // 确保 deviceScope 是数组
+    const deviceScope = Array.isArray(profile.deviceScope) ? profile.deviceScope : [];
+
+    // 直接返回 mock 数据，不抛出错误
+    let list = mock.devices.filter((item) => {
+      if (profile.roleCode === "engineer") {
+        return deviceScope.includes(item.deviceId);
+      }
+      return item.tenantId === profile.tenantId && deviceScope.includes(item.deviceId);
+    });
+
+    if (filters.status && filters.status !== "all") {
+      list = list.filter((item) => item.status === filters.status);
     }
-    return item.tenantId === profile.tenantId && profile.deviceScope.includes(item.deviceId);
-  });
 
-  if (filters.status && filters.status !== "all") {
-    list = list.filter((item) => item.status === filters.status);
+    if (filters.type && filters.type !== "all") {
+      list = list.filter((item) => item.type === filters.type);
+    }
+
+    const result = clone(list).map((item) => localizeDevice(item, locale));
+
+    // 缓存结果
+    setCache('devices', result, cacheKey);
+
+    return result;
   }
 
-  if (filters.type && filters.type !== "all") {
-    list = list.filter((item) => item.type === filters.type);
-  }
+  try {
+    // 构建查询参数
+    const params = {};
 
-  return clone(list).map((item) => localizeDevice(item, currentLocale()));
-}
+    // 根据用户角色过滤
+    if (profile.roleCode === "engineer") {
+      params.my_devices = true; // 只看我的设备
+    } else {
+      // TODO: 后端需要添加 company_id 过滤参数
+      // params.company_id = profile.tenantId;
+    }
 
-function getDeviceDetail(deviceId) {
-  const profile = getCurrentProfile();
-  const visibleIds = mock.devices
-    .filter((item) => {
+    // 状态过滤
+    if (filters.status && filters.status !== "all") {
+      params.status = filters.status;
+    }
+
+    // 型号过滤
+    if (filters.model_id) {
+      params.model_id = filters.model_id;
+    }
+
+    // 调用后端 API
+    const backendDevices = await request.get('/api/v1/devices/', params);
+
+    // 映射数据
+    const devices = mappers.mapDeviceList(backendDevices, locale);
+
+    // 客户端额外过滤（如果后端不支持某些过滤条件）
+    let filteredDevices = devices;
+
+    // 类型过滤（如果需要）
+    if (filters.type && filters.type !== "all") {
+      filteredDevices = filteredDevices.filter((item) => {
+        const deviceType = item.type.toLowerCase();
+        const filterType = filters.type.toLowerCase();
+        return deviceType.includes(filterType) || filterType.includes(deviceType);
+      });
+    }
+
+    // 权限过滤（基于用户的设备范围）
+    if (profile.deviceScope && profile.deviceScope.length > 0) {
+      filteredDevices = filteredDevices.filter((item) =>
+        profile.deviceScope.includes(item.deviceId)
+      );
+    }
+
+    // 缓存结果
+    setCache('devices', filteredDevices, cacheKey);
+
+    return filteredDevices;
+  } catch (error) {
+    console.log('获取设备列表失败，使用 mock 数据:', error.message);
+    // 降级到 mock 数据
+    let list = mock.devices.filter((item) => {
       if (profile.roleCode === "engineer") {
         return profile.deviceScope.includes(item.deviceId);
       }
       return item.tenantId === profile.tenantId && profile.deviceScope.includes(item.deviceId);
-    })
-    .map((item) => item.deviceId);
-  const target = mock.devices.find((item) => item.deviceId === deviceId && visibleIds.includes(item.deviceId));
-  return target ? localizeDevice(clone(target), currentLocale()) : null;
+    });
+
+    if (filters.status && filters.status !== "all") {
+      list = list.filter((item) => item.status === filters.status);
+    }
+
+    if (filters.type && filters.type !== "all") {
+      list = list.filter((item) => item.type === filters.type);
+    }
+
+    const result = clone(list).map((item) => localizeDevice(item, locale));
+
+    // 缓存结果
+    setCache('devices', result, cacheKey);
+
+    return result;
+  }
 }
 
-function getVisibleWorkOrders(profile, status = "all") {
-  let list = mock.workOrders.filter((item) => {
-    if (profile.roleCode === "engineer") {
-      return item.assigneeId === profile.userId || item.creatorId === profile.userId || profile.deviceScope.includes(item.deviceId);
-    }
-    return item.tenantId === profile.tenantId;
-  });
+async function getDeviceDetail(deviceId) {
+  const locale = currentLocale();
+  const profile = getCurrentProfile();
 
-  if (status !== "all") {
-    list = list.filter((item) => item.status === status);
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    // 降级到 mock 数据
+    const visibleIds = mock.devices
+      .filter((item) => {
+        if (profile.roleCode === "engineer") {
+          return profile.deviceScope.includes(item.deviceId);
+        }
+        return item.tenantId === profile.tenantId && profile.deviceScope.includes(item.deviceId);
+      })
+      .map((item) => item.deviceId);
+    const target = mock.devices.find((item) => item.deviceId === deviceId && visibleIds.includes(item.deviceId));
+    return target ? localizeDevice(clone(target), locale) : null;
   }
 
-  return clone(list).map((item) => localizeWorkOrder(item, currentLocale()));
+  try {
+    // 调用后端 API
+    const backendDevice = await request.get(`/api/v1/devices/${deviceId}`);
+
+    // 映射数据
+    const device = mappers.mapDevice(backendDevice, locale);
+
+    // 权限检查
+    if (profile.roleCode === "engineer" || profile.deviceScope.includes(deviceId)) {
+      return device;
+    }
+
+    return null;
+  } catch (error) {
+    console.log('获取设备详情失败，使用 mock 数据:', error.message);
+    // 降级到 mock 数据
+    const visibleIds = mock.devices
+      .filter((item) => {
+        if (profile.roleCode === "engineer") {
+          return profile.deviceScope.includes(item.deviceId);
+        }
+        return item.tenantId === profile.tenantId && profile.deviceScope.includes(item.deviceId);
+      })
+      .map((item) => item.deviceId);
+    const target = mock.devices.find((item) => item.deviceId === deviceId && visibleIds.includes(item.deviceId));
+    return target ? localizeDevice(clone(target), locale) : null;
+  }
 }
 
-function getWorkOrderDetail(workOrderId) {
-  const profile = getCurrentProfile();
-  const visibleIds = mock.workOrders
-    .filter((item) => {
+async function getVisibleWorkOrders(profile, status = "all") {
+  const locale = currentLocale();
+
+  // 尝试从缓存获取数据
+  const cacheKey = { status, roleCode: profile.roleCode, tenantId: profile.tenantId };
+  const cachedData = getCache('workOrders', cacheKey);
+  if (cachedData) {
+    console.log('使用缓存的工单列表');
+    return cachedData;
+  }
+
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    // 直接返回 mock 数据，不抛出错误
+    let list = mock.workOrders.filter((item) => {
       if (profile.roleCode === "engineer") {
         return item.assigneeId === profile.userId || item.creatorId === profile.userId || profile.deviceScope.includes(item.deviceId);
       }
       return item.tenantId === profile.tenantId;
-    })
-    .map((item) => item.workOrderId);
-  const target = mock.workOrders.find((item) => item.workOrderId === workOrderId && visibleIds.includes(item.workOrderId));
-  return target ? localizeWorkOrder(clone(target), currentLocale()) : null;
-}
+    });
 
-function createWorkOrder(payload) {
-  const profile = getCurrentProfile();
-  const locale = currentLocale();
-  const newOrder = {
-    workOrderId: `WO-${Date.now().toString().slice(-5)}`,
-    tenantId: profile.tenantId,
-    title: payload.title,
-    deviceId: payload.deviceId,
-    deviceName: payload.deviceName,
-    type: payload.type,
-    status: "pending",
-    assigneeId: "",
-    assigneeName: "",
-    creatorId: profile.userId,
-    creatorName: profile.name,
-    createdAt: "2026-03-31 10:00",
-    priority: payload.priority,
-    desc: payload.desc,
-    logs: [
-      {
-        label: LOCALE_TEXT[locale].createdLabel,
-        value: t("createdValue", { name: profile.name }, locale),
-      },
-    ],
-  };
-  mock.workOrders.unshift(newOrder);
-  return clone(newOrder);
-}
+    if (status !== "all") {
+      list = list.filter((item) => item.status === status);
+    }
 
-function acceptWorkOrder(workOrderId) {
-  const profile = getCurrentProfile();
-  const locale = currentLocale();
-  const order = mock.workOrders.find((item) => item.workOrderId === workOrderId);
-  if (!order) {
-    return null;
+    const result = clone(list).map((item) => localizeWorkOrder(item, locale));
+
+    // 缓存结果
+    setCache('workOrders', result, cacheKey);
+
+    return result;
   }
-  order.status = "processing";
-  order.assigneeId = profile.userId;
-  order.assigneeName = profile.name;
-  order.logs.push({
-    label: LOCALE_TEXT[locale].acceptedLabel,
-    value: t("acceptedValue", { name: profile.name }, locale),
-  });
-  return clone(order);
+
+  try {
+    // 构建查询参数
+    const params = {};
+
+    // 状态过滤
+    if (status && status !== "all") {
+      // 前端状态转后端状态
+      const statusMap = {
+        'pending': 'pending',
+        'processing': 'in_progress',
+        'completed': 'completed',
+        'closed': 'closed'
+      };
+      params.status = statusMap[status] || status;
+    }
+
+    // 调用后端 API
+    const backendTickets = await request.get('/api/v1/tickets/', params);
+
+    // 获取关联数据（设备和用户信息）
+    const deviceIds = [...new Set(backendTickets.filter(t => t.device_id).map(t => t.device_id))];
+    const userIds = [...new Set([
+      ...backendTickets.filter(t => t.creator_id).map(t => t.creator_id),
+      ...backendTickets.filter(t => t.assignee_id).map(t => t.assignee_id)
+    ])];
+
+    // 批量获取设备信息
+    const deviceCache = {};
+    for (const deviceId of deviceIds) {
+      try {
+        const device = await request.get(`/api/v1/devices/${deviceId}`);
+        deviceCache[deviceId] = device;
+      } catch (e) {
+        console.warn(`获取设备 ${deviceId} 信息失败:`, e);
+      }
+    }
+
+    // 批量获取用户信息
+    const userCache = {};
+    for (const userId of userIds) {
+      try {
+        const user = await request.get(`/api/v1/users/${userId}`);
+        userCache[userId] = user;
+      } catch (e) {
+        console.warn(`获取用户 ${userId} 信息失败:`, e);
+      }
+    }
+
+    // 映射数据
+    const tickets = mappers.mapTicketList(backendTickets, locale, deviceCache, userCache);
+
+    // 客户端过滤（基于用户角色和权限）
+    let filteredTickets = tickets;
+    if (profile.roleCode === "engineer") {
+      filteredTickets = tickets.filter((item) =>
+        item.assigneeId === profile.userId ||
+        item.creatorId === profile.userId ||
+        (item.deviceId && profile.deviceScope.includes(item.deviceId))
+      );
+    } else if (profile.tenantId) {
+      // TODO: 后端需要添加 company_id 过滤
+      // filteredTickets = tickets.filter((item) => item.tenantId === profile.tenantId);
+    }
+
+    // 缓存结果
+    setCache('workOrders', filteredTickets, cacheKey);
+
+    return filteredTickets;
+  } catch (error) {
+    console.log('获取工单列表失败，使用 mock 数据:', error.message);
+    // 降级到 mock 数据
+    let list = mock.workOrders.filter((item) => {
+      if (profile.roleCode === "engineer") {
+        return item.assigneeId === profile.userId || item.creatorId === profile.userId || profile.deviceScope.includes(item.deviceId);
+      }
+      return item.tenantId === profile.tenantId;
+    });
+
+    if (status !== "all") {
+      list = list.filter((item) => item.status === status);
+    }
+
+    const result = clone(list).map((item) => localizeWorkOrder(item, locale));
+
+    // 缓存结果
+    setCache('workOrders', result, cacheKey);
+
+    return result;
+  }
 }
 
-function closeWorkOrder(workOrderId) {
+async function getWorkOrderDetail(workOrderId) {
+  const locale = currentLocale();
+  const profile = getCurrentProfile();
+
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    // 直接返回 mock 数据，不抛出错误
+    const visibleIds = mock.workOrders
+      .filter((item) => {
+        if (profile.roleCode === "engineer") {
+          return item.assigneeId === profile.userId || item.creatorId === profile.userId || profile.deviceScope.includes(item.deviceId);
+        }
+        return item.tenantId === profile.tenantId;
+      })
+      .map((item) => item.workOrderId);
+    const target = mock.workOrders.find((item) => item.workOrderId === workOrderId && visibleIds.includes(item.workOrderId));
+    return target ? localizeWorkOrder(clone(target), locale) : null;
+  }
+
+  try {
+    // 调用后端 API
+    const backendTicket = await request.get(`/api/v1/tickets/${workOrderId}`);
+
+    // 获取关联数据
+    const deviceCache = {};
+    const userCache = {};
+
+    if (backendTicket.device_id) {
+      try {
+        const device = await request.get(`/api/v1/devices/${backendTicket.device_id}`);
+        deviceCache[backendTicket.device_id] = device;
+      } catch (e) {
+        console.warn('获取设备信息失败:', e);
+      }
+    }
+
+    if (backendTicket.creator_id) {
+      try {
+        const creator = await request.get(`/api/v1/users/${backendTicket.creator_id}`);
+        userCache[backendTicket.creator_id] = creator;
+      } catch (e) {
+        console.warn('获取创建者信息失败:', e);
+      }
+    }
+
+    if (backendTicket.assignee_id) {
+      try {
+        const assignee = await request.get(`/api/v1/users/${backendTicket.assignee_id}`);
+        userCache[backendTicket.assignee_id] = assignee;
+      } catch (e) {
+        console.warn('获取处理人信息失败:', e);
+      }
+    }
+
+    // 映射数据
+    const ticket = mappers.mapTicket(backendTicket, locale, deviceCache, userCache);
+
+    // 权限检查
+    if (profile.roleCode === "engineer" || profile.tenantId === ticket.tenantId) {
+      return ticket;
+    }
+
+    return null;
+  } catch (error) {
+    console.error('获取工单详情失败，降级到 mock 数据:', error);
+    // 降级到 mock 数据
+    const visibleIds = mock.workOrders
+      .filter((item) => {
+        if (profile.roleCode === "engineer") {
+          return item.assigneeId === profile.userId || item.creatorId === profile.userId || profile.deviceScope.includes(item.deviceId);
+        }
+        return item.tenantId === profile.tenantId;
+      })
+      .map((item) => item.workOrderId);
+    const target = mock.workOrders.find((item) => item.workOrderId === workOrderId && visibleIds.includes(item.workOrderId));
+    return target ? localizeWorkOrder(clone(target), locale) : null;
+  }
+}
+
+async function createWorkOrder(payload) {
   const profile = getCurrentProfile();
   const locale = currentLocale();
-  const order = mock.workOrders.find((item) => item.workOrderId === workOrderId);
-  if (!order) {
-    return null;
+
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    // 直接返回 mock 数据，不抛出错误
+    const newOrder = {
+      workOrderId: `WO-${Date.now().toString().slice(-5)}`,
+      tenantId: profile.tenantId,
+      title: payload.title,
+      deviceId: payload.deviceId,
+      deviceName: payload.deviceName,
+      type: payload.type,
+      status: "pending",
+      assigneeId: "",
+      assigneeName: "",
+      creatorId: profile.userId,
+      creatorName: profile.name,
+      createdAt: "2026-03-31 10:00",
+      priority: payload.priority,
+      desc: payload.desc,
+      logs: [
+        {
+          label: LOCALE_TEXT[locale].createdLabel,
+          value: t("createdValue", { name: profile.name }, locale),
+        },
+      ],
+    };
+    mock.workOrders.unshift(newOrder);
+    return clone(newOrder);
   }
-  order.status = "closed";
-  order.logs.push({
-    label: LOCALE_TEXT[locale].closedLabel,
-    value: t("closedValue", { name: profile.name }, locale),
-  });
-  return clone(order);
+
+  try {
+    // 前端类型转后端类型
+    const typeMap = {
+      '维修工单': 'fault',
+      '保养工单': 'maintenance',
+      '安装工单': 'installation',
+      '巡检工单': 'repair'
+    };
+
+    // 前端优先级转后端优先级
+    const priorityMap = {
+      '高': 'high',
+      '中': 'medium',
+      '低': 'low'
+    };
+
+    // 构建后端数据
+    const backendData = {
+      title: payload.title,
+      description: payload.desc,
+      type: typeMap[payload.type] || payload.type,
+      priority: priorityMap[payload.priority] || payload.priority,
+      device_id: payload.deviceId ? parseInt(payload.deviceId) : null
+    };
+
+    // 调用后端 API
+    const backendTicket = await request.post('/api/v1/tickets/', backendData);
+
+    // 获取设备和创建者信息
+    const deviceCache = {};
+    const userCache = {};
+
+    if (backendTicket.device_id) {
+      try {
+        const device = await request.get(`/api/v1/devices/${backendTicket.device_id}`);
+        deviceCache[backendTicket.device_id] = device;
+      } catch (e) {
+        console.warn('获取设备信息失败:', e);
+      }
+    }
+
+    if (backendTicket.creator_id) {
+      try {
+        const creator = await request.get(`/api/v1/users/${backendTicket.creator_id}`);
+        userCache[backendTicket.creator_id] = creator;
+      } catch (e) {
+        console.warn('获取创建者信息失败:', e);
+      }
+    }
+
+    // 映射返回数据
+    const ticket = mappers.mapTicket(backendTicket, locale, deviceCache, userCache);
+
+    // 清除工单相关缓存
+    invalidateCache('workorder');
+
+    return ticket;
+  } catch (error) {
+    console.error('创建工单失败，降级到 mock 数据:', error);
+    // 降级到 mock 数据
+    const newOrder = {
+      workOrderId: `WO-${Date.now().toString().slice(-5)}`,
+      tenantId: profile.tenantId,
+      title: payload.title,
+      deviceId: payload.deviceId,
+      deviceName: payload.deviceName,
+      type: payload.type,
+      status: "pending",
+      assigneeId: "",
+      assigneeName: "",
+      creatorId: profile.userId,
+      creatorName: profile.name,
+      createdAt: "2026-03-31 10:00",
+      priority: payload.priority,
+      desc: payload.desc,
+      logs: [
+        {
+          label: LOCALE_TEXT[locale].createdLabel,
+          value: t("createdValue", { name: profile.name }, locale),
+        },
+      ],
+    };
+    mock.workOrders.unshift(newOrder);
+
+    // 清除工单相关缓存
+    invalidateCache('workorder');
+
+    return clone(newOrder);
+  }
 }
 
-function getHomeSummary(profile) {
-  const visibleDevices = getVisibleDevices(profile);
-  const visibleOrders = getVisibleWorkOrders(profile);
+async function acceptWorkOrder(workOrderId) {
+  const profile = getCurrentProfile();
+  const locale = currentLocale();
+
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    // 直接返回 mock 数据，不抛出错误
+    const order = mock.workOrders.find((item) => item.workOrderId === workOrderId);
+    if (!order) {
+      return null;
+    }
+    order.status = "processing";
+    order.assigneeId = profile.userId;
+    order.assigneeName = profile.name;
+    order.logs.push({
+      label: LOCALE_TEXT[locale].acceptedLabel,
+      value: t("acceptedValue", { name: profile.name }, locale),
+    });
+    return clone(order);
+  }
+
+  try {
+    // 构建后端数据
+    const backendData = {
+      status: 'in_progress',
+      assignee_id: profile._raw?.id || parseInt(profile.userId)
+    };
+
+    // 调用后端 API
+    const backendTicket = await request.put(`/api/v1/tickets/${workOrderId}`, backendData);
+
+    // 获取关联信息
+    const deviceCache = {};
+    const userCache = {};
+
+    if (backendTicket.device_id) {
+      try {
+        const device = await request.get(`/api/v1/devices/${backendTicket.device_id}`);
+        deviceCache[backendTicket.device_id] = device;
+      } catch (e) {
+        console.warn('获取设备信息失败:', e);
+      }
+    }
+
+    if (backendTicket.assignee_id) {
+      try {
+        const assignee = await request.get(`/api/v1/users/${backendTicket.assignee_id}`);
+        userCache[backendTicket.assignee_id] = assignee;
+      } catch (e) {
+        console.warn('获取处理人信息失败:', e);
+      }
+    }
+
+    // 映射返回数据
+    const ticket = mappers.mapTicket(backendTicket, locale, deviceCache, userCache);
+
+    // 清除工单相关缓存
+    invalidateCache('workorder');
+
+    return ticket;
+  } catch (error) {
+    console.error('接单失败，降级到 mock 数据:', error);
+    // 降级到 mock 数据
+    const order = mock.workOrders.find((item) => item.workOrderId === workOrderId);
+    if (!order) {
+      return null;
+    }
+    order.status = "processing";
+    order.assigneeId = profile.userId;
+    order.assigneeName = profile.name;
+    order.logs.push({
+      label: LOCALE_TEXT[locale].acceptedLabel,
+      value: t("acceptedValue", { name: profile.name }, locale),
+    });
+
+    // 清除工单相关缓存
+    invalidateCache('workorder');
+
+    return clone(order);
+  }
+}
+
+async function closeWorkOrder(workOrderId) {
+  const profile = getCurrentProfile();
+  const locale = currentLocale();
+
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    // 直接返回 mock 数据，不抛出错误
+    const order = mock.workOrders.find((item) => item.workOrderId === workOrderId);
+    if (!order) {
+      return null;
+    }
+    order.status = "closed";
+    order.logs.push({
+      label: LOCALE_TEXT[locale].closedLabel,
+      value: t("closedValue", { name: profile.name }, locale),
+    });
+    return clone(order);
+  }
+
+  try {
+    // 构建后端数据
+    const backendData = {
+      status: 'closed'
+    };
+
+    // 调用后端 API
+    const backendTicket = await request.put(`/api/v1/tickets/${workOrderId}`, backendData);
+
+    // 获取关联信息
+    const deviceCache = {};
+    const userCache = {};
+
+    if (backendTicket.device_id) {
+      try {
+        const device = await request.get(`/api/v1/devices/${backendTicket.device_id}`);
+        deviceCache[backendTicket.device_id] = device;
+      } catch (e) {
+        console.warn('获取设备信息失败:', e);
+      }
+    }
+
+    // 映射返回数据
+    const ticket = mappers.mapTicket(backendTicket, locale, deviceCache, userCache);
+
+    // 清除工单相关缓存
+    invalidateCache('workorder');
+
+    return ticket;
+  } catch (error) {
+    console.error('完结工单失败，降级到 mock 数据:', error);
+    // 降级到 mock 数据
+    const order = mock.workOrders.find((item) => item.workOrderId === workOrderId);
+    if (!order) {
+      return null;
+    }
+    order.status = "closed";
+    order.logs.push({
+      label: LOCALE_TEXT[locale].closedLabel,
+      value: t("closedValue", { name: profile.name }, locale),
+    });
+
+    // 清除工单相关缓存
+    invalidateCache('workorder');
+
+    return clone(order);
+  }
+}
+
+async function getHomeSummary(profile) {
+  const visibleDevices = await getVisibleDevices(profile);
+  const visibleOrders = await getVisibleWorkOrders(profile);
   const pendingOrders = visibleOrders.filter((item) => item.status === "pending").length;
   const activeAlarms = visibleDevices.reduce((sum, item) => sum + item.alarms.length, 0);
   return {
@@ -532,22 +1085,124 @@ function getAssignableDevices(tenantId) {
  * 物料相关服务函数
  */
 
-function getMaterialSeries() {
-  return clone(mock.MATERIAL_SERIES);
+async function getMaterialSeries() {
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    return clone(mock.MATERIAL_SERIES);
+  }
+
+  try {
+    // 调用后端 API
+    const backendSeries = await request.get('/api/v1/devices/series/');
+
+    // 映射数据
+    const series = backendSeries.map(s => mappers.mapDeviceSeries(s));
+
+    return series;
+  } catch (error) {
+    console.log('获取设备系列失败，使用 mock 数据:', error.message);
+    // 降级到 mock 数据
+    return clone(mock.MATERIAL_SERIES);
+  }
 }
 
-function getMaterialModels(seriesId) {
-  return clone(mock.MATERIAL_MODELS[seriesId] || []);
+async function getMaterialModels(seriesId) {
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    const models = clone(mock.MATERIAL_MODELS[seriesId] || []);
+    // 为每个型号添加 seriesId 和 shortName 字段
+    return models.map(model => ({
+      ...model,
+      seriesId: seriesId,
+      shortName: model.name.replace(/[^a-zA-Z0-9]/g, '').substring(0, 4).toUpperCase()
+    }));
+  }
+
+  try {
+    // 构建查询参数
+    const params = {};
+    if (seriesId) {
+      params.series_id = seriesId;
+    }
+
+    // 调用后端 API
+    const backendModels = await request.get('/api/v1/devices/models/', params);
+
+    // 映射数据
+    const models = backendModels.map(m => mappers.mapDeviceModel(m));
+
+    return models;
+  } catch (error) {
+    console.log('获取设备型号失败，使用 mock 数据:', error.message);
+    // 降级到 mock 数据
+    return clone(mock.MATERIAL_MODELS[seriesId] || []);
+  }
 }
 
-function getMaterials(seriesId, modelId) {
-  const materials = mock.MATERIALS[modelId] || [];
+async function getMaterials(seriesId, modelId) {
   const locale = currentLocale();
-  return clone(materials).map((item) => localizeMaterial(item, locale));
+
+  // 检查是否有有效的 token，如果没有就直接使用 mock 数据
+  const hasToken = request.getToken();
+  if (!hasToken) {
+    console.log('没有有效 token，使用 mock 数据');
+    const materials = mock.MATERIALS[modelId] || [];
+    return clone(materials).map((item) => localizeMaterial(item, locale));
+  }
+
+  try {
+    // 构建查询参数
+    const params = {};
+
+    // TODO: 后端需要支持按型号筛选物料
+    // 目前后端的物料接口没有 model_id 参数，暂时获取所有物料后在前端过滤
+
+    // 调用后端 API
+    const backendMaterials = await request.get('/api/v1/materials/', params);
+
+    // 映射数据
+    let materials = mappers.mapMaterialList(backendMaterials, locale);
+
+    // 前端过滤（如果后端不支持按型号过滤）
+    if (modelId) {
+      // TODO: 根据实际业务逻辑过滤
+      // materials = materials.filter(m => m.modelId === modelId);
+    }
+
+    return materials;
+  } catch (error) {
+    console.log('获取物料列表失败，使用 mock 数据:', error.message);
+    // 降级到 mock 数据
+    const materials = mock.MATERIALS[modelId] || [];
+    return clone(materials).map((item) => localizeMaterial(item, locale));
+  }
 }
 
-function getMaterialCategories() {
-  return clone(mock.MATERIAL_CATEGORIES);
+async function getMaterialCategories() {
+  try {
+    // 物料分类直接从配置获取，不需要 API 调用
+    // 返回对象格式，而不是数组格式
+    const categories = {};
+
+    Object.entries(config.materialCategoryMap).forEach(([key, value]) => {
+      categories[key] = {
+        name: value.zh,
+        nameEn: value.en,
+        icon: value.icon,
+        color: value.color
+      };
+    });
+
+    return categories;
+  } catch (error) {
+    console.log('获取物料分类失败，使用 mock 数据:', error.message);
+    // 降级到 mock 数据
+    return clone(mock.MATERIAL_CATEGORIES);
+  }
 }
 
 function localizeMaterial(material, locale) {

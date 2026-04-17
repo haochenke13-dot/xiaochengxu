@@ -134,7 +134,7 @@ Page({
     locale: "zh",
   },
 
-  onShow() {
+  async onShow() {
     const locale = getLocale();
     const profile = services.getCurrentProfile();
     const roleMeta = getLocalizedRole(profile.roleCode, locale);
@@ -149,12 +149,15 @@ Page({
       ...getHomeTextOverrides(locale),
     };
 
+    // 异步加载数据
+    const summary = await services.getHomeSummary(profile);
+
     this.setData({
       locale,
       texts,
       profile,
       roleMeta,
-      summary: services.getHomeSummary(profile),
+      summary,
       quickActions: buildQuickActions(profile.roleCode, locale),
       knowledgeItems: decorateDiscoverItems(services.getDiscoverContent(profile, "all"), locale),
       homePrefs: app.globalData.homePrefs || {},

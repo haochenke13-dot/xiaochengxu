@@ -40,13 +40,23 @@ Page({
     });
   },
 
-  onShow() {
+  async onShow() {
+    console.log('=== 工单表单页面开始加载 ===');
+
     const locale = getLocale();
     const texts = getPageTexts("workorderForm", locale);
     const typeOptions = getTypeOptions(locale);
     const priorityOptions = getPriorityOptions(locale);
     const profile = services.getCurrentProfile();
-    const devices = services.getVisibleDevices(profile);
+
+    console.log('用户信息:', profile);
+    console.log('文本配置:', texts);
+    console.log('语言:', locale);
+
+    const devices = await services.getVisibleDevices(profile);
+    console.log('设备列表:', devices);
+    console.log('设备数量:', devices.length);
+
     const deviceNames = devices.map((item) => `${item.name} (${item.deviceId})`);
     const form = { ...this.data.form };
     let selectedDeviceIndex = 0;
@@ -66,6 +76,9 @@ Page({
     form.type = typeOptions[this.data.selectedTypeIndex] || typeOptions[0];
     form.priority = priorityOptions[this.data.selectedPriorityIndex] || priorityOptions[1];
 
+    console.log('表单数据:', form);
+    console.log('准备设置页面数据');
+
     applyNavigationTitle("workorderForm", locale);
     this.setData({
       locale,
@@ -78,6 +91,9 @@ Page({
       form,
       selectedDeviceIndex,
     });
+
+    console.log('页面数据设置完成');
+    console.log('=== 工单表单页面加载完成 ===');
   },
 
   onTitleChange(event) {
@@ -113,13 +129,13 @@ Page({
     });
   },
 
-  onSubmit() {
+  async onSubmit() {
     const { form, texts } = this.data;
     if (!form.title || !form.deviceId || !form.desc) {
       wx.showToast({ title: texts.incomplete, icon: "none" });
       return;
     }
-    const order = services.createWorkOrder(form);
+    const order = await services.createWorkOrder(form);
     wx.showToast({ title: texts.created, icon: "success" });
     wx.redirectTo({
       url: `/pages/workorder-detail/index?id=${order.workOrderId}`,

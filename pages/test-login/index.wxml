@@ -1,0 +1,145 @@
+<view class="test-page">
+  <!-- 头部信息 -->
+  <view class="header">
+    <view class="title">后端账号测试工具</view>
+    <view class="subtitle">后端地址: {{baseURL}}</view>
+  </view>
+
+  <!-- 测试状态 -->
+  <view class="status-bar" wx:if="{{isTesting}}">
+    <view class="status-text">正在测试: {{currentAccount.username}} / {{currentAccount.password}}</view>
+  </view>
+
+  <!-- 常用测试账号 -->
+  <view class="section">
+    <view class="section-title">基础测试账号（无OAuth凭据）</view>
+    <view class="account-grid">
+      <button
+        class="account-btn"
+        wx:for="{{[
+          {username: 'admin', password: 'admin'},
+          {username: 'admin', password: '123456'},
+          {username: 'test', password: 'test'},
+          {username: 'test', password: '123456'},
+          {username: 'engineer', password: 'engineer'},
+          {username: 'engineer', password: '123456'},
+          {username: 'user', password: 'user'},
+          {username: 'demo', password: 'demo'}
+        ]}}"
+        wx:key="username"
+        data-username="{{item.username}}"
+        data-password="{{item.password}}"
+        bindtap="testAccount"
+        disabled="{{isTesting}}"
+      >
+        <view class="account-info">
+          <view class="account-username">{{item.username}}</view>
+          <view class="account-password">{{item.password}}</view>
+        </view>
+      </button>
+    </view>
+  </view>
+
+  <!-- OAuth凭据测试 -->
+  <view class="section">
+    <view class="section-title">OAuth凭据测试（常见Client ID）</view>
+    <view class="account-grid">
+      <button
+        class="account-btn oauth-btn"
+        wx:for="{{[
+          {username: 'admin', password: 'admin', clientId: 'test-client'},
+          {username: 'admin', password: 'admin', clientId: 'swagger'},
+          {username: 'admin', password: 'admin', clientId: 'client'},
+          {username: 'test', password: 'test', clientId: 'test-client'},
+          {username: 'admin', password: 'admin', clientId: 'mobile-app'},
+          {username: 'admin', password: 'admin', clientId: 'web-client'}
+        ]}}"
+        wx:key="clientId"
+        data-username="{{item.username}}"
+        data-password="{{item.password}}"
+        data-client-id="{{item.clientId}}"
+        bindtap="testAccount"
+        disabled="{{isTesting}}"
+      >
+        <view class="account-info">
+          <view class="account-username">{{item.username}}</view>
+          <view class="account-client">Client: {{item.clientId}}</view>
+        </view>
+      </button>
+    </view>
+  </view>
+
+  <!-- 测试结果 -->
+  <view class="section" wx:if="{{testResults.length > 0}}">
+    <view class="section-title">
+      测试结果
+      <text class="result-count">({{testResults.length}})</text>
+    </view>
+    <scroll-view class="results-list" scroll-y>
+      <view
+        class="result-item {{item.success ? 'success' : 'failed'}}"
+        wx:for="{{testResults}}"
+        wx:key="account.username"
+      >
+        <view class="result-header">
+          <view class="result-account">
+            <text class="account-username">{{item.account.username}}</text>
+            <text class="account-divider">/</text>
+            <text class="account-password">{{item.account.password}}</text>
+            <text wx:if="{{item.account.clientId}}" class="account-client-id"> ({{item.account.clientId}})</text>
+          </view>
+          <view class="result-status">
+            <text wx:if="{{item.success}}">✅ 成功</text>
+            <text wx:else>❌ 失败</text>
+          </view>
+        </view>
+
+        <view class="result-details" wx:if="{{item.success}}">
+          <view class="detail-item" wx:if="{{item.data.access_token}}">
+            <text class="detail-label">Token:</text>
+            <text class="detail-value">{{item.data.access_token.substring(0, 30)}}...</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.data.user}}">
+            <text class="detail-label">用户:</text>
+            <text class="detail-value">{{item.data.user.full_name || item.data.user.username}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.data.user}}">
+            <text class="detail-label">角色:</text>
+            <text class="detail-value">{{item.data.user.role}}</text>
+          </view>
+          <view class="detail-item" wx:if="{{item.data.user}}">
+            <text class="detail-label">公司:</text>
+            <text class="detail-value">{{item.data.user.company_id || 'N/A'}}</text>
+          </view>
+        </view>
+
+        <view class="result-error" wx:else>
+          <text class="error-text">状态码: {{item.status}}</text>
+          <text class="error-text" wx:if="{{item.error}}">{{item.error}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <button class="action-btn" bindtap="clearResults" disabled="{{testResults.length === 0}}">
+      清空结果
+    </button>
+    <button class="action-btn primary" bindtap="clearToken">
+      清除Token
+    </button>
+    <button class="action-btn success" bindtap="goToHome">
+      返回首页
+    </button>
+  </view>
+
+  <!-- 使用说明 -->
+  <view class="instructions">
+    <view class="instruction-title">使用说明：</view>
+    <view class="instruction-text">1. 点击上方账号按钮测试登录</view>
+    <view class="instruction-text">2. 绿色卡片表示登录成功</view>
+    <view class="instruction-text">3. 成功登录后Token会自动保存</view>
+    <view class="instruction-text">4. 返回首页即可使用真实数据</view>
+  </view>
+</view>
