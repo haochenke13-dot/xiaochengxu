@@ -24,7 +24,33 @@
         <view class="account-info">
           <view class="account-username">admin</view>
           <view class="account-password">admin123</view>
-          <view class="account-badge">✅ 有效</view>
+          <view class="account-badge">✅ 系统管理员</view>
+        </view>
+      </button>
+      <button
+        class="account-btn real-account-btn"
+        data-username="manager"
+        data-password="manager123"
+        bindtap="testAccount"
+        disabled="{{isTesting}}"
+      >
+        <view class="account-info">
+          <view class="account-username">manager</view>
+          <view class="account-password">manager123</view>
+          <view class="account-badge">✅ 公司经理</view>
+        </view>
+      </button>
+      <button
+        class="account-btn real-account-btn"
+        data-username="tech"
+        data-password="tech123"
+        bindtap="testAccount"
+        disabled="{{isTesting}}"
+      >
+        <view class="account-info">
+          <view class="account-username">tech</view>
+          <view class="account-password">tech123</view>
+          <view class="account-badge">✅ 技术人员</view>
         </view>
       </button>
     </view>
