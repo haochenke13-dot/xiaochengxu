@@ -6,6 +6,53 @@
 const config = require('./config');
 
 /**
+ * 显示用户友好的错误提示
+ */
+function showErrorToast(error) {
+  let message = '操作失败，请重试';
+
+  if (error.response) {
+    const status = error.response.status;
+    switch (status) {
+      case 400:
+        message = '请求参数错误';
+        break;
+      case 401:
+        message = '登录已过期，请重新登录';
+        break;
+      case 403:
+        message = '没有权限执行此操作';
+        break;
+      case 404:
+        message = '请求的资源不存在';
+        break;
+      case 500:
+        message = '服务器错误，请稍后重试';
+        break;
+      case 502:
+      case 503:
+      case 504:
+        message = '服务暂时不可用，请稍后重试';
+        break;
+      default:
+        message = `请求失败 (${status})`;
+    }
+  } else if (error.message) {
+    if (error.message.includes('network')) {
+      message = '网络连接失败，请检查网络';
+    } else if (error.message.includes('timeout')) {
+      message = '请求超时，请重试';
+    }
+  }
+
+  wx.showToast({
+    title: message,
+    icon: 'none',
+    duration: 2000
+  });
+}
+
+/**
  * 发起 HTTP 请求
  * @param {Object} options 请求配置
  * @returns {Promise} 返回 Promise 对象
@@ -269,5 +316,6 @@ module.exports = {
   clearToken,
   setUserInfo,
   getUserInfo,
-  clearUserInfo
+  clearUserInfo,
+  showErrorToast
 };

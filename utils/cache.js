@@ -1,26 +1,27 @@
 /**
  * 数据缓存管理器
  * 用于减少重复API调用，提升应用性能
+ * 支持stale-while-revalidate策略
  */
 
 // 缓存配置
 const CACHE_CONFIG = {
-  // 设备列表缓存5分钟
-  devices: { duration: 5 * 60 * 1000 }, // 5分钟
-  // 设备详情缓存10分钟
-  deviceDetail: { duration: 10 * 60 * 1000 }, // 10分钟
-  // 工单列表缓存3分钟
-  workOrders: { duration: 3 * 60 * 1000 }, // 3分钟
-  // 工单详情缓存10分钟
-  workOrderDetail: { duration: 10 * 60 * 1000 }, // 10分钟
-  // 物料列表缓存10分钟
-  materials: { duration: 10 * 60 * 1000 }, // 10分钟
+  // 设备列表缓存5分钟，stale期间可以返回旧数据
+  devices: { duration: 5 * 60 * 1000, staleWhileRevalidate: 2 * 60 * 1000 },
+  // 设备详情缓存10分钟，stale期间可以返回旧数据
+  deviceDetail: { duration: 10 * 60 * 1000, staleWhileRevalidate: 5 * 60 * 1000 },
+  // 工单列表缓存3分钟，stale期间可以返回旧数据
+  workOrders: { duration: 3 * 60 * 1000, staleWhileRevalidate: 1 * 60 * 1000 },
+  // 工单详情缓存10分钟，stale期间可以返回旧数据
+  workOrderDetail: { duration: 10 * 60 * 1000, staleWhileRevalidate: 5 * 60 * 1000 },
+  // 物料列表缓存10分钟，stale期间可以返回旧数据
+  materials: { duration: 10 * 60 * 1000, staleWhileRevalidate: 5 * 60 * 1000 },
   // 物料系列缓存30分钟
-  materialSeries: { duration: 30 * 60 * 1000 }, // 30分钟
+  materialSeries: { duration: 30 * 60 * 1000, staleWhileRevalidate: 15 * 60 * 1000 },
   // 物料型号缓存30分钟
-  materialModels: { duration: 30 * 60 * 1000 }, // 30分钟
+  materialModels: { duration: 30 * 60 * 1000, staleWhileRevalidate: 15 * 60 * 1000 },
   // 用户信息缓存15分钟
-  userProfile: { duration: 15 * 60 * 1000 }, // 15分钟
+  userProfile: { duration: 15 * 60 * 1000, staleWhileRevalidate: 5 * 60 * 1000 },
 };
 
 class CacheManager {
@@ -60,7 +61,8 @@ class CacheManager {
   }
 
   /**
-   * 获取缓存
+   * 获取缓存（支持stale-while-revalidate）
+   * @returns {Object|null} 返回 { data: any, isStale: boolean } 或 null
    */
   get(type, params = {}) {
     const key = this._generateKey(type, params);
@@ -72,20 +74,36 @@ class CacheManager {
       return null;
     }
 
-    // 检查缓存是否过期
     const timestamp = this.timestamps.get(key);
     const config = CACHE_CONFIG[type];
+    const age = now - timestamp;
 
-    if (config && (now - timestamp > config.duration)) {
-      console.log(`[缓存过期] ${key} - 过期时间: ${now - timestamp}ms`);
+    // 检查缓存是否在stale期间
+    if (config && config.staleWhileRevalidate) {
+      if (age > config.duration && age <= config.duration + config.staleWhileRevalidate) {
+        console.log(`[缓存Stale] ${key} - 缓存年龄: ${Math.round(age / 1000)}s，可使用旧数据`);
+        return {
+          data: this.cache.get(key),
+          isStale: true,
+          age: age
+        };
+      }
+    }
+
+    // 检查缓存是否完全过期
+    if (config && age > config.duration + (config.staleWhileRevalidate || 0)) {
+      console.log(`[缓存过期] ${key} - 过期时间: ${Math.round(age / 1000)}s`);
       this.delete(type, params);
       return null;
     }
 
-    const age = now - timestamp;
     console.log(`[缓存命中] ${key} - 缓存年龄: ${Math.round(age / 1000)}s`);
 
-    return this.cache.get(key);
+    return {
+      data: this.cache.get(key),
+      isStale: false,
+      age: age
+    };
   }
 
   /**
@@ -202,9 +220,24 @@ module.exports = {
   cacheManager,
   CACHE_CONFIG,
 
-  // 便捷方法
+  // 便捷方法（向后兼容）
   setCache: (type, data, params) => cacheManager.set(type, data, params),
-  getCache: (type, params) => cacheManager.get(type, params),
+
+  // 新的getCache方法，支持stale-while-revalidate
+  getCache: (type, params) => {
+    const result = cacheManager.get(type, params);
+    // 向后兼容：如果返回null或直接数据，返回原格式
+    if (!result) return null;
+    // 如果是stale格式，返回data字段
+    if (typeof result === 'object' && 'data' in result) {
+      return result.data; // 向后兼容，只返回data
+    }
+    return result;
+  },
+
+  // 新方法：获取完整的缓存信息（包括stale状态）
+  getCacheWithInfo: (type, params) => cacheManager.get(type, params),
+
   deleteCache: (type, params) => cacheManager.delete(type, params),
   clearType: (type) => cacheManager.clearType(type),
   clearAll: () => cacheManager.clearAll(),

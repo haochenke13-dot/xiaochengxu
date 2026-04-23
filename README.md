@@ -33,9 +33,9 @@
 
 ### 后端对接
 - **后端系统**: K-Cloud 云服务管理系统
-- **API 地址**: `http://cd-1.frp.one:20441`
+- **API 地址**: `http://xa-2.frp.one:62775`
 - **认证方式**: JWT Token (OAuth2 Password)
-- **API 文档**: `http://cd-1.frp.one:20441/docs`
+- **API 文档**: `http://xa-2.frp.one:62775/docs`
 
 ### 项目结构
 ```

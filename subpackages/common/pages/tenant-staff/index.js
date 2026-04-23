@@ -11,13 +11,14 @@ Page({
     locale: "zh",
   },
 
-  onShow() {
+  async onShow() {
     const locale = getLocale();
     const texts = getPageTexts("tenantStaff", locale);
     applyNavigationTitle("tenantStaff", locale);
     const profile = services.getCurrentProfile();
-    const tenant = services.getTenantDetail(profile.tenantId);
-    const members = services.getTenantUsers(profile.tenantId).map((item) => ({
+    const tenant = await services.getTenantDetail(profile.tenantId);
+    const users = await services.getTenantUsers(profile.tenantId);
+    const members = users.map((item) => ({
       ...item,
       roleName: roleLabel(item.roleCode),
     }));

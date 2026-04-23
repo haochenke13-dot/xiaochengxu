@@ -5,7 +5,7 @@
 
 module.exports = {
   // 后端 API 基础地址
-  baseURL: 'http://cd-1.frp.one:20441',
+  baseURL: 'https://miniprog.auto.keylights.cn',
 
   // API 版本
   apiVersion: 'v1',
@@ -20,7 +20,7 @@ module.exports = {
   userKey: 'kcloud_user_info',
 
   // 是否开启调试模式（生产环境建议关闭）
-  debug: true,
+  debug: false,
 
   // 设备状态映射
   deviceStatus: {

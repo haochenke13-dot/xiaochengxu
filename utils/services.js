@@ -190,6 +190,9 @@ const LOCALE_TEXT = {
 };
 
 function clone(data) {
+  if (data === undefined || data === null) {
+    return null;
+  }
   return JSON.parse(JSON.stringify(data));
 }
 
@@ -319,12 +322,95 @@ async function loginAsRole(roleCode) {
   }
 }
 
-function getTenantUsers(tenantId) {
-  return clone(mock.users.filter((item) => item.tenantId === tenantId));
+async function getTenantUsers(tenantId) {
+  try {
+    const hasToken = request.getToken();
+    if (!hasToken) {
+      console.log('没有有效 token，使用 mock 用户数据');
+      return clone(mock.users.filter((item) => item.tenantId === tenantId || item.tenantId === String(tenantId)));
+    }
+
+    console.log('=== 获取租户用户 ===');
+    console.log('公司ID:', tenantId);
+
+    const users = await request.get('/api/v1/users/', {
+      company_id: parseInt(tenantId),
+      limit: 100
+    });
+
+    console.log(`获取用户成功，找到 ${users.length} 个用户`);
+
+    // 转换后端用户数据为前端格式
+    return users.map(backendUser => {
+      const roleCode = backendUser.is_admin ? 'admin' : (config.roleMap[backendUser.role] || 'customer');
+
+      return {
+        userId: String(backendUser.id),
+        tenantId: String(backendUser.company_id || tenantId),
+        tenantName: backendUser.company?.name || '未知公司',
+        roleCode: roleCode,
+        name: backendUser.full_name || backendUser.username,
+        mobile: backendUser.phone || '',
+        employeeNo: backendUser.username,
+        deviceScope: [],
+        menuCodes: ["home", "workorders", "devices", "materials", "profile"],
+        _raw: backendUser
+      };
+    });
+  } catch (error) {
+    console.error('获取用户失败，使用 mock 数据:', error);
+    return clone(mock.users.filter((item) => item.tenantId === tenantId || item.tenantId === String(tenantId)));
+  }
 }
 
-function getTenantDetail(tenantId) {
-  return localizeTenant(clone(mock.tenants.find((item) => item.tenantId === tenantId)), currentLocale());
+async function getTenantDetail(tenantId) {
+  try {
+    const hasToken = request.getToken();
+    if (!hasToken) {
+      console.log('没有有效 token，使用 mock 租户数据');
+      const tenant = mock.tenants.find((item) => item.tenantId === tenantId || item.tenantId === String(tenantId));
+      if (!tenant) {
+        console.warn('getTenantDetail: mock数据中找不到租户', tenantId);
+        return null;
+      }
+      return localizeTenant(clone(tenant), currentLocale());
+    }
+
+    console.log('=== 获取租户详情 ===');
+    console.log('公司ID:', tenantId);
+
+    // 调用公司列表API，然后找到匹配的公司
+    const companies = await request.get('/api/v1/users/companies/', {
+      limit: 100
+    });
+
+    const company = companies.find(c => c.id === parseInt(tenantId));
+
+    if (!company) {
+      console.warn('后端数据中找不到租户', tenantId);
+      return null;
+    }
+
+    console.log('找到租户:', company.name);
+
+    // 转换为前端格式
+    return localizeTenant({
+      tenantId: String(company.id),
+      name: company.name,
+      type: '客户租户',
+      status: company.is_active ? 'active' : 'inactive',
+      inviteCode: company.license_code || 'N/A',
+      _raw: company
+    }, currentLocale());
+  } catch (error) {
+    console.error('获取租户详情失败，使用 mock 数据:', error);
+    const tenant = mock.tenants.find((item) => item.tenantId === tenantId || item.tenantId === String(tenantId));
+    if (!tenant) {
+      console.warn('getTenantDetail: 找不到租户', tenantId);
+      return null;
+    }
+    return localizeTenant(clone(tenant), currentLocale());
+  }
 }
 
 async function getVisibleDevices(profile, filters = {}) {
@@ -1179,8 +1265,36 @@ function parseScanCode(rawCode) {
   return { targetType: "unknown", message: LOCALE_TEXT[locale].scanUnsupported };
 }
 
-function getAssignableDevices(tenantId) {
-  return clone(mock.devices.filter((item) => item.tenantId === tenantId)).map((item) => localizeDevice(item, currentLocale()));
+async function getAssignableDevices(tenantId) {
+  try {
+    const hasToken = request.getToken();
+    if (!hasToken) {
+      console.log('没有有效 token，使用 mock 设备数据');
+      return clone(mock.devices.filter((item) => item.tenantId === tenantId || item.tenantId === String(tenantId))).map((item) => localizeDevice(item, currentLocale()));
+    }
+
+    console.log('=== 获取可分配设备 ===');
+    console.log('公司ID:', tenantId);
+
+    // 获取公司下的所有设备
+    const devices = await request.get('/api/v1/devices/', {
+      company_id: parseInt(tenantId),
+      limit: 100
+    });
+
+    console.log(`获取设备成功，找到 ${devices.length} 个设备`);
+
+    // 转换后端设备数据为前端格式
+    return devices.map(backendDevice => {
+      const device = mappers.mapDevice(backendDevice, currentLocale());
+      // 保存原始ID用于分配操作
+      device.deviceNum = backendDevice.id;
+      return device;
+    });
+  } catch (error) {
+    console.error('获取设备失败，使用 mock 数据:', error);
+    return clone(mock.devices.filter((item) => item.tenantId === tenantId || item.tenantId === String(tenantId))).map((item) => localizeDevice(item, currentLocale()));
+  }
 }
 
 /**

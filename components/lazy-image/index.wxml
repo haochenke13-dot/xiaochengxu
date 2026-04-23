@@ -1,0 +1,34 @@
+<!-- components/lazy-image/index.wxml -->
+<view class="lazy-image-container" style="width: {{width}}; height: {{height}};">
+  <!-- 加载中状态 -->
+  <view wx:if="{{loading}}" class="lazy-image-loading" style="width: {{width}}; height: {{height}};">
+    <view class="loading-spinner"></view>
+    <text class="loading-text">加载中...</text>
+  </view>
+
+  <!-- 错误状态 -->
+  <view wx:elif="{{error}}" class="lazy-image-error" style="width: {{width}}; height: {{height}};">
+    <image
+      src="{{fallback || '/assets/images/error-general.png'}}"
+      mode="{{mode}}"
+      style="width: 100%; height: 100%;"
+      binderror="onFallbackError"
+    />
+    <view class="error-text" wx:if="{{showErrorText}}">
+      <text>图片加载失败</text>
+    </view>
+  </view>
+
+  <!-- 正常状态 -->
+  <image
+    wx:else
+    src="{{src}}"
+    mode="{{mode}}"
+    lazy-load="{{lazyLoad}}"
+    class="lazy-image {{loaded ? 'loaded' : ''}}"
+    style="width: {{width}}; height: {{height}};"
+    bindload="onLoad"
+    binderror="onError"
+    show-menu-by-longpress="{{showMenuByLongpress}}"
+  />
+</view>
