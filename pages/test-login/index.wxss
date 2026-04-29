@@ -65,11 +65,17 @@
 
 .account-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 16rpx;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .account-btn {
+  width: 100%;
+  min-width: 0;
+  margin: 0;
+  box-sizing: border-box;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
   border: none;
   border-radius: 12rpx;
@@ -104,6 +110,8 @@
 }
 
 .account-badge {
+  max-width: 100%;
+  box-sizing: border-box;
   font-size: 20rpx;
   font-weight: 700;
   color: #059669;
@@ -112,6 +120,8 @@
   border-radius: 8rpx;
   margin-top: 4rpx;
   border: 2rpx solid #10B981;
+  white-space: normal;
+  word-break: break-word;
 }
 
 .oauth-btn {
@@ -131,18 +141,26 @@
   flex-direction: column;
   align-items: center;
   gap: 8rpx;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .account-username {
+  max-width: 100%;
+  box-sizing: border-box;
   font-size: 28rpx;
   font-weight: 600;
   color: #1e293b;
+  word-break: break-word;
 }
 
 .account-password {
+  max-width: 100%;
+  box-sizing: border-box;
   font-size: 24rpx;
   color: #64748b;
   font-family: monospace;
+  word-break: break-word;
 }
 
 .results-list {
@@ -294,4 +312,20 @@
   color: #64748b;
   line-height: 1.8;
   margin-bottom: 4rpx;
+}
+
+@media (max-width: 360px) {
+  .section {
+    padding-left: 18rpx;
+    padding-right: 18rpx;
+  }
+
+  .account-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .account-btn {
+    padding-left: 16rpx;
+    padding-right: 16rpx;
+  }
 }

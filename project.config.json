@@ -1,7 +1,20 @@
 {
   "description": "设备服务与工单协同平台 Beta",
   "packOptions": {
-    "ignore": [],
+    "ignore": [
+      {
+        "type": "suffix",
+        "value": ".md"
+      },
+      {
+        "type": "folder",
+        "value": "scripts"
+      },
+      {
+        "type": "file",
+        "value": "test-backend-accounts.js"
+      }
+    ],
     "include": []
   },
   "setting": {
@@ -9,10 +22,10 @@
     "es6": true,
     "enhance": true,
     "postcss": true,
-    "minified": false,
+    "minified": true,
     "compileWorklet": false,
     "uglifyFileName": false,
-    "uploadWithSourceMap": true,
+    "uploadWithSourceMap": false,
     "packNpmManually": false,
     "packNpmRelationList": [],
     "minifyWXSS": true,
@@ -31,7 +44,7 @@
   },
   "compileType": "miniprogram",
   "libVersion": "3.15.1",
-  "appid": "wxc74ff47037642d27",
+  "appid": "wx0fab51aa4e6978de",
   "projectname": "device-service-beta",
   "simulatorPluginLibVersion": {},
   "editorSetting": {}
